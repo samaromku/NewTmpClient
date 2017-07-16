@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "435441245525",
+    "firebase_url": "https://teplomerclient.firebaseio.com",
+    "project_id": "teplomerclient",
+    "storage_bucket": "teplomerclient.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435441245525:android:88627e35628ef438",
+        "android_client_info": {
+          "package_name": "com.example.andrey.newtmpclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435441245525-1b1snvuklnk9l7gla7v5rmup0or921d4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.andrey.newtmpclient",
+            "certificate_hash": "4d35c3d8184933eb35f28f3c7cae1fb4b062a65f"
+          }
+        },
+        {
+          "client_id": "435441245525-qurs1k3u4o6hvosadgbbu243q7s7tafg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOTtkK6s00LJfRw3SqjehhFSv3TLnTEfA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435441245525-qurs1k3u4o6hvosadgbbu243q7s7tafg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
