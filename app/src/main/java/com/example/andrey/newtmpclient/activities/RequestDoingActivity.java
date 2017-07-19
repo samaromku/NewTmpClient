@@ -10,19 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.adapter.TasksAdapter;
 import com.example.andrey.newtmpclient.entities.Task;
-import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.TasksManager;
-import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
+import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
 
 public class RequestDoingActivity extends AppCompatActivity{
-    private RecyclerView tasksList;
-    private TasksAdapter adapter;
     private TasksManager tasksManager = TasksManager.INSTANCE;
-    private UsersManager usersManager = UsersManager.INSTANCE;
-    private User user;
     public static final String FROM_DOING_LIST = "fromDoingList";
 
     private OnListItemClickListener notDoneClickListener = (v, position) -> {
@@ -36,11 +31,11 @@ public class RequestDoingActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request_doing_activity);
+        if(getSupportActionBar()!=null)
         getSupportActionBar().setTitle("Начать выполнение");
-        user = usersManager.getUser();
-        tasksList = (RecyclerView) findViewById(R.id.tasks_list);
+        RecyclerView tasksList = (RecyclerView) findViewById(R.id.tasks_list);
         tasksList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TasksAdapter(tasksManager.getNeedDoingTasks(), notDoneClickListener);
+         TasksAdapter adapter = new TasksAdapter(tasksManager.getNeedDoingTasks(), notDoneClickListener);
         tasksList.setAdapter(adapter);
     }
 

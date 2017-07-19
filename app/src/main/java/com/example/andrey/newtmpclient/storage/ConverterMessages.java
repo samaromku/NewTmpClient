@@ -24,12 +24,13 @@ public class ConverterMessages {
     }
 
     //отправляем запрос с реквестом и переменной, определяющей, к какой сети будет запрос, внешней или внутренней
-    public void authMessage(Request request){
+    public void sendMessageToServer(Request request) {
         if(tokenManager.getToken()!=null) {
             request.setToken(tokenManager.getToken());
         }
         Log.i("Converter", "sendMessage: "  + " " + parser.requestToServer(request));
         //вызываем метод отправки запроса, к урлу нужно прибавить часть сервлета, к которому будет запрос
+
         String response = sender.post(sender.trueUrl(checkNetwork.isNetworkInsideOrOutside()), parser.requestToServer(request));
         Log.i("Converter", "sendMessage: "+response);
         //вызываем поток обработки запроса
@@ -38,4 +39,5 @@ public class ConverterMessages {
             dataMaker.workWithData(response);
         }
     }
+
 }

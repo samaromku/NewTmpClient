@@ -8,4 +8,5 @@ public interface LoginModel {
     void checkUser(String login, String pwd);
     void setLoginPwdFromPrefs();
     void checkNetwork(boolean isChecked);
+    boolean checkAuth();
 }

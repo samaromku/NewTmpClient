@@ -31,12 +31,13 @@ import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UserCoordsManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.network.Response;
+import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.DistanceUtil;
 import com.example.andrey.newtmpclient.storage.MyLocation;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -44,7 +45,7 @@ import java.util.Locale;
 public class GpsService extends IntentService {
     private static final String TAG = "GpsService";
     UserCoordsManager userCoordsManager = UserCoordsManager.INSTANCE;
-    private static final int INTERVAL = 1000*10;
+    private static final int INTERVAL = 1000 * 60 * 3;
     private ConverterMessages converter = new ConverterMessages();
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
@@ -75,41 +76,35 @@ public class GpsService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Looper.prepare();
-                    MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-                        @Override
-                        public void gotLocation(final Location location) {
-                            if (UsersManager.INSTANCE.getUser() != null) {
-                                UserCoords userCoords = new UserCoords(location.getLatitude(), location.getLongitude());
-                                if(userCoordsManager.getUserCoords()!=null &&
-                                        userCoords.getLat()==userCoordsManager.getUserCoords().getLat()&&
-                                        userCoords.getLog()==userCoordsManager.getUserCoords().getLog()){
-                                    return;
-                                }
-                                userCoordsManager.addUserCoords(userCoords);
-                                userCoordsManager.setUserCoords(userCoords);
-                                userCoordsManager.setLocation(location);
-
-                                converter.authMessage(new Request(userCoords, Request.ADD_COORDS));
-                                getDistances(userCoords.getLat(), userCoords.getLog());
+        new Thread(() -> {
+            Log.i(TAG, "onHandleIntent: start...........................................................");
+                Looper.prepare();
+                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                    @Override
+                    public void gotLocation(final Location location) {
+                        if (UsersManager.INSTANCE.getUser() != null) {
+                            UserCoords userCoords = new UserCoords(location.getLatitude(), location.getLongitude());
+                            if(userCoordsManager.getUserCoords()!=null &&
+                                    userCoords.getLat()==userCoordsManager.getUserCoords().getLat()&&
+                                    userCoords.getLog()==userCoordsManager.getUserCoords().getLog())
+                            {
+                                Log.i(TAG, "gotLocation: same coordinates");
+                                return;
                             }
-                        }
-                    };
-                    MyLocation myLocation = new MyLocation();
-                    myLocation.getLocation(getApplicationContext(), locationResult);
+                            userCoordsManager.addUserCoords(userCoords);
+                            userCoordsManager.setUserCoords(userCoords);
+                            userCoordsManager.setLocation(location);
 
-                    Thread.sleep(1000 * 60 * 3);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+                            converter.sendMessageToServer(new Request(userCoords, Request.ADD_COORDS));
+                            AuthChecker.serverErrorStopService(getApplicationContext());
+                            getDistances(userCoords.getLat(), userCoords.getLog());
+                        }
+                    }
+                };
+                MyLocation myLocation = new MyLocation();
+                myLocation.getLocation(getApplicationContext(), locationResult);
         }).start();
 
-//        getLocationTest();
     }
 
     private void getLocationTest(){
@@ -135,7 +130,8 @@ public class GpsService extends IntentService {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            converter.authMessage(new Request(userCoords, Request.ADD_COORDS));
+                            converter.sendMessageToServer(new Request(userCoords, Request.ADD_COORDS));
+                            AuthChecker.serverErrorStopService(getApplicationContext());
                             getDistances(userCoords.getLat(), userCoords.getLog());
                         }
                     }

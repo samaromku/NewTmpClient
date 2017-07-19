@@ -3,7 +3,6 @@ package com.example.andrey.newtmpclient.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +13,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +22,8 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
-import com.example.andrey.newtmpclient.fragments.TasksPageFragment;
-import com.example.andrey.newtmpclient.login.view.LoginActivity;
+import com.example.andrey.newtmpclient.fragments.taskpagerfragment.TasksPageFragment;
+import com.example.andrey.newtmpclient.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
@@ -35,6 +35,7 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.service.GpsService;
 import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.Updater;
+import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class AccountActivity extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class AccountActivity extends AppCompatActivity {
     private AddressManager addressManager = AddressManager.INSTANCE;
     ViewPager pager;
     PagerAdapter pagerAdapter;
-    private SharedPreferences sharedPref;
+//    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,12 +62,21 @@ public class AccountActivity extends AppCompatActivity {
             pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
 
-            sharedPref = getPreferences(Context.MODE_PRIVATE);
-            getSharedPref();
+//            sharedPref = getPreferences(Context.MODE_PRIVATE);
+            addFireBaseTokenIfFromAuth();
             buttonAddTask();
             addPagerActions();
         }else {
             Toast.makeText(this, "Вы не авторизованы", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!client.isAuth()){
+            Log.i(TAG, "onResume: accountactivity " + client.isAuth());
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
@@ -91,68 +101,20 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
-    private void getSharedPref(){
-        //get prefs, if(not success, addSharedPrefs)
-        Boolean tokenSent = sharedPref.getBoolean("tokenSent", false);
-        System.out.println(tokenSent + " from getShared");
-        if(!tokenSent){
-            System.out.println("try to add to server");
-            addSharedPref();
-        }else{
-            System.out.println("success added to server");
-        }
-    }
-
-
-    private void addSharedPref(){
-
-
-        if(FirebaseInstanceId.getInstance().getToken()!=null){
-            System.out.println(FirebaseInstanceId.getInstance().getToken() + " from acoount");
+    private void addFireBaseTokenIfFromAuth(){
+        if (FirebaseInstanceId.getInstance().getToken() != null) {
             ConverterMessages converter = new ConverterMessages();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    converter.authMessage(Request.addFireBase(Request.ADD_FIREBASE_TOKEN, usersManager.getUser(), FirebaseInstanceId.getInstance().getToken()));
-                    try {
-                        Thread.sleep(2000);
-                        if(tokenManager.isFireBaseInShared()){
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean("tokenSent", true);
-                            editor.commit();
-                            System.out.println(sharedPref.getBoolean("tokenSent", false) + " after adding....................................");
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
+            new Thread(() -> {
+                if (getIntent().getBooleanExtra(Const.FROM_AUTH, false)) {
+                    converter.sendMessageToServer(Request.addFireBase(Request.ADD_FIREBASE_TOKEN, usersManager.getUser(), FirebaseInstanceId.getInstance().getToken()));
                 }
             }).start();
-
         }
-        //add token to server, get success, write to prefs
-
 
     }
-//    private void outsideIntents(){
-//        Intent intent = getIntent();
-//        boolean auth = intent.getBooleanExtra("fromAuth", false);
-//        boolean createTask = intent.getBooleanExtra("createTask", false);
-//        boolean changeStatus = intent.getBooleanExtra("statusChanged", false);
-//        boolean removeTask = intent.getBooleanExtra("removeTask", false);
-////        if(auth) {
-////            checkAuth();
-////            UpdateDataAccountActivity test = new UpdateDataAccountActivity(this, adapter);
-////            test.execute();
-////        } else if(createTask || changeStatus || removeTask){
-////            UpdateDataAccountActivity test = new UpdateDataAccountActivity(this, adapter);
-////            test.execute();
-////        }
-//    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -250,7 +212,7 @@ public class AccountActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            converter.authMessage(request);
+            converter.sendMessageToServer(request);
             return null;
         }
 

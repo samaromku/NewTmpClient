@@ -1,5 +1,7 @@
 package com.example.andrey.newtmpclient.network;
 
+import android.content.Context;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -46,9 +48,11 @@ public class HttpSender {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-                return response.body().string();
+            Client.INSTANCE.setServerConnection(true);
+            return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
+            Client.INSTANCE.setServerConnection(false);
             return null;
         }
     }

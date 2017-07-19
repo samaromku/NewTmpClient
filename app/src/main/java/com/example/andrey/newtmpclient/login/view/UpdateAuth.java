@@ -9,7 +9,10 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.service.GpsService;
+import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.storage.ConverterMessages;
+
+import java.net.ConnectException;
 
 /**
  * Created by andrey on 13.07.2017.
@@ -39,7 +42,7 @@ public class UpdateAuth extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        converter.authMessage(request);
+        converter.sendMessageToServer(request);
         return null;
     }
 
@@ -56,6 +59,7 @@ public class UpdateAuth extends AsyncTask<Void, Void, Void> {
         else{
             Toast.makeText(context, "Вы не авторизированы", Toast.LENGTH_SHORT).show();
         }
+        AuthChecker.checkServerErrorRedirectLoginActivity(context);
         super.onPostExecute(aVoid);
         dialog.dismiss();
     }

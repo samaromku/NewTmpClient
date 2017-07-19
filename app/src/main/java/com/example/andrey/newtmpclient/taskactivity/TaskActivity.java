@@ -1,39 +1,28 @@
-package com.example.andrey.newtmpclient.activities;
+package com.example.andrey.newtmpclient.taskactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.adapter.CommentsAdapter;
-import com.example.andrey.newtmpclient.entities.Comment;
+import com.example.andrey.newtmpclient.activities.AccountActivity;
+import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
+import com.example.andrey.newtmpclient.activities.UpdateTaskActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.fragments.OneTaskPageFragment;
-import com.example.andrey.newtmpclient.fragments.TasksPageFragment;
-import com.example.andrey.newtmpclient.login.view.LoginActivity;
+import com.example.andrey.newtmpclient.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.storage.DateUtil;
-import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
 
 public class TaskActivity extends AppCompatActivity{
@@ -54,13 +43,11 @@ public class TaskActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.one_task_view_pager);
         if(usersManager.getUser()!=null){
-
-        Intent intent = getIntent();
-        taskNumber = intent.getIntExtra("taskNumber", 0);
+        taskNumber = getIntent().getIntExtra("taskNumber", 0);
         task = tasksManager.getById(taskNumber);
         getSupportActionBar().setTitle(task.getStatus());
         pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), taskNumber);
         pager.setAdapter(pagerAdapter);
 
         }else {
@@ -69,21 +56,7 @@ public class TaskActivity extends AppCompatActivity{
         }
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        @Override
-        public Fragment getItem(int position) {
-            return OneTaskPageFragment.newInstance(position, task.getId());
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

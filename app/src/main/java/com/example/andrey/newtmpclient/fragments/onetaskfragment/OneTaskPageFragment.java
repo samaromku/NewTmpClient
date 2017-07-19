@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments;
+package com.example.andrey.newtmpclient.fragments.onetaskfragment;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,11 +22,9 @@ import com.example.andrey.newtmpclient.entities.Comment;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
-import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.DateUtil;
@@ -46,15 +44,11 @@ public class OneTaskPageFragment extends Fragment {
     private Button doing;
 
     private RecyclerView commentsList;
-    private RecyclerView contactsList;
     private Task task;
     TasksManager tasksManager = TasksManager.INSTANCE;
     CommentsManager commentsManager = CommentsManager.INSTANCE;
     UsersManager usersManager = UsersManager.INSTANCE;
-    UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     Comment newComment;
-    private DateUtil dateUtil = new DateUtil();
-    private AddressManager addressManager = AddressManager.INSTANCE;
     private ContactsManager contactsManager = ContactsManager.Instance;
 
     private OnListItemClickListener clickListener = (v, position) -> {};
@@ -95,7 +89,7 @@ public class OneTaskPageFragment extends Fragment {
     }
 
     private void initiateContacts(ViewGroup rootView) {
-        contactsList = (RecyclerView) rootView.findViewById(R.id.contacts_list);
+        RecyclerView contactsList = (RecyclerView) rootView.findViewById(R.id.contacts_list);
         contactsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         ContactsAdapter adapter = new ContactsAdapter(contactsManager.getContactsList(), clickListener);
         contactsList.setAdapter(adapter);

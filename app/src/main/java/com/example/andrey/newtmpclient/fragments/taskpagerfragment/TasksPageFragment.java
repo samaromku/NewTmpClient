@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments;
+package com.example.andrey.newtmpclient.fragments.taskpagerfragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,13 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.TaskActivity;
+import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
 import com.example.andrey.newtmpclient.adapter.TasksAdapter;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
+import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
@@ -91,7 +92,8 @@ public class TasksPageFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             User user = usersManager.getUser();
             Request request = new Request(user, Request.UPDATE_TASKS);
-            converter.authMessage(request);
+            converter.sendMessageToServer(request);
+
             return null;
         }
 
@@ -101,6 +103,8 @@ public class TasksPageFragment extends Fragment {
             tasksManager.updateDoneNotDone();
             adapter.notifyDataSetChanged();
             swipeLayout.setRefreshing(false);
+            AuthChecker.checkAuth(getActivity());
+            AuthChecker.checkServerErrorRedirectLoginActivity(getActivity());
         }
     }
 }

@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 
 import com.example.andrey.newtmpclient.network.Request;
 
+import java.net.ConnectException;
+
 public class Updater extends AsyncTask<Void, Void, Void>{
     private ProgressDialog dialog;
     private Context context;
@@ -29,13 +31,14 @@ public class Updater extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... params) {
-        converter.authMessage(request);
+        converter.sendMessageToServer(request);
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        context.startActivity(intent);
+        AuthChecker.checkAuthAndRedirect(context, intent);
+        AuthChecker.checkServerErrorRedirectLoginActivity(context);
         super.onPostExecute(aVoid);
         dialog.dismiss();
     }

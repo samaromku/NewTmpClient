@@ -34,6 +34,15 @@ public class Client {
     private volatile boolean isMessageReceived = false;
     private boolean auth = false;
     private volatile DataWorker thread;
+    private boolean isServerConnection;
+
+    public boolean isServerConnection() {
+        return isServerConnection;
+    }
+
+    public void setServerConnection(boolean serverConnection) {
+        isServerConnection = serverConnection;
+    }
 
     private String getHostName() {
         return hostName;

@@ -35,6 +35,7 @@ public class DataMaker {
 
     public synchronized void workWithData(String response) {
         Response responseFromServer = parser.parseFromServerUserTasks(response);
+        Log.i(TAG, "workWithData: " + response);
         if (response != null && responseFromServer.getResponse() != null) {
             switch (responseFromServer.getResponse()) {
 
@@ -136,7 +137,7 @@ public class DataMaker {
                     return;
 
                 case Response.NOT_SUCCESS_AUTH:
-
+                    client.setAuth(false);
                     return;
 
                 default:

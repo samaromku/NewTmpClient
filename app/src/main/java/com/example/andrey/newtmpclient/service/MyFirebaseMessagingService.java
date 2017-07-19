@@ -9,17 +9,15 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.andrey.newtmpclient.activities.TaskActivity;
+import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.storage.JsonParser;
-import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.AccountActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
