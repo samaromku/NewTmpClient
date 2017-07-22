@@ -128,7 +128,7 @@ public class UpdateTaskActivity extends AppCompatActivity{
             }else {
                 Intent intent = new Intent(this, AccountActivity.class).putExtra("createTask", true);
                 new Updater(this, new Request(task, Request.UPDATE_TASK), intent).execute();
-//                startActivity(new Intent(this, AccountActivity.class).putExtra("createTask", true));
+//                startActivityWithComment(new Intent(this, AccountActivity.class).putExtra("createTask", true));
             }
         }
     }

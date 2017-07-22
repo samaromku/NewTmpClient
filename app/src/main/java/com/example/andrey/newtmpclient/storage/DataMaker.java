@@ -15,9 +15,8 @@ import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.network.Response;
 
-public class DataMaker {
+class DataMaker {
     private JsonParser parser = new JsonParser();
-    private boolean isUserRoleChanged = false;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private CommentsManager commentsManager = CommentsManager.INSTANCE;
@@ -29,11 +28,11 @@ public class DataMaker {
     public static final String TAG = "DataMaker";
     private TokenManager tokenManager = TokenManager.instance;
 
-    public void setUserRoleChanged(boolean userRoleChanged) {
-        isUserRoleChanged = userRoleChanged;
-    }
+//    private void setUserRoleChanged(boolean userRoleChanged) {
+//        boolean isUserRoleChanged = userRoleChanged;
+//    }
 
-    public synchronized void workWithData(String response) {
+    synchronized void workWithData(String response) {
         Response responseFromServer = parser.parseFromServerUserTasks(response);
         Log.i(TAG, "workWithData: " + response);
         if (response != null && responseFromServer.getResponse() != null) {
@@ -82,7 +81,7 @@ public class DataMaker {
 
                 case Response.UPDATE_USER_ROLE_SUCCESS:
                     userRolesManager.updateUserRole(userRolesManager.getUpdateUserRole());
-                    setUserRoleChanged(true);
+//                    setUserRoleChanged(true);
                     return;
 
                 case Response.ADD_LATEST_USER_COORDS:
@@ -141,7 +140,6 @@ public class DataMaker {
                     return;
 
                 default:
-                    return;
             }
         }
     }

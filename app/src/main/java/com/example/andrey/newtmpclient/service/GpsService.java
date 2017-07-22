@@ -77,8 +77,8 @@ public class GpsService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         new Thread(() -> {
+            Looper.prepare();
             Log.i(TAG, "onHandleIntent: start...........................................................");
-                Looper.prepare();
                 MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                     @Override
                     public void gotLocation(final Location location) {

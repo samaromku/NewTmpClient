@@ -87,7 +87,7 @@ public class CreateUserActivity extends AppCompatActivity {
             fio.setText("");
             Intent intent = new Intent(CreateUserActivity.this, UsersActivity.class).putExtra("newUser", true);
             new Updater(this, new Request(user, Request.ADD_NEW_USER), intent).execute();
-//            startActivity(new Intent(CreateUserActivity.this, UsersActivity.class).putExtra("newUser", true));
+//            startActivityWithComment(new Intent(CreateUserActivity.this, UsersActivity.class).putExtra("newUser", true));
         }
     }
 

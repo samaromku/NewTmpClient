@@ -45,6 +45,7 @@ public class TaskActivity extends AppCompatActivity{
         if(usersManager.getUser()!=null){
         taskNumber = getIntent().getIntExtra("taskNumber", 0);
         task = tasksManager.getById(taskNumber);
+        if(getSupportActionBar()!=null)
         getSupportActionBar().setTitle(task.getStatus());
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), taskNumber);
@@ -82,7 +83,7 @@ public class TaskActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, AccountActivity.class).putExtra("removeTask", true);
                 new Updater(this, new Request(task, Request.REMOVE_TASK), intent).execute();
 //                converter.sendMessage(new Request(task, Request.REMOVE_TASK));
-//                startActivity(new Intent(this, AccountActivity.class).putExtra("removeTask", true));
+//                startActivityWithComment(new Intent(this, AccountActivity.class).putExtra("removeTask", true));
                 return true;
             case R.id.check_as_done:
                 clickToChangeStatus(TaskEnum.DONE_TASK);

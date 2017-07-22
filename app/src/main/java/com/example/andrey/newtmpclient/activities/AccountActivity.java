@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
-import com.example.andrey.newtmpclient.fragments.taskpagerfragment.TasksPageFragment;
+import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPageFragment;
 import com.example.andrey.newtmpclient.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;

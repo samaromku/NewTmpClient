@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.andrey.newtmpclient.fragments.onetaskfragment.OneTaskPageFragment;
+import com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment;
 
 /**
  * Created by andrey on 19.07.2017.

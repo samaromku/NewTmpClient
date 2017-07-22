@@ -1,15 +1,13 @@
 package com.example.andrey.newtmpclient.network;
 
-import android.content.Context;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.Request;
 
 
 public class HttpSender {
@@ -23,8 +21,8 @@ public class HttpSender {
             .build();
 //    private static final String insideUrl = "http://192.168.137.1:60123/WebApp/auth";    //ноут алины
 //    private static final String insideUrl = "http://192.168.0.186:60123/WebApp/auth";    //ноут домашний
-//    private static final String insideUrl = "http://192.168.0.98:60123/WebApp/auth";    //тепломер внутренний
-    private static final String insideUrl = "http://192.168.0.101:60123/WebApp/auth";    //краснодар
+    private static final String insideUrl = "http://192.168.0.98:60123/WebApp/auth";    //тепломер внутренний
+//    private static final String insideUrl = "http://192.168.0.102:60123/WebApp/auth";    //краснодар
     private static final String outsideUrl = "http://81.23.123.230:60123/WebApp/auth";   //тепломер внешний
 
     //метод, который при выборе флага принимает внутренний url, при снятти внешний

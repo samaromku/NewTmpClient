@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments.taskpagerfragment;
+package com.example.andrey.newtmpclient.fragments.task_pager_fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;

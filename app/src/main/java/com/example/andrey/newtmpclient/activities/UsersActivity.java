@@ -71,7 +71,7 @@ public class UsersActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, MapActivity.class);
                 new Updater(this, new Request(Request.GIVE_ME_LAST_USERS_COORDS), intent).execute();
 //            converter.sendMessage(new Request(Request.GIVE_ME_LAST_USERS_COORDS));
-//            startActivity(new Intent(this, MapActivity.class));
+//            startActivityWithComment(new Intent(this, MapActivity.class));
             return true;
 
             default:

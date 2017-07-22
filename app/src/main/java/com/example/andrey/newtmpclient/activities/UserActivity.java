@@ -60,7 +60,7 @@ public class UserActivity extends AppCompatActivity{
                 new Updater(this, new Request(user, Request.REMOVE_USER), intent).execute();
 //                converter.sendMessage(new Request(user, Request.REMOVE_USER));
 
-//                startActivity(new Intent(this, UsersActivity.class).putExtra("removeUser", true));
+//                startActivityWithComment(new Intent(this, UsersActivity.class).putExtra("removeUser", true));
                 return true;
 
             default:

@@ -4,6 +4,9 @@ package com.example.andrey.newtmpclient.utils;
  * Created by andrey on 18.07.2017.
  */
 
-public class Const {
-    public static final String FROM_AUTH = "fromAuth";
+public interface Const {
+    String FROM_AUTH = "fromAuth";
+    String DELETED = "Удален";
+    String FILL_FIELDS = "Вы должны заполнить это поле";
+    String STATUS_CHANGED = "statusChanged";
 }

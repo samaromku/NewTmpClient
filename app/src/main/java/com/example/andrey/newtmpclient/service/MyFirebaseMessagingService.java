@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.TasksManager;
@@ -91,7 +92,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Response response = parser.parseFromServerUserTasks(messageBody);
         String respStr = response.getResponse();
         Task task = response.getTask();
-        tasksManager.updateTask(task);
+        if(tasksManager.isTaskInList(task)){
+            tasksManager.updateTask(task);
+        }else {
+            tasksManager.addTask(task);
+        }
 
         System.out.println(task.getId() + " from service");
         Intent intent = new Intent(this, TaskActivity.class);

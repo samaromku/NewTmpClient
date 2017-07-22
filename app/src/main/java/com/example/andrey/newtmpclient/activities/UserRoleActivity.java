@@ -44,7 +44,7 @@ public class UserRoleActivity extends AppCompatActivity{
         init();
         send.setOnClickListener(v -> {
             addOrChangeUserRoleOnServer();
-//            startActivity(new Intent(this, UsersActivity.class));
+//            startActivityWithComment(new Intent(this, UsersActivity.class));
         });
     }
 

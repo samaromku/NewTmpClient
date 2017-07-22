@@ -32,7 +32,7 @@ public class ConverterMessages {
         //вызываем метод отправки запроса, к урлу нужно прибавить часть сервлета, к которому будет запрос
 
         String response = sender.post(sender.trueUrl(checkNetwork.isNetworkInsideOrOutside()), parser.requestToServer(request));
-        Log.i("Converter", "sendMessage: "+response);
+        Log.i("Converter", "message from server: "+response);
         //вызываем поток обработки запроса
 //        new DataWorker(response).start();
         if(response!=null){

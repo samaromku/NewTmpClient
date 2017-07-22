@@ -114,15 +114,6 @@ public class TasksManager {
         tasks.addAll(taskList);
     }
 
-
-    @TargetApi(Build.VERSION_CODES.N)
-    public void compareTasks(){
-/*        Comparator<Task> comp = Comparator
-                .comparing(Task::getStatus)
-                .thenComparing(Task::getDoneTime);
-        Collections.sort(tasks, comp);*/
-    }
-
     public Task getById(int taskId){
         for(Task t:tasks){
             if(t.getId()==taskId){
@@ -184,6 +175,15 @@ public class TasksManager {
                 tasks.add(t);
             }
         }
+    }
+
+    public boolean isTaskInList(Task task){
+        for(Task t:tasks){
+            if(t.getId()==task.getId()){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setTask(Task task) {
