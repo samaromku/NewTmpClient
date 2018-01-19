@@ -8,6 +8,7 @@ import com.example.andrey.newtmpclient.activities.address.AddressMvpView;
 import com.example.andrey.newtmpclient.activities.address.AddressMvpPresenter;
 import com.example.andrey.newtmpclient.activities.address.AddressMvpInterActor;
 import com.example.andrey.newtmpclient.managers.AddressManager;
+import com.example.andrey.newtmpclient.network.TmpService;
 
 @Module
 public class AddressMvpModule implements BaseModule {
@@ -25,8 +26,8 @@ public class AddressMvpModule implements BaseModule {
 
     @AddressMvpScope
     @Provides
-    AddressMvpInterActor interActor(AddressManager addressManager) {
-        return new AddressMvpInterActor(addressManager);
+    AddressMvpInterActor interActor(AddressManager addressManager, TmpService tmpService) {
+        return new AddressMvpInterActor(addressManager, tmpService);
     }
 }
 

@@ -1,5 +1,10 @@
 package com.example.andrey.newtmpclient.activities.address;
 
+import android.util.Log;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 public class AddressMvpPresenter {
     private static final String TAG = AddressMvpPresenter.class.getSimpleName();
     private AddressMvpView view;
@@ -12,6 +17,11 @@ public class AddressMvpPresenter {
 
     void getListFroAdapter() {
         interActor.getListFroAdapter()
-                .subscribe(list -> view.setListToAdapter(list));
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> view.showDialog())
+                .doOnTerminate(() -> view.hideDialog())
+                .subscribe(list -> view.setListToAdapter(list),
+                        throwable -> Log.e(TAG, throwable.getMessage(), throwable));
     }
 }

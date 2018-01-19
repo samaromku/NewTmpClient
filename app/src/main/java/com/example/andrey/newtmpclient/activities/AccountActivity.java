@@ -181,13 +181,7 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
-    private void allClear(){
-        tasksManager.removeAll();
-        AddressManager.INSTANCE.removeAll();
-        CommentsManager.INSTANCE.removeAll();
-        userRolesManager.removeAll();
-        UsersManager.INSTANCE.removeAll();
-    }
+
 
     private class LogoutUpdater extends AsyncTask<Void, Void, Void>{
         private ProgressDialog dialog;
@@ -227,5 +221,12 @@ public class AccountActivity extends AppCompatActivity {
             usersManager.setUser(null);
             tokenManager.setToken(null);
         }
+    }
+    private void allClear(){
+        tasksManager.removeAll();
+        AddressManager.INSTANCE.removeAll();
+        CommentsManager.INSTANCE.removeAll();
+        userRolesManager.removeAll();
+        UsersManager.INSTANCE.removeAll();
     }
 }

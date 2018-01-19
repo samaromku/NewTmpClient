@@ -17,7 +17,7 @@ import com.example.andrey.newtmpclient.createTask.interactor.CreateTaskInteracto
 import com.example.andrey.newtmpclient.createTask.interactor.CreateTaskInteractorImpl;
 import com.example.andrey.newtmpclient.createTask.view.CreateTaskView;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.fragments.DatePickerFragment;
+import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 
 import static android.content.ContentValues.TAG;
 

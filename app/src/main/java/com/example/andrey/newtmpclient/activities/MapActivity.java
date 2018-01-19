@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.fragments.MapFragment;
+import com.example.andrey.newtmpclient.fragments.map.MapFragment;
 
 public class MapActivity extends AppCompatActivity{
     private Fragment createFragment(){

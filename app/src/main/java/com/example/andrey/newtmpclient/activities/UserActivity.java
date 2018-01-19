@@ -32,7 +32,8 @@ public class UserActivity extends AppCompatActivity{
         init();
         getSupportActionBar().setTitle(user.getLogin());
         change.setOnClickListener(v -> {
-            startActivity(new Intent(UserActivity.this, UserRoleActivity.class).putExtra("userId", user.getId()));
+            startActivity(new Intent(UserActivity.this, UserRoleActivity.class)
+                    .putExtra("userId", user.getId()));
             finish();
         });
     }
@@ -40,7 +41,7 @@ public class UserActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(UserActivity.this, UsersActivity.class));
+//        startActivity(new Intent(UserActivity.this, UsersActivity.class));
     }
 
     @Override

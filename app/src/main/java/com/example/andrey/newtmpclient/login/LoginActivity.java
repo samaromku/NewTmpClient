@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.utils.Const;
 
 /**
  * Created by andrey on 13.07.2017.
@@ -70,5 +72,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    @Override
+    public void startMainActivity() {
+        Intent intent = new Intent(this, MainTmpActivity.class)
+                .putExtra(Const.FROM_AUTH, true);
+        startActivity(intent);
     }
 }

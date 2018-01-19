@@ -32,6 +32,7 @@ class DataMaker {
 //        boolean isUserRoleChanged = userRoleChanged;
 //    }
 
+    //этот клас используется по полной
     synchronized void workWithData(String response) {
         Response responseFromServer = parser.parseFromServerUserTasks(response);
         Log.i(TAG, "workWithData: " + response);

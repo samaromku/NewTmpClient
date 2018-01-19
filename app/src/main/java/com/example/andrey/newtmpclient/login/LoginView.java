@@ -9,4 +9,5 @@ import android.content.Context;
 public interface LoginView {
     void setLogin(String login);
     void setPwd(String pwd);
+    void startMainActivity();
 }

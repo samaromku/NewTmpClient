@@ -16,10 +16,7 @@ import com.example.andrey.newtmpclient.adapter.UserAdapter;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.storage.ConverterMessages;
-import com.example.andrey.newtmpclient.storage.JsonParser;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
 
@@ -29,15 +26,12 @@ public class UsersActivity extends AppCompatActivity{
     UserAdapter adapter;
     UsersManager usersManager = UsersManager.INSTANCE;
     UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
-    Client client = Client.INSTANCE;
-    JsonParser parser = new JsonParser();
-    private ConverterMessages converter = new ConverterMessages();
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.users_activity);
+        setContentView(R.layout.fragment_users);
         getSupportActionBar().setTitle("Пользователи");
         init();
         adminAction();
@@ -45,7 +39,6 @@ public class UsersActivity extends AppCompatActivity{
         userList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new UserAdapter(usersManager.getUsers(), clickListener);
         userList.setAdapter(adapter);
-//        update();
     }
 
     private OnListItemClickListener clickListener = (v, position) -> {

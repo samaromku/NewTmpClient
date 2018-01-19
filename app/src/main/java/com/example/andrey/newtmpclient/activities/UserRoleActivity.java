@@ -72,7 +72,7 @@ public class UserRoleActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(UserRoleActivity.this, UsersActivity.class));
+//        startActivity(new Intent(UserRoleActivity.this, UsersActivity.class));
     }
 
     private void init(){
@@ -111,14 +111,5 @@ public class UserRoleActivity extends AppCompatActivity{
             Toast.makeText(this, "вы не имеете права", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(UserRoleActivity.this, UsersActivity.class));
         }else hasRight = true;
-    }
-
-    private int createNewUserRole(){
-        Intent intent = getIntent();
-        int newUserId = intent.getIntExtra("newUserId", 0);
-        if(newUserId!=0){
-            return newUserId;
-        }
-        return 0;
     }
 }

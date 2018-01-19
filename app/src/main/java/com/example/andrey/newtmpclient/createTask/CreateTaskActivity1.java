@@ -18,11 +18,11 @@ import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.AccountActivity;
-import com.example.andrey.newtmpclient.activities.address.AddressMvpActivity;
+import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.fragments.DatePickerFragment;
+import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
@@ -223,11 +223,11 @@ public class CreateTaskActivity1 extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this, AccountActivity.class));
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        startActivity(new Intent(this, AccountActivity.class));
+//    }
 
 
     private void init(){
@@ -293,7 +293,7 @@ public class CreateTaskActivity1 extends AppCompatActivity {
 
     private void getAddressesFromServer(){
 //        addressManager.removeAll();
-        Intent intent = new Intent(this, AddressMvpActivity.class);
+        Intent intent = new Intent(this, AddressMvpFragment.class);
         startActivity(intent);
 //        new Updater(this, new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
     }

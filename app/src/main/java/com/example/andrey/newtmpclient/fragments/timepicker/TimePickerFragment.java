@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments;
+package com.example.andrey.newtmpclient.fragments.timepicker;
 
 
 import android.app.AlertDialog;

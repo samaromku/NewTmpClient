@@ -18,7 +18,7 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.fragments.DatePickerFragment;
+import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;

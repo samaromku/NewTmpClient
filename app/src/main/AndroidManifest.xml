@@ -43,24 +43,14 @@
         <activity
             android:name=".activities.MapActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.MainActivity"
-            android:screenOrientation="portrait" />
-        <!--<activity-->
-            <!--android:name=".activities.AddressActivity"-->
-            <!--android:screenOrientation="portrait" />-->
-        <activity
-            android:name=".activities.UserRoleActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".activities.UserRoleActivity" />
         <activity
             android:name=".activities.AccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".createTask.CreateTaskActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.UserActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".activities.UserActivity" />
         <activity
             android:name=".activities.CreateUserActivity"
             android:screenOrientation="portrait" />
@@ -84,11 +74,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.address.AddressMvpActivity" />
         <activity
             android:name=".activities.maindrawer.MainDrawerActivity"
             android:label="@string/title_activity_main_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.maindrawer.MainTmpActivity"
+            android:label="@string/title_activity_main_drawer"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

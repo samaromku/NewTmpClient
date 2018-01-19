@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments;
+package com.example.andrey.newtmpclient.fragments.map;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -29,6 +29,8 @@ public class MapFragment extends SupportMapFragment {
 
         getMapAsync(googleMap -> {
             map = googleMap;
+            map.getUiSettings().setZoomControlsEnabled(true);
+            map.getUiSettings().setMyLocationButtonEnabled(true);
             updateUI();
         });
     }

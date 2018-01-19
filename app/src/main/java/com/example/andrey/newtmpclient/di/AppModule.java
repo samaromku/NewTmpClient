@@ -1,13 +1,17 @@
 package com.example.andrey.newtmpclient.di;
 
-import com.example.andrey.newtmpclient.activities.address.AddressMvpActivity;
+import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.activities.address.di.AddressMvpComponent;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
-import com.example.andrey.newtmpclient.entities.Address;
+import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
+import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
+import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
+import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.TmpService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
 
@@ -16,7 +20,6 @@ import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -28,15 +31,38 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module(subcomponents = {
     AddressMvpComponent.class,
-
+    AllTasksComponent.class,
+    UsersMvpComponent.class,
+    MainTmpComponent.class,
 })
 class AppModule {
-    private static final String BASE_URL = "81.23.123.230";
+    private static final String BASE_URL = "http://81.23.123.230:60123";
 
     @Provides
     @IntoMap
-    @ClassKey(AddressMvpActivity.class)
+    @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder){
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(AllTasksFragment.class)
+    ComponentBuilder provideAllTasks(AllTasksComponent.Builder builder){
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(UsersMvpFragment.class)
+    ComponentBuilder provideUsers(UsersMvpComponent.Builder builder){
+        return builder;
+    }
+
+     @Provides
+    @IntoMap
+    @ClassKey(MainTmpActivity.class)
+    ComponentBuilder provideMain(MainTmpComponent.Builder builder){
         return builder;
     }
 
@@ -72,5 +98,11 @@ class AppModule {
     @Singleton
     AddressManager addressManager(){
         return AddressManager.INSTANCE;
+    }
+
+    @Provides
+    @Singleton
+    UsersManager usersManager(){
+        return UsersManager.INSTANCE;
     }
 }

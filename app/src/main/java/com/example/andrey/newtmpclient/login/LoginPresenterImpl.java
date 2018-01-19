@@ -3,8 +3,7 @@ package com.example.andrey.newtmpclient.login;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.andrey.newtmpclient.activities.AccountActivity;
-import com.example.andrey.newtmpclient.activities.maindrawer.MainDrawerActivity;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.utils.Const;
@@ -37,14 +36,15 @@ class LoginPresenterImpl  {
     }
 
     void makeNetworkRequestStartAccountActivity(User user) {
-        Intent intent = new Intent(context, MainDrawerActivity.class)
+//        loginView.startMainActivity();
+        Intent intent = new Intent(context, MainTmpActivity.class)
                 .putExtra(Const.FROM_AUTH, true);
         new UpdateAuth(context, new Request(user, Request.AUTH), intent).execute();
     }
 
     void startAccountActivityAfterCheck() {
         if(loginInterActor.checkAuth()){
-            context.startActivity(new Intent(context, MainDrawerActivity.class));
+            context.startActivity(new Intent(context, MainTmpActivity.class));
         }
     }
 

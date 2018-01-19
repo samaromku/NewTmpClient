@@ -1,11 +1,10 @@
 package com.example.andrey.newtmpclient.activities.maindrawer;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.View;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,33 +12,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
-import com.example.andrey.newtmpclient.fragments.map.MapFragment;
+import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
+import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpModule;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
+import com.example.andrey.newtmpclient.fragments.map.MapFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
+import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.service.GpsService;
+
 
 import java.lang.ref.WeakReference;
 
-public class MainDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import javax.inject.Inject;
+
+public class MainTmpActivity extends AppCompatActivity implements MainTmpView, NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = MainTmpActivity.class.getSimpleName();
+    @Inject
+    MainTmpPresenter presenter;
     private WeakReference<Fragment> baseFragment;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
+        ((MainTmpComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new MainTmpModule(this))).inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                if(baseFragment!=null && baseFragment.get()!=null) {
+                if (baseFragment != null && baseFragment.get() != null) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container, baseFragment.get())
                             .commit();
@@ -51,6 +65,14 @@ public class MainDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            App.getComponentManager().releaseComponent(getClass());
+        }
     }
 
     @Override
@@ -102,7 +124,7 @@ public class MainDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_map) {
             return openFragment(new MapFragment());
         } else if (id == R.id.nav_exit) {
-
+            presenter.logout();
             return true;
         }
 
@@ -117,5 +139,24 @@ public class MainDrawerActivity extends AppCompatActivity
 
         baseFragment = new WeakReference<>(fragment);
         return true;
+    }
+
+    @Override
+    public void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void startLoginActivity() {
+
+    }
+
+    @Override
+    public void stopServices() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        stopService(new Intent(GpsService.newIntent(this)));
+        System.out.println("стопарим сервис");
     }
 }

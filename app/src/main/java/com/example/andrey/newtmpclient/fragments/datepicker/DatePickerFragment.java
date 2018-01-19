@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments;
+package com.example.andrey.newtmpclient.fragments.datepicker;
 
 
 import android.app.Activity;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.fragments.timepicker.TimePickerFragment;
 
 import java.util.Calendar;
 import java.util.Date;

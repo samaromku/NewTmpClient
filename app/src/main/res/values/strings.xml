@@ -66,4 +66,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="current_tasks">Текущие задачи</string>
+    <string name="done_tasks">Выполненные задачи</string>
+    <string name="exit">Выход</string>
 </resources>
