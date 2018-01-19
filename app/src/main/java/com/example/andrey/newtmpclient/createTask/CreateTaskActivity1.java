@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.AccountActivity;
-import com.example.andrey.newtmpclient.activities.AddressActivity;
+import com.example.andrey.newtmpclient.activities.address.AddressMvpActivity;
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
@@ -293,7 +293,7 @@ public class CreateTaskActivity1 extends AppCompatActivity {
 
     private void getAddressesFromServer(){
 //        addressManager.removeAll();
-        Intent intent = new Intent(this, AddressActivity.class);
+        Intent intent = new Intent(this, AddressMvpActivity.class);
         startActivity(intent);
 //        new Updater(this, new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
     }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.andrey.newtmpclient">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -10,58 +10,73 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_tmp_round"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_tmp_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".activities.App">
-
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCNOh1BQFheWMb_SZaUk3ptmteZfnNqCFw"/>
+            android:value="AIzaSyCNOh1BQFheWMb_SZaUk3ptmteZfnNqCFw" />
 
-        <service
-            android:name=".service.MyFirebaseMessagingService">
+        <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".service.MyFirebaseInstanceIDService">
+        <service android:name=".service.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
-            android:exported="false"
-            android:name=".service.MyJobService">
+            android:name=".service.MyJobService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+        <service android:name=".service.GpsService" />
 
-        <service android:name=".service.GpsService"/>
-
-        <activity android:name=".activities.MapActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.MainActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.AddressActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.UserRoleActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.AccountActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".createTask.CreateTaskActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.UserActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.CreateUserActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.UsersActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.UpdateTaskActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.RequestDoingActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".taskactivity.TaskActivity"
+        <activity
+            android:name=".activities.MapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".activities.AddressActivity"-->
+            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".activities.UserRoleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".createTask.CreateTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CreateUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UpdateTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RequestDoingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".taskactivity.TaskActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,7 +84,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".activities.address.AddressMvpActivity" />
+        <activity
+            android:name=".activities.maindrawer.MainDrawerActivity"
+            android:label="@string/title_activity_main_drawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

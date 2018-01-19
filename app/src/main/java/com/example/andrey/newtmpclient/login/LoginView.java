@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.login.view;
+package com.example.andrey.newtmpclient.login;
 
 import android.content.Context;
 

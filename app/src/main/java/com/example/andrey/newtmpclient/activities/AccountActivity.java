@@ -39,7 +39,6 @@ import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class AccountActivity extends AppCompatActivity {
-    private FloatingActionButton addTask;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     private static final String TAG = "AccountActivity";
@@ -147,7 +146,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private void buttonAddTask(){
         //кнопка добавить задание
-        addTask = (FloatingActionButton) findViewById(R.id.add_task_btn);
+        FloatingActionButton addTask = (FloatingActionButton) findViewById(R.id.add_task_btn);
         UserRole userRole = userRolesManager.getUserRole();
         if(userRole!=null){
             if(userRole.isMakeTasks()) {

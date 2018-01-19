@@ -11,10 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SpinnerAdapter;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.AddressActivity;
+import com.example.andrey.newtmpclient.activities.address.AddressMvpActivity;
 import com.example.andrey.newtmpclient.createTask.presenter.CreateTaskPresenter;
 import com.example.andrey.newtmpclient.createTask.presenter.CreateTaskPresenterImpl;
 import com.example.andrey.newtmpclient.createTask.view.CreateTaskView;
@@ -149,7 +148,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     }
 
     private void getAddressesFromServer() {
-        Intent intent = new Intent(this, AddressActivity.class);
+        Intent intent = new Intent(this, AddressMvpActivity.class);
         startActivity(intent);
     }
 

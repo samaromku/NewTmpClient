@@ -60,4 +60,10 @@
     <string name="done_task">Исполнено</string>
     <string name="note">Заметка</string>
     <string name="doing">Приступить</string>
+    <string name="title_activity_main_drawer">MainDrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

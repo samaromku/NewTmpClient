@@ -4,16 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.login.presenter.LoginPresenter;
-import com.example.andrey.newtmpclient.login.presenter.LoginPresenterImpl;
-import com.example.andrey.newtmpclient.login.view.LoginView;
-import com.example.andrey.newtmpclient.network.Client;
 
 /**
  * Created by andrey on 13.07.2017.
@@ -22,7 +17,7 @@ import com.example.andrey.newtmpclient.network.Client;
 public class LoginActivity extends AppCompatActivity implements LoginView {
     private EditText writeName;
     private EditText writePwd;
-    private LoginPresenter loginPresenter;
+    private LoginPresenterImpl loginPresenter;
     private String login;
     private String pwd;
     public static final String TAG = "LoginActivity";
