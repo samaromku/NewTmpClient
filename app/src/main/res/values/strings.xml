@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client1</string>
+    <string name="app_name">Тепломер</string>
     <string name="write_text">Веедите текст</string>
     <string name="send">Отправить</string>
     <string name="write_name">Ввести логин</string>
