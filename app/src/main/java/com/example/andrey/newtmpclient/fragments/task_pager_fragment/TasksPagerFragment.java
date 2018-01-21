@@ -24,6 +24,7 @@ import com.example.andrey.newtmpclient.storage.Updater;
 import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -76,6 +77,7 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
         super.onViewCreated(view, savedInstanceState);
         swipeLayout = view.findViewById(R.id.swipe_layout);
         RecyclerView tasksList = view.findViewById(R.id.tasks_list);
+        tasksList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         if (pageNumber == 0) {
             tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));

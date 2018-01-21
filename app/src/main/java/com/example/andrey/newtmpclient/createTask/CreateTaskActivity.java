@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.createTask.di.CreateTaskModule;
 
@@ -25,7 +26,7 @@ import javax.inject.Inject;
 import static com.example.andrey.newtmpclient.storage.Const.CREATING_TASK;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
-public class CreateTaskActivity extends AppCompatActivity implements CreateTaskView {
+public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     private AppCompatSpinner importanceSpinner;
     private AppCompatSpinner statusSpinner;
     private EditText body;
@@ -35,15 +36,13 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     private AppCompatSpinner typeSpinner;
     private Button createTask;
     private ProgressDialog mDialog;
-    public static final int SUCCESS_REQUEST = 1;
     @Inject CreateTaskPresenterImpl createTaskPresenter;
-    private ArrayAdapter<String> statusesAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
-        getSupportActionBar().setTitle(R.string.create_task);
+        changeToolbarTitle(R.string.create_task);
         chooseDate = (Button) findViewById(R.id.choose_date);
         anndressNamesCompleteTV = (AutoCompleteTextView) findViewById(R.id.task_title);
         importanceSpinner = (AppCompatSpinner) findViewById(R.id.spinner_importance);
@@ -78,7 +77,6 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
 
     private void initPresenter() {
         createTaskPresenter.setContext(this);
-//        createTaskPresenter = new CreateTaskPresenterImpl(this, this);
         createTask.setOnClickListener(v -> createTaskPresenter.checkValidFields());
         chooseDate.setOnClickListener(v -> createTaskPresenter.chooseDate(getSupportFragmentManager()));
         createTaskPresenter.clickOnImportance(importanceSpinner);
@@ -92,7 +90,6 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     protected void onDestroy() {
         super.onDestroy();
         App.getComponentManager().releaseComponent(getClass());
-//        createTaskPresenter.onDestroy();
     }
 
     @Override
@@ -157,36 +154,11 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        createTaskPresenter.startAccountActivity();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_task_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.address:
-                getAddressesFromServer();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void getAddressesFromServer() {
-        Intent intent = new Intent(this, AddressMvpFragment.class);
-        startActivity(intent);
-    }
 
     @Override
     public void finishCreateActivity() {
-//        onBackPressed();
         finish();
-//        finishActivity(SUCCESS_REQUEST);
     }
 }

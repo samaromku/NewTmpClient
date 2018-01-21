@@ -10,7 +10,7 @@ public class Client {
         return isServerConnection;
     }
 
-    public void setServerConnection(boolean serverConnection) {
+    void setServerConnection(boolean serverConnection) {
         isServerConnection = serverConnection;
     }
 
