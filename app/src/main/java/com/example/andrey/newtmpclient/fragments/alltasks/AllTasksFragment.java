@@ -5,20 +5,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.AccountActivity;
 import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksModule;
-import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPageFragment;
+import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
 import com.example.andrey.newtmpclient.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
-import com.example.andrey.newtmpclient.managers.TasksManager;
-import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Client;
@@ -28,28 +34,14 @@ import com.example.andrey.newtmpclient.storage.Updater;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-
 import javax.inject.Inject;
 
 public class AllTasksFragment extends BaseFragment implements AllTasksView {
     private static final String TAG = AllTasksFragment.class.getSimpleName();
     @Inject
     AllTasksPresenter presenter;
-    private TasksManager tasksManager = TasksManager.INSTANCE;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     private Client client = Client.INSTANCE;
-    private TokenManager tokenManager = TokenManager.instance;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
     ViewPager pager;
@@ -68,13 +60,32 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(usersManager.getUser()!=null) {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Привет, " + usersManager.getUser().getLogin());
+            setToolbarTitle("Текущие заявки");
 
-            pager = (ViewPager) view.findViewById(R.id.pager);
+            pager = view.findViewById(R.id.pager);
             pagerAdapter = new AllTasksFragment.ScreenSlidePagerAdapter(
                     getActivity().getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if(position==0){
+                        setToolbarTitle("Текущие заявки");
+                    }else if(position==1){
+                        setToolbarTitle("Выполненные заявки");
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
             addFireBaseTokenIfFromAuth();
             buttonAddTask(view);
         }else {
@@ -117,7 +128,7 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
 
         @Override
         public Fragment getItem(int position) {
-            return TasksPageFragment.newInstance(position);
+            return TasksPagerFragment.newInstance(position);
         }
 
         @Override

@@ -4,9 +4,13 @@ import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.activities.address.di.AddressMvpComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
+import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
+import com.example.andrey.newtmpclient.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
+import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
+import com.example.andrey.newtmpclient.fragments.task_pager_fragment.di.TasksPagerComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
@@ -34,6 +38,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
     AllTasksComponent.class,
     UsersMvpComponent.class,
     MainTmpComponent.class,
+    CreateTaskComponent.class,
+    TasksPagerComponent.class,
 })
 class AppModule {
     private static final String BASE_URL = "http://81.23.123.230:60123";
@@ -63,6 +69,20 @@ class AppModule {
     @IntoMap
     @ClassKey(MainTmpActivity.class)
     ComponentBuilder provideMain(MainTmpComponent.Builder builder){
+        return builder;
+    }
+
+     @Provides
+    @IntoMap
+    @ClassKey(CreateTaskActivity.class)
+    ComponentBuilder provideCreateTask(CreateTaskComponent.Builder builder){
+        return builder;
+    }
+
+     @Provides
+    @IntoMap
+    @ClassKey(TasksPagerFragment.class)
+    ComponentBuilder provideTasksPager(TasksPagerComponent.Builder builder){
         return builder;
     }
 

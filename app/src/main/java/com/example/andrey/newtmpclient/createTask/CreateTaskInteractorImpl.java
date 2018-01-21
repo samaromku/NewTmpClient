@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.createTask.interactor;
+package com.example.andrey.newtmpclient.createTask;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,13 +11,20 @@ import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
+import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
+import com.example.andrey.newtmpclient.network.Response;
+import com.example.andrey.newtmpclient.network.TmpService;
 import com.example.andrey.newtmpclient.storage.DateUtil;
 import com.example.andrey.newtmpclient.storage.Updater;
 
 import java.util.Date;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
@@ -25,7 +32,7 @@ import static android.content.ContentValues.TAG;
  * Created by andrey on 14.07.2017.
  */
 
-public class CreateTaskInteractorImpl implements CreateTaskInteractor {
+public class CreateTaskInteractorImpl {
     private DateUtil dateUtil = new DateUtil();
     private AddressManager addressManager = AddressManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
@@ -37,30 +44,30 @@ public class CreateTaskInteractorImpl implements CreateTaskInteractor {
     private String date;
     private String body;
     private String address;
+    private TmpService tmpService;
 
-    @Override
-    public String[] getImportanceString() {
+    public CreateTaskInteractorImpl(TmpService tmpService) {
+        this.tmpService = tmpService;
+    }
+
+    String[] getImportanceString() {
         return new String[]{TaskEnum.STANDART, TaskEnum.INFO, TaskEnum.AVARY, TaskEnum.TIME};
     }
 
-    @Override
-    public String[] getTypes() {
+    String[] getTypes() {
         return new String[]{TaskEnum.TAKE_INFO, TaskEnum.ARTF, TaskEnum.UUTE, TaskEnum.ITP, TaskEnum.INSPECTION, TaskEnum.APARTMENT};
     }
 
-    @Override
-    public String[] getStatuses() {
+    String[] getStatuses() {
         return new String[]{TaskEnum.NEW_TASK};
     }
 
-    @Override
-    public String[] getUserNames() {
+    String[] getUserNames() {
         return new String[]{usersManager.getUsers().get(0).getLogin()};
     }
 
-    @Override
-    public String[] getAddressName() {
-        List<Address>addresses = addressManager.getAddresses();
+    String[] getAddressName() {
+        List<Address> addresses = addressManager.getAddresses();
         String[] addressNameArray = new String[addresses.size()];
         for (int i = 0; i < addresses.size(); i++) {
             addressNameArray[i] = addresses.get(i).getAddress();
@@ -69,13 +76,11 @@ public class CreateTaskInteractorImpl implements CreateTaskInteractor {
     }
 
 
-    @Override
     public Date getDate() {
         return dateUtil.getDate();
     }
 
-    @Override
-    public void createTask(Context context) {
+    public Observable<Response> createTask() {
         User user = usersManager.getUserByUserName(userName);
         Address addressEntity = addressManager.getAddressByAddress(address);
         Task task = new Task.Builder()
@@ -93,42 +98,37 @@ public class CreateTaskInteractorImpl implements CreateTaskInteractor {
                 .build();
         Log.i(TAG, "createTask: " + task);
         tasksManager.setTask(task);
-        Intent intent = new Intent(context, AccountActivity.class);
-        new Updater(context, new Request(task, Request.ADD_TASK_TO_SERVER), intent).execute();
+        Request request = new Request(task, Request.ADD_TASK_TO_SERVER);
+        request.setToken(TokenManager.instance.getToken());
+        return tmpService.createTask(request)
+                .doOnNext(response -> tasksManager.addTask(tasksManager.getTask()));
     }
 
-    @Override
-    public void setTypeSelected(String type) {
+    void setTypeSelected(String type) {
         this.type = type;
     }
 
-    @Override
-    public void setImportanceSelected(String importance) {
+    void setImportanceSelected(String importance) {
         this.importance = importance;
     }
 
-    @Override
-    public void setStatusSelected(String statusSelected) {
+    void setStatusSelected(String statusSelected) {
         this.status = statusSelected;
     }
 
-    @Override
-    public void setUserSelected(String userName) {
+    void setUserSelected(String userName) {
         this.userName = userName;
     }
 
 
-    @Override
     public void setBody(String body) {
         this.body = body;
     }
 
-    @Override
     public void setDate(String date) {
         this.date = date;
     }
 
-    @Override
     public void setAddress(String address) {
         this.address = address;
     }

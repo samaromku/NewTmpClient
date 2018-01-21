@@ -1,9 +1,5 @@
 package com.example.andrey.newtmpclient.activities.maindrawer;
 
-import android.content.Intent;
-import android.os.UserManager;
-import android.util.Log;
-
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
@@ -11,7 +7,6 @@ import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Client;
-import com.example.andrey.newtmpclient.service.GpsService;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

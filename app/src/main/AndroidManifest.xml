@@ -75,12 +75,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.maindrawer.MainDrawerActivity"
+            android:name=".activities.maindrawer.MainTmpActivity"
             android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.maindrawer.MainTmpActivity"
-            android:label="@string/title_activity_main_drawer"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.createuser.CreateNewUserActivity" />
     </application>
 
 </manifest>

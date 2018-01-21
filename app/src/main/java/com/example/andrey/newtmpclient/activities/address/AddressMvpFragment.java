@@ -31,10 +31,11 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
+import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
+import static com.example.andrey.newtmpclient.storage.Const.UPLOAD_FILE;
+
 public class AddressMvpFragment extends BaseFragment implements AddressMvpView {
     private static final String TAG = AddressMvpFragment.class.getSimpleName();
-    public static final String UPLOAD_FILE = "Загрузка";
-    public static final String PLEASE_WAIT = "Пожалуйста подождите";
 
     @Inject
     AddressMvpPresenter presenter;

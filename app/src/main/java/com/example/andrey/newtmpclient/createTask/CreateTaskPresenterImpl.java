@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.createTask.presenter;
+package com.example.andrey.newtmpclient.createTask;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,11 @@ import android.widget.AutoCompleteTextView;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.AccountActivity;
-import com.example.andrey.newtmpclient.createTask.interactor.CreateTaskInteractor;
-import com.example.andrey.newtmpclient.createTask.interactor.CreateTaskInteractorImpl;
-import com.example.andrey.newtmpclient.createTask.view.CreateTaskView;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 
@@ -25,43 +25,42 @@ import static android.content.ContentValues.TAG;
  * Created by andrey on 14.07.2017.
  */
 
-public class CreateTaskPresenterImpl implements CreateTaskPresenter {
-    private CreateTaskView createTaskView;
+public class CreateTaskPresenterImpl {
+    private CreateTaskView view;
     private Context context;
-    private CreateTaskInteractor createTaskInteractor;
+    private CreateTaskInteractorImpl createTaskInteractor;
     private static final String DIALOG_DATE = "date_dialog";
-    public static final String FILL_THIS_FIELD = "Вы должны заполнить это поле";
-    public static final String CHOOSE_DATE = "Выбрать дату";
-    public static final String GET_ADDRESSES = "Получите адреса в нужной вкладке";
-    public static final String NOT_DISTRIBUTED = "Не назначена";
+    private static final String FILL_THIS_FIELD = "Вы должны заполнить это поле";
+    private static final String CHOOSE_DATE = "Выбрать дату";
+    private static final String GET_ADDRESSES = "Получите адреса в нужной вкладке";
+    private static final String NOT_DISTRIBUTED = "Не назначена";
 
-
-    public CreateTaskPresenterImpl(CreateTaskView createTaskView, Context context) {
-        this.createTaskView = createTaskView;
+    public void setContext(Context context) {
         this.context = context;
-        createTaskInteractor = new CreateTaskInteractorImpl();
     }
 
-    @Override
-    public void onDestroy() {
-        createTaskView = null;
+    public CreateTaskPresenterImpl(CreateTaskView createTaskView, CreateTaskInteractorImpl createTaskInteractor) {
+        this.view = createTaskView;
+//        this.context = context;
+        this.createTaskInteractor = createTaskInteractor;
     }
 
-    @Override
-    public void startAccountActivity() {
+    void onDestroy() {
+        view = null;
+    }
+
+    void startAccountActivity() {
         context.startActivity(new Intent(context, AccountActivity.class));
     }
 
-    @Override
-    public void chooseDate(FragmentManager manager) {
+    void chooseDate(FragmentManager manager) {
         DatePickerFragment dialog = DatePickerFragment.newInstance(createTaskInteractor.getDate());
         dialog.show(manager, DIALOG_DATE);
     }
 
-    @Override
-    public boolean checkAddressName(String addressName) {
+    private boolean checkAddressName(String addressName) {
         if (TextUtils.isEmpty(addressName)) {
-            createTaskView.setAnndressNamesCompleteTV(FILL_THIS_FIELD);
+            view.setAnndressNamesCompleteTV(FILL_THIS_FIELD);
             return false;
         } else {
             return true;
@@ -69,10 +68,9 @@ public class CreateTaskPresenterImpl implements CreateTaskPresenter {
     }
 
 
-    @Override
-    public void clickOnTypes(AppCompatSpinner typeSpinner) {
+    void clickOnTypes(AppCompatSpinner typeSpinner) {
         String[] types = createTaskInteractor.getTypes();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_item, types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_item, types);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
         typeSpinner.setSelection(0);
@@ -90,8 +88,7 @@ public class CreateTaskPresenterImpl implements CreateTaskPresenter {
         });
     }
 
-    @Override
-    public void clickOnImportance(AppCompatSpinner importanceSpinner) {
+    void clickOnImportance(AppCompatSpinner importanceSpinner) {
         String[] importances = createTaskInteractor.getImportanceString();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_item, importances);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -111,8 +108,7 @@ public class CreateTaskPresenterImpl implements CreateTaskPresenter {
         });
     }
 
-    @Override
-    public void clickOnStatuses(AppCompatSpinner statusesSpinner) {
+    void clickOnStatuses(AppCompatSpinner statusesSpinner) {
         String[] statuses = createTaskInteractor.getStatuses();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_item, statuses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -132,22 +128,21 @@ public class CreateTaskPresenterImpl implements CreateTaskPresenter {
         });
     }
 
-    private String setSelectedStatusPosition(int position) {
+    private void setSelectedStatusPosition(int position) {
         String[] userNames = createTaskInteractor.getUserNames();
         if (getStatuses()[position].equals(TaskEnum.NEW_TASK)) {
             for (int i = 0; i < userNames.length; i++) {
                 if (userNames[i].equals(NOT_DISTRIBUTED)) {
-                    createTaskView.setUserSelection(i);
+                    view.setUserSelection(i);
                 }
             }
         }
         createTaskInteractor.setStatusSelected(getStatuses()[position]);
         Log.i(TAG, "setSelectedStatusPosition: " + getStatuses()[position]);
-        return getStatuses()[position];
+//        return getStatuses()[position];
     }
 
-    @Override
-    public void clickOnUserNames(AppCompatSpinner userNamesSpinner) {
+    void clickOnUserNames(AppCompatSpinner userNamesSpinner) {
         String[] userNames = createTaskInteractor.getUserNames();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_item, userNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -158,72 +153,77 @@ public class CreateTaskPresenterImpl implements CreateTaskPresenter {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    createTaskView.setStatusSpinnerSelection(0);
+                    CreateTaskPresenterImpl.this.view.setStatusSpinnerSelection(0);
                 } else {
-                    createTaskView.setStatusSpinnerSelection(1);
+                    CreateTaskPresenterImpl.this.view.setStatusSpinnerSelection(1);
                 }
                 createTaskInteractor.setUserSelected(userNames[position]);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                createTaskView.setStatusSpinnerSelection(0);
+                view.setStatusSpinnerSelection(0);
                 createTaskInteractor.setUserSelected(userNames[0]);
             }
         });
     }
 
-    @Override
     public String[] getImportance() {
         return createTaskInteractor.getImportanceString();
     }
 
-    @Override
-    public boolean checkBody(String bodyText) {
+    private boolean checkBody(String bodyText) {
         if (TextUtils.isEmpty(bodyText)) {
-            createTaskView.setBodyText(FILL_THIS_FIELD);
+            view.setBodyText(FILL_THIS_FIELD);
             return false;
         } else {
             return true;
         }
     }
 
-    @Override
-    public void checkValidFields() {
-        if (checkAddressName(createTaskView.getAddress())) {
-            if (checkBody(createTaskView.getBody())) {
-                if (checkDate(createTaskView.getDate())) {
+
+    void checkValidFields() {
+        if (checkAddressName(view.getAddress())) {
+            if (checkBody(view.getBody())) {
+                if (checkDate(view.getDate())) {
                     createTask();
                 }
             }
         }
     }
 
-    @Override
-    public boolean checkDate(String dateText) {
+    private boolean checkDate(String dateText) {
         if (dateText.equals(CHOOSE_DATE) || dateText.equals(FILL_THIS_FIELD)) {
-            createTaskView.setBodyText(FILL_THIS_FIELD);
+            view.setBodyText(FILL_THIS_FIELD);
             return false;
         } else {
             return true;
         }
     }
 
-    @Override
-    public String[] getStatuses() {
+    private String[] getStatuses() {
         return createTaskInteractor.getStatuses();
     }
 
-    @Override
     public void createTask() {
-        createTaskInteractor.setAddress(createTaskView.getAddress());
-        createTaskInteractor.setBody(createTaskView.getBody());
-        createTaskInteractor.setDate(createTaskView.getDate());
-        createTaskInteractor.createTask(context);
+        createTaskInteractor.setAddress(view.getAddress());
+        createTaskInteractor.setBody(view.getBody());
+        createTaskInteractor.setDate(view.getDate());
+        createTaskInteractor.createTask()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> view.showDialog())
+                .doOnTerminate(() -> view.hideDialog())
+                .subscribe(response -> {
+                    Log.i(TAG, "createTask: " + response);
+                    view.finishCreateActivity();
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    view.showToast("Ошибка при создании задания");
+                });
     }
 
-    @Override
-    public void setAddressNameAdapter(AutoCompleteTextView addressNameAdapter) {
+    void setAddressNameAdapter(AutoCompleteTextView addressNameAdapter) {
         String[] addressNames = createTaskInteractor.getAddressName();
         Log.i(TAG, "setAddressNameAdapter: " + addressNames.length);
         addressNameAdapter.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, addressNames));
@@ -232,7 +232,7 @@ public class CreateTaskPresenterImpl implements CreateTaskPresenter {
 
     private void checkAddresses(String[] addresses) {
         if (addresses.length == 0) {
-            createTaskView.setAnndressNamesCompleteTV(GET_ADDRESSES);
+            view.setAnndressNamesCompleteTV(GET_ADDRESSES);
         }
     }
 

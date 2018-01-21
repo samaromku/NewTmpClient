@@ -44,12 +44,12 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
     private static final String TAG = UsersMvpFragment.class.getSimpleName();
     @Inject
     UsersMvpPresenter presenter;
-    FloatingActionButton addUser;
-    RecyclerView userList;
+    @BindView(R.id.add_user) FloatingActionButton addUser;
     UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
 
     @BindView(R.id.rvUsers)
     RecyclerView rvUser;
+    private UserAdapter adapter;
 
 
     @Nullable
@@ -67,7 +67,6 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
         ButterKnife.bind(this, view);
         presenter.getListFroAdapter();
         setToolbarTitle("Пользователи");
-        init(view);
         adminAction(view);
     }
 
@@ -78,8 +77,14 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void setListToAdapter(List<User> listToAdapter) {
-        UserAdapter adapter = new UserAdapter();
+        adapter = new UserAdapter();
         adapter.setDataList(listToAdapter);
         adapter.setClickListener(position -> {
             startActivity(new Intent(getActivity(), UserActivity.class).putExtra("position", position));
@@ -95,10 +100,5 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
             addUser.setVisibility(View.VISIBLE);
         }else addUser.setVisibility(View.INVISIBLE);
         addUser.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateUserActivity.class)));
-    }
-
-    private void init(View view){
-        addUser = (FloatingActionButton) view.findViewById(R.id.add_user);
-        userList = (RecyclerView) view.findViewById(R.id.users);
     }
 }

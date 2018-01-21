@@ -2,6 +2,7 @@ package com.example.andrey.newtmpclient.activities.maindrawer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
@@ -24,10 +25,8 @@ import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.service.GpsService;
-
-
-import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
@@ -35,8 +34,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     private static final String TAG = MainTmpActivity.class.getSimpleName();
     @Inject
     MainTmpPresenter presenter;
-    private WeakReference<Fragment> baseFragment;
-
+    private UsersManager usersManager = UsersManager.INSTANCE;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,22 +47,16 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                if (baseFragment != null && baseFragment.get() != null) {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, baseFragment.get())
-                            .commit();
-                }
-            }
-        };
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
+        TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
+        tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
     }
 
     @Override
@@ -82,13 +74,17 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_drawer, menu);
+//        getMenuInflater().inflate(R.menu.main_drawer, menu);
         return true;
     }
 
@@ -109,7 +105,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -137,7 +133,12 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        baseFragment = new WeakReference<>(fragment);
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
+
         return true;
     }
 

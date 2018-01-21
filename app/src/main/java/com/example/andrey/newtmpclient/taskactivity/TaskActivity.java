@@ -14,6 +14,7 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.AccountActivity;
 import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
 import com.example.andrey.newtmpclient.activities.UpdateTaskActivity;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.login.LoginActivity;
@@ -80,7 +81,7 @@ public class TaskActivity extends AppCompatActivity{
             case R.id.remove_task:
                 commentsManager.removeAll();
                 tasksManager.setRemoveTask(task);
-                Intent intent = new Intent(this, AccountActivity.class).putExtra("removeTask", true);
+                Intent intent = new Intent(this, MainTmpActivity.class).putExtra("removeTask", true);
                 new Updater(this, new Request(task, Request.REMOVE_TASK), intent).execute();
 //                converter.sendMessage(new Request(task, Request.REMOVE_TASK));
 //                startActivityWithComment(new Intent(this, AccountActivity.class).putExtra("removeTask", true));
@@ -98,7 +99,7 @@ public class TaskActivity extends AppCompatActivity{
         task.setStatus(changedStatusTask);
         tasksManager.setTask(task);
         commentsManager.removeAll();
-        Intent intent = new Intent(this, AccountActivity.class).putExtra("statusChanged", true);
+        Intent intent = new Intent(this, MainTmpActivity.class).putExtra("statusChanged", true);
         new Updater(this, new Request(task, changedStatusTask), intent).execute();
     }
 
@@ -115,7 +116,7 @@ public class TaskActivity extends AppCompatActivity{
         fromDoingList = getIntent().getBooleanExtra(FROM_DOING_LIST, false);
         if(!fromDoingList) {
             super.onBackPressed();
-            startActivity(new Intent(this, AccountActivity.class));
+            startActivity(new Intent(this, MainTmpActivity.class));
             commentsManager.removeAll();
         }else {
             startActivity(new Intent(this, RequestDoingActivity.class));

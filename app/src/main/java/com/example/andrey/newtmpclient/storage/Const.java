@@ -6,4 +6,8 @@ package com.example.andrey.newtmpclient.storage;
 
 public interface Const {
     String SUCCESS_LOGOUT = "success_logout";
+
+    String UPLOAD_FILE = "Загрузка";
+    String PLEASE_WAIT = "Пожалуйста подождите";
+    String CREATING_TASK = "Создание задания";
 }

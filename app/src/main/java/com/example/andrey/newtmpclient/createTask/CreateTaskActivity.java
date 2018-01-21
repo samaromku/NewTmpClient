@@ -1,5 +1,6 @@
 package com.example.andrey.newtmpclient.createTask;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,12 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
-import com.example.andrey.newtmpclient.createTask.presenter.CreateTaskPresenter;
-import com.example.andrey.newtmpclient.createTask.presenter.CreateTaskPresenterImpl;
-import com.example.andrey.newtmpclient.createTask.view.CreateTaskView;
+import com.example.andrey.newtmpclient.createTask.di.CreateTaskComponent;
+import com.example.andrey.newtmpclient.createTask.di.CreateTaskModule;
+
+import javax.inject.Inject;
+
+import static com.example.andrey.newtmpclient.storage.Const.CREATING_TASK;
+import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
 public class CreateTaskActivity extends AppCompatActivity implements CreateTaskView {
     private AppCompatSpinner importanceSpinner;
@@ -27,7 +34,9 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     private AppCompatSpinner userSpinner;
     private AppCompatSpinner typeSpinner;
     private Button createTask;
-    private CreateTaskPresenter createTaskPresenter;
+    private ProgressDialog mDialog;
+    public static final int SUCCESS_REQUEST = 1;
+    @Inject CreateTaskPresenterImpl createTaskPresenter;
     private ArrayAdapter<String> statusesAdapter;
 
     @Override
@@ -43,12 +52,33 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
         body = (EditText) findViewById(R.id.task_body);
         userSpinner = (AppCompatSpinner) findViewById(R.id.spinner_users);
         createTask = (Button) findViewById(R.id.create_task_btn);
+        ((CreateTaskComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new CreateTaskModule(this))).inject(this);
         initPresenter();
+        mDialog = new ProgressDialog(this);
+        mDialog.setCancelable(false);
+        mDialog.setMessage(CREATING_TASK);
+        mDialog.setTitle(PLEASE_WAIT);
+    }
 
+    @Override
+    public void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDialog() {
+        mDialog.show();
+    }
+
+    @Override
+    public void hideDialog() {
+        mDialog.hide();
     }
 
     private void initPresenter() {
-        createTaskPresenter = new CreateTaskPresenterImpl(this, this);
+        createTaskPresenter.setContext(this);
+//        createTaskPresenter = new CreateTaskPresenterImpl(this, this);
         createTask.setOnClickListener(v -> createTaskPresenter.checkValidFields());
         chooseDate.setOnClickListener(v -> createTaskPresenter.chooseDate(getSupportFragmentManager()));
         createTaskPresenter.clickOnImportance(importanceSpinner);
@@ -61,7 +91,8 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        createTaskPresenter.onDestroy();
+        App.getComponentManager().releaseComponent(getClass());
+//        createTaskPresenter.onDestroy();
     }
 
     @Override
@@ -126,7 +157,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        createTaskPresenter.startAccountActivity();
+//        createTaskPresenter.startAccountActivity();
     }
 
     @Override
@@ -152,4 +183,10 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
         startActivity(intent);
     }
 
+    @Override
+    public void finishCreateActivity() {
+//        onBackPressed();
+        finish();
+//        finishActivity(SUCCESS_REQUEST);
+    }
 }

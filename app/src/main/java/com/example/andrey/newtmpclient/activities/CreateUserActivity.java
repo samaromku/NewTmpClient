@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.network.Request;
@@ -32,7 +33,6 @@ public class CreateUserActivity extends AppCompatActivity {
     String roleName;
     boolean isChecked = false;
     SHAHashing hashing = new SHAHashing();
-    private ConverterMessages converter = new ConverterMessages();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class CreateUserActivity extends AppCompatActivity {
         setContentView(R.layout.create_user);
         getSupportActionBar().setTitle("Создать пользователя");
         init();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, roles);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, roles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         role.setAdapter(adapter);
         role.setSelection(0);
@@ -85,7 +85,8 @@ public class CreateUserActivity extends AppCompatActivity {
             phone.setText("");
             email.setText("");
             fio.setText("");
-            Intent intent = new Intent(CreateUserActivity.this, UsersActivity.class).putExtra("newUser", true);
+            Intent intent = new Intent(CreateUserActivity.this, MainTmpActivity.class)
+                    .putExtra("newUser", true);
             new Updater(this, new Request(user, Request.ADD_NEW_USER), intent).execute();
 //            startActivityWithComment(new Intent(CreateUserActivity.this, UsersActivity.class).putExtra("newUser", true));
         }
@@ -94,7 +95,7 @@ public class CreateUserActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(CreateUserActivity.this, UsersActivity.class));
+//        startActivity(new Intent(CreateUserActivity.this, UsersActivity.class));
     }
 
     private void checkFieldsFull(){

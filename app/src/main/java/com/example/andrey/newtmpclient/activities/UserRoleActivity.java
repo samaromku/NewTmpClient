@@ -32,7 +32,6 @@ public class UserRoleActivity extends AppCompatActivity{
     private UserRole userRole;
     UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     private boolean hasRight = false;
-    private ConverterMessages converter = new ConverterMessages();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

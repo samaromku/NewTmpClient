@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.createTask.view;
+package com.example.andrey.newtmpclient.createTask;
 
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -29,4 +29,12 @@ public interface CreateTaskView {
     void setStatusSpinnerSelection(int position);
 
     void setUserSelection(int position);
+
+    void finishCreateActivity();
+
+    void showDialog();
+
+    void hideDialog();
+
+    void showToast(String text);
 }
