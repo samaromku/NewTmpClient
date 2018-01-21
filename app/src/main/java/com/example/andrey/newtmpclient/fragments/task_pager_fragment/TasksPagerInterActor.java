@@ -2,7 +2,6 @@ package com.example.andrey.newtmpclient.fragments.task_pager_fragment;
 
 
 import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
@@ -21,8 +20,7 @@ public class TasksPagerInterActor {
 
     Observable<Response>updateTasks(){
         User user = usersManager.getUser();
-        Request request = new Request(user, Request.UPDATE_TASKS);
-        request.setToken(TokenManager.instance.getToken());
+        Request request = Request.requestUserWithToken(user, Request.UPDATE_TASKS);
         return tmpService.updateTasks(request);
     }
 }

@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.auth_activity);
+        setContentView(R.layout.activity_auth);
         loginPresenter = new LoginPresenterImpl(this, this);
         Button signIn = (Button) findViewById(R.id.sign_in);
         CheckBox isInside = (CheckBox) findViewById(R.id.inside_ip_checkbox);

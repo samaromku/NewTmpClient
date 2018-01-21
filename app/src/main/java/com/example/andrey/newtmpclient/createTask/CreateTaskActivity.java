@@ -42,7 +42,7 @@ public class CreateTaskActivity extends AppCompatActivity implements CreateTaskV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_task_activity);
+        setContentView(R.layout.activity_create_task);
         getSupportActionBar().setTitle(R.string.create_task);
         chooseDate = (Button) findViewById(R.id.choose_date);
         anndressNamesCompleteTV = (AutoCompleteTextView) findViewById(R.id.task_title);

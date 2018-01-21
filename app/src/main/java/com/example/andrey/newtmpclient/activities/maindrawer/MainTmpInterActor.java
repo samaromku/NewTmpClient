@@ -18,8 +18,7 @@ public class MainTmpInterActor {
     }
 
     Observable<Response> logout() {
-        Request request = new Request(Request.LOGOUT);
-        request.setToken(TokenManager.instance.getToken());
+        Request request = Request.requestWithToken(Request.LOGOUT);
         return tmpService.logout(request);
     }
 }

@@ -1,17 +1,11 @@
 package com.example.andrey.newtmpclient.activities.address;
 
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.managers.AddressManager;
-import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
@@ -29,10 +23,12 @@ public class AddressMvpInterActor {
     }
 
     Observable<List<Address>> getListFroAdapter() {
-        Request request = new Request(GIVE_ME_ADDRESSES_PLEASE);
-        request.setToken(TokenManager.instance.getToken());
-        return tmpService.getAddresses(request)
-                .map(Response::getAddresses);
-//        return Observable.fromCallable(() -> addressManager.getAddresses());
+        if(addressManager.getAddresses().isEmpty()) {
+            Request request = Request.requestWithToken(GIVE_ME_ADDRESSES_PLEASE);
+            return tmpService.getAddresses(request)
+                    .map(Response::getAddresses);
+        }else {
+            return Observable.fromCallable(() -> addressManager.getAddresses());
+        }
     }
 }

@@ -98,8 +98,7 @@ public class CreateTaskInteractorImpl {
                 .build();
         Log.i(TAG, "createTask: " + task);
         tasksManager.setTask(task);
-        Request request = new Request(task, Request.ADD_TASK_TO_SERVER);
-        request.setToken(TokenManager.instance.getToken());
+        Request request = Request.requestTaskWithToken(task, Request.ADD_TASK_TO_SERVER);
         return tmpService.createTask(request)
                 .doOnNext(response -> tasksManager.addTask(tasksManager.getTask()));
     }

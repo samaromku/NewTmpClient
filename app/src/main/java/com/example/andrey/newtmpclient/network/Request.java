@@ -5,6 +5,7 @@ import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.entities.UserCoords;
 import com.example.andrey.newtmpclient.entities.UserRole;
+import com.example.andrey.newtmpclient.managers.TokenManager;
 
 public class Request {
     private String request;
@@ -52,6 +53,31 @@ public class Request {
 
     public Request(String request){
         this.request = request;
+//        this.token = TokenManager.instance.getToken();
+    }
+
+    public static Request requestWithToken(String request){
+        Request request1 = new Request();
+        request1.setRequest(request);
+        request1.setToken(TokenManager.instance.getToken());
+        return request1;
+    }
+
+
+    public static Request requestUserWithToken(User user, String request){
+        Request request1 = new Request();
+        request1.setRequest(request);
+        request1.user = user;
+        request1.setToken(TokenManager.instance.getToken());
+        return request1;
+    }
+
+    public static Request requestTaskWithToken(Task task, String request){
+        Request request1 = new Request();
+        request1.setRequest(request);
+        request1.task = task;
+        request1.setToken(TokenManager.instance.getToken());
+        return request1;
     }
 
     private Request(){}

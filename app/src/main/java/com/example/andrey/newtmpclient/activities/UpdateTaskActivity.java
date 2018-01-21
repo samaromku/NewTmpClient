@@ -64,7 +64,7 @@ public class UpdateTaskActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_task_activity);
+        setContentView(R.layout.activity_create_task);
         getSupportActionBar().setTitle("Изменить задание");
         init();
         getFromIntent();

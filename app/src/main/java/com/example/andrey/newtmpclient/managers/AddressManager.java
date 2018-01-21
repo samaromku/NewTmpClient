@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressManager {
-    private Address address;
     private List<Address>addresses;
     private List<Address>usersAddresses;
 
@@ -18,7 +17,6 @@ public class AddressManager {
     }
 
     public void addAll(List<Address> addressList){
-//        RealmInstance.instance.addAllAddresses(addressList);
         addresses.addAll(addressList);
     }
 
@@ -55,7 +53,7 @@ public class AddressManager {
         return null;
     }
 
-    public Address getAddressById(int id){
+    Address getAddressById(int id){
         for(Address a:addresses){
             if(a.getId()==id){
                 return a;
@@ -73,12 +71,7 @@ public class AddressManager {
         return null;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
     public List<Address> getAddresses() {
-//        return RealmInstance.instance.getAllAddresses();
         return addresses;
     }
 }

@@ -79,6 +79,7 @@ class AppModule {
         return builder;
     }
 
+
      @Provides
     @IntoMap
     @ClassKey(TasksPagerFragment.class)

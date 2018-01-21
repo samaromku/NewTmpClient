@@ -1,6 +1,5 @@
 package com.example.andrey.newtmpclient.activities.address;
 
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,7 +39,6 @@ public class AddressMvpFragment extends BaseFragment implements AddressMvpView {
     @Inject
     AddressMvpPresenter presenter;
     private ProgressDialog mDialog;
-    private AddressAdapter adapter;
 
     @BindView(R.id.rvAddress)
     RecyclerView rvAddress;
@@ -72,7 +70,7 @@ public class AddressMvpFragment extends BaseFragment implements AddressMvpView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.address_activity, container, false);
+        return inflater.inflate(R.layout.activity_address, container, false);
     }
 
     @Override
@@ -81,20 +79,11 @@ public class AddressMvpFragment extends BaseFragment implements AddressMvpView {
         App.getComponentManager().releaseComponent(getClass());
     }
 
-    //
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        startActivity(new Intent(this, CreateTaskActivity.class));
-//    }
-
     @Override
     public void setListToAdapter(List<Address> listToAdapter) {
-        adapter = new AddressAdapter();
+        AddressAdapter adapter = new AddressAdapter();
         adapter.setDataList(listToAdapter);
-        adapter.setClickListener(position -> {
-            Log.i(TAG, "setListToAdapter: " + position);
-        });
+        adapter.setClickListener(position -> Log.i(TAG, "setListToAdapter: " + position));
         rvAddress.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvAddress.setAdapter(adapter);
     }
