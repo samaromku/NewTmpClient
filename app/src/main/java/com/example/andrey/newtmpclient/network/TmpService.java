@@ -27,4 +27,7 @@ public interface TmpService {
     @POST("/WebApp/auth")
     Observable<Response>updateTasks(@Body Request createTask);
 
+    @POST("/WebApp/auth")
+    Observable<Response>login(@Body Request login);
+
 }
