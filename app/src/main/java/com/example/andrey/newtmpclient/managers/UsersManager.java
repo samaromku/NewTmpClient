@@ -76,14 +76,4 @@ public class UsersManager {
     private UsersManager(){
         users = new ArrayList<>();
     }
-
-    public int maxId(){
-        int max=0;
-        for(User u:users){
-            if(u.getId()>max)
-                max = u.getId();
-        }
-        return max;
-    }
-
 }

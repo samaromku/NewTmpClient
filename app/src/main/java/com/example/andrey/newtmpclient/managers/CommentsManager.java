@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentsManager {
-    Comment comment;
-    List<Comment>comments;
+    private Comment comment;
+    private List<Comment>comments;
     public static final CommentsManager INSTANCE = new CommentsManager();
 
     private CommentsManager(){

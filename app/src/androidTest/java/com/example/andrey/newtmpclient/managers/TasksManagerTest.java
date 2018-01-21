@@ -22,7 +22,5 @@ public class TasksManagerTest {
 
     @Test
     public void result(){
-        int result = tasksManager.result(20, 30);
-        assertEquals(600, result);
     }
 }

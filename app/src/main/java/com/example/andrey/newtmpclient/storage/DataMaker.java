@@ -111,7 +111,7 @@ class DataMaker {
                     return;
 
                 case Response.SUCCESS_FIRE_ADD:
-                    tokenManager.setFireBaseInShared(true);
+//                    tokenManager.setFireBaseInShared(true);
                     return;
 
                 case Response.ADD_ADDRESSES_TO_USER:

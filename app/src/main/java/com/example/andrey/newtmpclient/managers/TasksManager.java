@@ -1,9 +1,5 @@
 package com.example.andrey.newtmpclient.managers;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.util.Log;
-
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.entities.User;
@@ -11,8 +7,6 @@ import com.example.andrey.newtmpclient.entities.User;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class TasksManager {
     private Task task;
@@ -24,7 +18,6 @@ public class TasksManager {
     private String status;
     private String[] importanceString = new String[]{TaskEnum.STANDART, TaskEnum.INFO, TaskEnum.AVARY, TaskEnum.TIME};
     private String[] type = new String[]{TaskEnum.TAKE_INFO, TaskEnum.ARTF, TaskEnum.UUTE, TaskEnum.ITP, TaskEnum.INSPECTION, TaskEnum.APARTMENT};
-    private String[] statusesForCreate = new String[]{TaskEnum.NEW_TASK};
     private String[] AllStatuses = new String[]{TaskEnum.NEW_TASK, TaskEnum.DISTRIBUTED_TASK, TaskEnum.DOING_TASK, TaskEnum.CONTROL_TASK, TaskEnum.DONE_TASK, TaskEnum.NEED_HELP};
     public static final TasksManager INSTANCE = new TasksManager();
 
@@ -38,10 +31,6 @@ public class TasksManager {
 
     public String[] getAllStatuses() {
         return AllStatuses;
-    }
-
-    public String[] getStatusesForCreate() {
-        return statusesForCreate;
     }
 
     public String[] getType() {
@@ -74,10 +63,6 @@ public class TasksManager {
             }
         }
         return usersTasks;
-    }
-
-    public int result(int a, int b){
-        return a*b;
     }
 
     public List<Task> getNotDoneTasks() {
@@ -141,16 +126,6 @@ public class TasksManager {
         }
     }
 
-    public List<Task> getByUserId(int userId){
-        List<Task>taskList = new ArrayList<>();
-        for(Task t:tasks){
-            if(t.getUserId()==userId){
-                taskList.add(t);
-            }
-        }
-        return taskList;
-    }
-
     public void updateTask(Task task){
         for(Task t:tasks){
             if(t.getId()==task.getId()){
@@ -212,15 +187,6 @@ public class TasksManager {
             }
         }
         return max;
-    }
-
-    public Task getByIdFromNotDone(Task task){
-        for(Task t:notDoneTasks){
-            if(t.getId()==task.getId()){
-                return t;
-            }
-        }
-        return null;
     }
 
     public void addNeedDoing(Task task){

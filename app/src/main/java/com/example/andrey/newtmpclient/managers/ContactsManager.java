@@ -1,12 +1,10 @@
 package com.example.andrey.newtmpclient.managers;
 
+import com.example.andrey.newtmpclient.entities.ContactOnAddress;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import com.example.andrey.newtmpclient.entities.ContactOnAddress;
 
 public class ContactsManager {
     private List<ContactOnAddress> contactsList;
