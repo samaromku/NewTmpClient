@@ -111,7 +111,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
 
         if (id == R.id.nav_current_tasks) {
             return openFragment(new AllTasksFragment());
-        } else if (id == R.id.nav_done_tasks) {
+//        } else if (id == R.id.nav_done_tasks) {
 
         } else if (id == R.id.nav_users) {
             return openFragment(new UsersMvpFragment());

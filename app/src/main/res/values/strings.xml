@@ -69,4 +69,5 @@
     <string name="current_tasks">Текущие задачи</string>
     <string name="done_tasks">Выполненные задачи</string>
     <string name="exit">Выход</string>
+    <string name="tasks">Заявки</string>
 </resources>

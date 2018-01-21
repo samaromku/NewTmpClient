@@ -1,55 +1,47 @@
 package com.example.andrey.newtmpclient.login;
 
-import android.content.Context;
-import android.content.Intent;
-
-import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
-import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.utils.Const;
-
 /**
  * Created by andrey on 13.07.2017.
  */
 
-class LoginPresenterImpl  {
-    private LoginView loginView;
+public class LoginPresenterImpl {
+    private LoginView view;
     private LoginInterActor loginInterActor;
-    private Context context;
 
-    LoginPresenterImpl(LoginView loginView, Context context) {
-        this.context = context;
-        this.loginView = loginView;
-        loginInterActor = new LoginInterActor(this);
+    public LoginPresenterImpl(LoginView loginView, LoginInterActor interActor) {
+        this.view = loginView;
+        this.loginInterActor = interActor;
+    }
+
+    void init(){
+        loginInterActor.init()
+                .subscribe(user -> {
+                    view.setLogin(user.getLogin());
+                    view.setPwd(user.getPassword());
+                });
     }
 
     void onDestroy() {
-        loginView = null;
+        view = null;
     }
 
     void singIn(String login, String pwd) {
-        loginInterActor.checkUser(login, pwd);
+        loginInterActor.checkUser(login, pwd)
+                .subscribe(user -> view.makeAuthResponse(user));
     }
 
     void setChecked(boolean isChecked) {
         loginInterActor.checkNetwork(isChecked);
     }
 
-    void makeNetworkRequestStartAccountActivity(User user) {
-//        loginView.startMainActivity();
-        Intent intent = new Intent(context, MainTmpActivity.class)
-                .putExtra(Const.FROM_AUTH, true);
-        new UpdateAuth(context, new Request(user, Request.AUTH), intent).execute();
-    }
-
     void startAccountActivityAfterCheck() {
-        if(loginInterActor.checkAuth()){
-            context.startActivity(new Intent(context, MainTmpActivity.class));
+        if (loginInterActor.checkAuth()) {
+            view.startMainActivity();
         }
     }
 
     void fillFields(String login, String pwd) {
-        loginView.setLogin(login);
-        loginView.setPwd(pwd);
+        view.setLogin(login);
+        view.setPwd(pwd);
     }
 }

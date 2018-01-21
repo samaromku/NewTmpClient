@@ -13,6 +13,8 @@ import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerF
 import com.example.andrey.newtmpclient.fragments.task_pager_fragment.di.TasksPagerComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
+import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.login.di.LoginComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.TmpService;
@@ -40,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
     MainTmpComponent.class,
     CreateTaskComponent.class,
     TasksPagerComponent.class,
+    LoginComponent.class,
 })
 class AppModule {
     private static final String BASE_URL = "http://81.23.123.230:60123";
@@ -48,6 +51,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder){
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(LoginActivity.class)
+    ComponentBuilder provideLogin(LoginComponent.Builder builder){
         return builder;
     }
 

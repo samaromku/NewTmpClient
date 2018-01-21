@@ -7,11 +7,11 @@
         <item
             android:id="@+id/nav_current_tasks"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/current_tasks" />
-        <item
-            android:id="@+id/nav_done_tasks"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/done_tasks" />
+            android:title="@string/tasks" />
+        <!--<item-->
+            <!--android:id="@+id/nav_done_tasks"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/done_tasks" />-->
         <item
             android:id="@+id/nav_users"
             android:icon="@drawable/ic_menu_slideshow"

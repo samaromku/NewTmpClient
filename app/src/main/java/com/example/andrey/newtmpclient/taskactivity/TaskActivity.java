@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.AccountActivity;
 import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
 import com.example.andrey.newtmpclient.activities.UpdateTaskActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;

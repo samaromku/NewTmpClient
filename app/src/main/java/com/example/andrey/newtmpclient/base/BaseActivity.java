@@ -1,6 +1,5 @@
 package com.example.andrey.newtmpclient.base;
 
-import android.graphics.Color;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -36,8 +35,8 @@ public class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(title);
     }
 
-    protected void changeToolbarTitle(String title) {
-        if (getSupportActionBar() != null)
+    protected void changeToolbarTitle(String title){
+        if(getSupportActionBar()!=null)
             getSupportActionBar().setTitle(title);
     }
 

@@ -3,26 +3,24 @@ package com.example.andrey.newtmpclient.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.Updater;
 
-public class UserActivity extends AppCompatActivity{
+public class UserActivity extends BaseActivity{
     private User user;
     private ImageView change;
     UsersManager usersManager = UsersManager.INSTANCE;
     UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
-    private ConverterMessages converter = new ConverterMessages();
 
 
     @Override
@@ -30,7 +28,8 @@ public class UserActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_activity);
         init();
-        getSupportActionBar().setTitle(user.getLogin());
+        initBackButton();
+        changeToolbarTitle(user.getLogin());
         change.setOnClickListener(v -> {
             startActivity(new Intent(UserActivity.this, UserRoleActivity.class)
                     .putExtra("userId", user.getId()));
