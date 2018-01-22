@@ -1,54 +1,48 @@
-package com.example.andrey.newtmpclient.fragments.task_pager_fragment;
+package com.example.andrey.newtmpclient.fragments.notdonetasks;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.adapter.TasksAdapter;
 import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.entities.Task;
-import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.fragments.task_pager_fragment.di.TasksPagerComponent;
-import com.example.andrey.newtmpclient.fragments.task_pager_fragment.di.TasksPagerModule;
+import com.example.andrey.newtmpclient.fragments.notdonetasks.di.NotDoneTasksComponent;
+import com.example.andrey.newtmpclient.fragments.notdonetasks.di.NotDoneTasksModule;
 import com.example.andrey.newtmpclient.managers.TasksManager;
-import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.AuthChecker;
-import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
 import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
-
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
-    private static final String TAG = TasksPagerFragment.class.getSimpleName();
+import butterknife.BindString;
+import butterknife.ButterKnife;
+
+public class NotDoneTasksFragment extends BaseFragment implements NotDoneTasksView {
+    private static final String TAG = NotDoneTasksFragment.class.getSimpleName();
     @Inject
-    TasksPagerPresenter presenter;
+    NotDoneTasksPresenter presenter;
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-    int pageNumber;
+//    int pageNumber;
     private TasksAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
     private TasksManager tasksManager = TasksManager.INSTANCE;
+    @BindString(R.string.current_tasks)
+    String currentTasks;
 
     private OnListItemClickListener notDoneClickListener = (v, position) -> {
         Task task = tasksManager.getNotDoneTasks().get(position);
@@ -62,8 +56,8 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
         new Updater(getActivity(), new Request(task, Request.WANT_SOME_COMMENTS), intent).execute();
     };
 
-    public static TasksPagerFragment newInstance(int page) {
-        TasksPagerFragment tasksPagerFragment = new TasksPagerFragment();
+    public static NotDoneTasksFragment newInstance(int page) {
+        NotDoneTasksFragment tasksPagerFragment = new NotDoneTasksFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
         tasksPagerFragment.setArguments(arguments);
@@ -73,19 +67,24 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        setToolbarTitle(currentTasks);
         swipeLayout = view.findViewById(R.id.swipe_layout);
         RecyclerView tasksList = view.findViewById(R.id.tasks_list);
         tasksList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        if (pageNumber == 0) {
-            tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            adapter = new TasksAdapter(tasksManager.getNotDoneTasks(), notDoneClickListener);
-            tasksList.setAdapter(adapter);
-        } else if (pageNumber == 1) {
-            tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            adapter = new TasksAdapter(tasksManager.getDoneTasks(), doneClickListener);
-            tasksList.setAdapter(adapter);
-        }
+        tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new TasksAdapter(tasksManager.getNotDoneTasks(), notDoneClickListener);
+        tasksList.setAdapter(adapter);
+//        if (pageNumber == 0) {
+//            tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));
+//            adapter = new TasksAdapter(tasksManager.getNotDoneTasks(), notDoneClickListener);
+//            tasksList.setAdapter(adapter);
+//        } else if (pageNumber == 1) {
+//            tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));
+//            adapter = new TasksAdapter(tasksManager.getDoneTasks(), doneClickListener);
+//            tasksList.setAdapter(adapter);
+//        }
 
         swipeLayout.setOnRefreshListener(() -> {
             swipeLayout.setRefreshing(true);
@@ -105,9 +104,9 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((TasksPagerComponent) App.getComponentManager()
-                .getPresenterComponent(getClass(), new TasksPagerModule(this))).inject(this);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
+        ((NotDoneTasksComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new NotDoneTasksModule(this))).inject(this);
+//        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
         return inflater.inflate(R.layout.tasks_fragment, container, false);
     }
 

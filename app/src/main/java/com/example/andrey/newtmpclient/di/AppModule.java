@@ -9,8 +9,10 @@ import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskCompon
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
-import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
-import com.example.andrey.newtmpclient.fragments.task_pager_fragment.di.TasksPagerComponent;
+import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksFragment;
+import com.example.andrey.newtmpclient.fragments.donetasks.di.DoneTasksComponent;
+import com.example.andrey.newtmpclient.fragments.notdonetasks.NotDoneTasksFragment;
+import com.example.andrey.newtmpclient.fragments.notdonetasks.di.NotDoneTasksComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
@@ -41,8 +43,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
     UsersMvpComponent.class,
     MainTmpComponent.class,
     CreateTaskComponent.class,
-    TasksPagerComponent.class,
+    DoneTasksComponent.class,
     LoginComponent.class,
+    NotDoneTasksComponent.class,
 })
 class AppModule {
     private static final String BASE_URL = "http://81.23.123.230:60123";
@@ -51,6 +54,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder){
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(NotDoneTasksFragment.class)
+    ComponentBuilder provideNotDoneTasks(NotDoneTasksComponent.Builder builder){
         return builder;
     }
 
@@ -92,8 +102,8 @@ class AppModule {
 
      @Provides
     @IntoMap
-    @ClassKey(TasksPagerFragment.class)
-    ComponentBuilder provideTasksPager(TasksPagerComponent.Builder builder){
+    @ClassKey(DoneTasksFragment.class)
+    ComponentBuilder provideTasksPager(DoneTasksComponent.Builder builder){
         return builder;
     }
 

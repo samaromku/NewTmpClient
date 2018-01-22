@@ -27,6 +27,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         this.clickListener = clickListener;
     }
 
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);

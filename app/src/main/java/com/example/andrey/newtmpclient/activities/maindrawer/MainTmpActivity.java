@@ -11,25 +11,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpModule;
-import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapFragment;
+import com.example.andrey.newtmpclient.fragments.notdonetasks.NotDoneTasksFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
-import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.service.GpsService;
 
 import javax.inject.Inject;
+
+import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
 
 public class MainTmpActivity extends AppCompatActivity implements MainTmpView, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainTmpActivity.class.getSimpleName();
@@ -73,7 +76,12 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }else if(findViewById(R.id.search_toolbar).getVisibility()== View.VISIBLE){
+            findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+            findViewById(R.id.search_toolbar).setVisibility(View.GONE);
+            hideKeyboard(this, (EditText) findViewById(R.id.etSearch));
+        }
+        else {
             super.onBackPressed();
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_MAIN);
@@ -87,7 +95,9 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_current_tasks:
-                return openFragment(new AllTasksFragment());
+                return openFragment(new NotDoneTasksFragment());
+            case R.id.nav_done_tasks:
+                return openFragment(new DoneTasksFragment());
             case R.id.nav_users:
                 return openFragment(new UsersMvpFragment());
             case R.id.nav_addresses:

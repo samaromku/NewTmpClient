@@ -1,18 +1,16 @@
-package com.example.andrey.newtmpclient.fragments.task_pager_fragment;
+package com.example.andrey.newtmpclient.fragments.notdonetasks;
 
 import android.util.Log;
-
-import com.example.andrey.newtmpclient.storage.AuthChecker;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class TasksPagerPresenter {
-    private static final String TAG = TasksPagerPresenter.class.getSimpleName();
-    private TasksPagerView view;
-    private TasksPagerInterActor interActor;
+public class NotDoneTasksPresenter {
+    private static final String TAG = NotDoneTasksPresenter.class.getSimpleName();
+    private NotDoneTasksView view;
+    private NotDoneTasksInterActor interActor;
 
-    public TasksPagerPresenter(TasksPagerView view, TasksPagerInterActor interActor) {
+    public NotDoneTasksPresenter(NotDoneTasksView view, NotDoneTasksInterActor interActor) {
         this.view = view;
         this.interActor = interActor;
     }
@@ -25,6 +23,13 @@ public class TasksPagerPresenter {
                     view.setListToAdapter(response.getTaskList());
                 },
                 throwable -> Log.e(TAG, throwable.getMessage(), throwable));
+    }
+
+    void getSearchedList(String search, boolean done){
+        interActor.searchedTasks(search, done)
+                .subscribe(tasks -> {
+
+                });
     }
 
 }

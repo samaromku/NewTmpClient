@@ -1,9 +1,9 @@
-package com.example.andrey.newtmpclient.fragments.task_pager_fragment;
+package com.example.andrey.newtmpclient.fragments.donetasks;
 
 import com.example.andrey.newtmpclient.entities.Task;
 
 import java.util.List;
 
-public interface TasksPagerView {
+public interface DoneTasksView {
     void setListToAdapter(List<Task>listToAdapter);
 }

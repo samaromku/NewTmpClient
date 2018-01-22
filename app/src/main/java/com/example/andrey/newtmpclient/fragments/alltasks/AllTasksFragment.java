@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
@@ -25,7 +27,7 @@ import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksModule;
-import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
+import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksFragment;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
@@ -36,14 +38,22 @@ import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.Updater;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
+import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
+import static com.example.andrey.newtmpclient.utils.Utils.showKeyboard;
 
 public class AllTasksFragment extends BaseFragment implements AllTasksView {
     private static final String TAG = AllTasksFragment.class.getSimpleName();
@@ -57,7 +67,24 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     String currentTasks;
     @BindString(R.string.done_tasks)
     String doneTasks;
+    @BindView(R.id.search_toolbar)
+    Toolbar searchToolbar;
+    @BindView(R.id.toolbar)Toolbar toolbar;
+    @BindView(R.id.etSearch)EditText etSearch;
+    @OnClick(R.id.ivClose)
+    void onCloseClick(){
+        etSearch.setText("");
+    }
+    @OnClick(R.id.ivBack)
+    void onBackClick(){
+        backClick();
+    }
 
+    private void backClick(){
+        toolbar.setVisibility(View.VISIBLE);
+        searchToolbar.setVisibility(View.GONE);
+        hideKeyboard(getActivity(), etSearch);
+    }
 
     @Nullable
     @Override
@@ -78,17 +105,23 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                Log.i(TAG, "onOptionsItemSelected: search");
+                openToolbarSearch();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void openToolbarSearch() {
+        toolbar.setVisibility(View.GONE);
+        searchToolbar.setVisibility(View.VISIBLE);
+        showKeyboard(getActivity(), etSearch);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+        ButterKnife.bind(this, getActivity());
         if (usersManager.getUser() != null) {
             setToolbarTitle(currentTasks);
 
@@ -116,6 +149,16 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
 
                 }
             });
+
+            RxTextView.textChanges(etSearch)
+                    .debounce(1000, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(text -> {
+                        Log.i(TAG, "onViewCreated: " + getFragmentManager());
+                        Log.i(TAG, "onViewCreated: " + text);
+                    });
+
             addFireBaseTokenIfFromAuth();
             buttonAddTask(view);
         } else {
@@ -158,7 +201,7 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
 
         @Override
         public Fragment getItem(int position) {
-            return TasksPagerFragment.newInstance(position);
+            return DoneTasksFragment.newInstance(position);
         }
 
         @Override
