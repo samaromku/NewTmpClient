@@ -1,6 +1,6 @@
-package com.example.andrey.newtmpclient.createTask.di;
+package com.example.andrey.newtmpclient.activities.createTask.di;
 
-import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.di.base.BaseComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 

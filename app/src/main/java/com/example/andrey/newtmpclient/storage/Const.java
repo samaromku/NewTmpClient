@@ -14,4 +14,5 @@ public interface Const {
     String ERROR_DATA = "Ошибка получения данных";
     String NOT_AUTH = "Вы не авторизированы";
     String AUTH = "Авторизация";
+    String ADDRESSES = "Адреса";
 }

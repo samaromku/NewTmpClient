@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
-import com.example.andrey.newtmpclient.interfaces.OnChangeTitle;
 
 
 /**
@@ -15,12 +14,7 @@ import com.example.andrey.newtmpclient.interfaces.OnChangeTitle;
  */
 
 public class BaseFragment extends Fragment implements BaseView{
-    protected OnChangeTitle onChangeTitle;
     protected ProgressDialog dialog;
-
-    public void setOnChangeTitle(OnChangeTitle onChangeTitle) {
-        this.onChangeTitle = onChangeTitle;
-    }
 
     protected void setToolbarTitle(String title){
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();

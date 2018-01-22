@@ -1,8 +1,8 @@
-package com.example.andrey.newtmpclient.createTask.di;
+package com.example.andrey.newtmpclient.activities.createTask.di;
 
-import com.example.andrey.newtmpclient.createTask.CreateTaskInteractorImpl;
-import com.example.andrey.newtmpclient.createTask.CreateTaskPresenterImpl;
-import com.example.andrey.newtmpclient.createTask.CreateTaskView;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskInteractorImpl;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskPresenterImpl;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskView;
 import com.example.andrey.newtmpclient.di.base.BaseModule;
 import com.example.andrey.newtmpclient.network.TmpService;
 

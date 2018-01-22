@@ -1,7 +1,4 @@
-package com.example.andrey.newtmpclient.createTask;
-
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
+package com.example.andrey.newtmpclient.activities.createTask;
 
 /**
  * Created by andrey on 14.07.2017.

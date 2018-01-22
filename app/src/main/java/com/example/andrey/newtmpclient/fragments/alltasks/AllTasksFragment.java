@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.BaseFragment;
-import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksModule;
@@ -36,6 +36,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import javax.inject.Inject;
 
+import butterknife.BindString;
+import butterknife.BindView;
+
+import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
+
 public class AllTasksFragment extends BaseFragment implements AllTasksView {
     private static final String TAG = AllTasksFragment.class.getSimpleName();
     @Inject
@@ -44,8 +49,8 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     private Client client = Client.INSTANCE;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
-    ViewPager pager;
-    PagerAdapter pagerAdapter;
+    @BindString(R.string.current_tasks) String currentTasks;
+    @BindString(R.string.done_tasks) String doneTasks;
 
 
     @Nullable
@@ -60,10 +65,10 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(usersManager.getUser()!=null) {
-            setToolbarTitle("Текущие заявки");
+            setToolbarTitle(currentTasks);
 
-            pager = view.findViewById(R.id.pager);
-            pagerAdapter = new AllTasksFragment.ScreenSlidePagerAdapter(
+            ViewPager pager = view.findViewById(R.id.pager);
+            PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(
                     getActivity().getSupportFragmentManager());
             pager.setAdapter(pagerAdapter);
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -75,9 +80,9 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
                 @Override
                 public void onPageSelected(int position) {
                     if(position==0){
-                        setToolbarTitle("Текущие заявки");
+                        setToolbarTitle(currentTasks);
                     }else if(position==1){
-                        setToolbarTitle("Выполненные заявки");
+                        setToolbarTitle(doneTasks);
                     }
                 }
 
@@ -89,7 +94,7 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
             addFireBaseTokenIfFromAuth();
             buttonAddTask(view);
         }else {
-            Toast.makeText(getActivity(), "Вы не авторизованы", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), NOT_AUTH, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
     }
@@ -144,18 +149,9 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
         }else startActivity(intent);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_MAIN);
-//        intent.addCategory(Intent.CATEGORY_HOME);
-//        startActivity(intent);
-//    }
-
     private void buttonAddTask(View view){
         //кнопка добавить задание
-        FloatingActionButton addTask = (FloatingActionButton) view.findViewById(R.id.add_task_btn);
+        FloatingActionButton addTask = view.findViewById(R.id.add_task_btn);
         UserRole userRole = userRolesManager.getUserRole();
         if(userRole!=null){
             if(userRole.isMakeTasks()) {

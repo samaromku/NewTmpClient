@@ -25,17 +25,7 @@ import static com.example.andrey.newtmpclient.storage.Const.UPLOAD_FILE;
  */
 
 public class BaseActivity extends AppCompatActivity implements BaseView{
-    protected Toolbar toolbar;
-    protected FloatingActionButton fab;
     protected ProgressDialog dialog;
-
-    protected void initToolbar(@StringRes int title) {
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        if(getSupportActionBar()!=null)
-//            getSupportActionBar().setTitle(title);
-//        toolbar.setTitleTextColor(Color.WHITE);
-    }
 
     @Override
     public void showDialog() {

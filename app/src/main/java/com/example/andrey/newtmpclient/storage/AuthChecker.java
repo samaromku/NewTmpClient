@@ -10,6 +10,7 @@ import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.service.GpsService;
 
 import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 
 /**
  * Created by andrey on 16.07.2017.
@@ -20,7 +21,7 @@ public class AuthChecker {
         if(Client.INSTANCE.isAuth()) {
             context.startActivity(intent);
         }else {
-            Toast.makeText(context, "Вы не авторизованы", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, NOT_AUTH, Toast.LENGTH_SHORT).show();
             Intent loginIntent = new Intent(context, LoginActivity.class);
             context.startActivity(new Intent(context, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
@@ -28,7 +29,7 @@ public class AuthChecker {
 
     public static void checkAuth(Context context){
         if(!Client.INSTANCE.isAuth()) {
-            Toast.makeText(context, "Вы не авторизованы", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, NOT_AUTH, Toast.LENGTH_SHORT).show();
             context.startActivity(new Intent(context, LoginActivity.class));
         }
     }

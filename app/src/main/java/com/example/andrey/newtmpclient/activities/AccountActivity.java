@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
@@ -37,6 +37,8 @@ import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.Updater;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 
 public class AccountActivity extends AppCompatActivity {
     private TasksManager tasksManager = TasksManager.INSTANCE;
@@ -66,7 +68,7 @@ public class AccountActivity extends AppCompatActivity {
             buttonAddTask();
             addPagerActions();
         }else {
-            Toast.makeText(this, "Вы не авторизованы", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, NOT_AUTH, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
         }
     }

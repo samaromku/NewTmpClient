@@ -25,6 +25,8 @@ import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.Updater;
 
+import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
+
 public class TaskActivity extends AppCompatActivity{
     private int taskNumber;
     TasksManager tasksManager = TasksManager.INSTANCE;
@@ -52,7 +54,7 @@ public class TaskActivity extends AppCompatActivity{
         pager.setAdapter(pagerAdapter);
 
         }else {
-            Toast.makeText(this, "Вы не авторизованы", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, NOT_AUTH, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
         }
     }

@@ -14,10 +14,7 @@ import com.example.andrey.newtmpclient.activities.login.di.LoginComponent;
 import com.example.andrey.newtmpclient.activities.login.di.LoginModule;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
-import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.service.GpsService;
-import com.example.andrey.newtmpclient.utils.Const;
 
 import javax.inject.Inject;
 
@@ -91,16 +88,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void startMainActivity() {
         startActivity(new Intent(this, MainTmpActivity.class));
-//        Intent intent = new Intent(this, MainTmpActivity.class)
-//                .putExtra(Const.FROM_AUTH, true);
-//        startActivity(intent);
-    }
-
-    @Override
-    public void makeAuthResponse(User user) {
-        Intent intent = new Intent(this, MainTmpActivity.class)
-                .putExtra(Const.FROM_AUTH, true);
-        new UpdateAuth(this, new Request(user, Request.AUTH), intent).execute();
     }
 
     @Override
@@ -109,7 +96,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
         startService(GpsService.newIntent(this));
         GpsService.setServiceAlarm(this, true);
         startActivity(intent);
-//        AuthChecker.checkServerErrorRedirectLoginActivity(this);
     }
 
     @Override

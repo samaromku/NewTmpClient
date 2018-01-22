@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.andrey.newtmpclient.storage.Const.ADDRESSES;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 import static com.example.andrey.newtmpclient.storage.Const.UPLOAD_FILE;
 
@@ -40,7 +41,7 @@ public class AddressMvpFragment extends BaseFragment implements AddressMvpView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarTitle("Адреса");
+        setToolbarTitle(ADDRESSES);
         ((AddressMvpComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new AddressMvpModule(this))).inject(this);
         ButterKnife.bind(this, view);

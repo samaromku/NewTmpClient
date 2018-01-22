@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.createTask;
+package com.example.andrey.newtmpclient.activities.createTask;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;

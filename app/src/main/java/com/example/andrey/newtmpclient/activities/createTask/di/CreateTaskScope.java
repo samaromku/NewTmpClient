@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.createTask.di;
+package com.example.andrey.newtmpclient.activities.createTask.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

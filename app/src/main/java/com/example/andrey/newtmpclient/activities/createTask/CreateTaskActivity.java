@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.createTask;
+package com.example.andrey.newtmpclient.activities.createTask;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -11,10 +11,9 @@ import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.base.BaseActivity;
-import com.example.andrey.newtmpclient.createTask.di.CreateTaskComponent;
-import com.example.andrey.newtmpclient.createTask.di.CreateTaskModule;
+import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
+import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskModule;
 
 import javax.inject.Inject;
 
