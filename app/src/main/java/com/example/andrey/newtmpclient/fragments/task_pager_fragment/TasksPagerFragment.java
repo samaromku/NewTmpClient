@@ -27,7 +27,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -67,12 +71,6 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         swipeLayout = view.findViewById(R.id.swipe_layout);
@@ -95,7 +93,6 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
         });
     }
 
-
     @Override
     public void setListToAdapter(List<Task> listToAdapter) {
         tasksManager.updateDoneNotDone();
@@ -110,6 +107,7 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((TasksPagerComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new TasksPagerModule(this))).inject(this);
+        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
         return inflater.inflate(R.layout.tasks_fragment, container, false);
     }
 

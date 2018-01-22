@@ -70,5 +70,6 @@
     <string name="done_tasks">Выполненные задачи</string>
     <string name="exit">Выход</string>
     <string name="tasks">Заявки</string>
+    <string name="search">Поиск</string>
 
 </resources>

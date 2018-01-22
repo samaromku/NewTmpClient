@@ -11,6 +11,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -50,8 +53,10 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     private Client client = Client.INSTANCE;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
-    @BindString(R.string.current_tasks) String currentTasks;
-    @BindString(R.string.done_tasks) String doneTasks;
+    @BindString(R.string.current_tasks)
+    String currentTasks;
+    @BindString(R.string.done_tasks)
+    String doneTasks;
 
 
     @Nullable
@@ -59,14 +64,32 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AllTasksComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new AllTasksModule(this))).inject(this);
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.tasks_view_pager, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_drawer, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Log.i(TAG, "onOptionsItemSelected: search");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        if(usersManager.getUser()!=null) {
+        if (usersManager.getUser() != null) {
             setToolbarTitle(currentTasks);
 
             ViewPager pager = view.findViewById(R.id.pager);
@@ -81,9 +104,9 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
 
                 @Override
                 public void onPageSelected(int position) {
-                    if(position==0){
+                    if (position == 0) {
                         setToolbarTitle(currentTasks);
-                    }else if(position==1){
+                    } else if (position == 1) {
                         setToolbarTitle(doneTasks);
                     }
                 }
@@ -95,7 +118,7 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
             });
             addFireBaseTokenIfFromAuth();
             buttonAddTask(view);
-        }else {
+        } else {
             Toast.makeText(getActivity(), NOT_AUTH, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
@@ -110,13 +133,13 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     @Override
     public void onResume() {
         super.onResume();
-        if(!client.isAuth()){
+        if (!client.isAuth()) {
             Log.i(TAG, "onResume: accountactivity " + client.isAuth());
             startActivity(new Intent(getActivity(), LoginActivity.class));
         }
     }
 
-    private void addFireBaseTokenIfFromAuth(){
+    private void addFireBaseTokenIfFromAuth() {
         if (FirebaseInstanceId.getInstance().getToken() != null) {
             ConverterMessages converter = new ConverterMessages();
             new Thread(() -> {
@@ -144,22 +167,21 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
         }
     }
 
-    private void firstTimeAddAddresses(){
+    private void firstTimeAddAddresses() {
         Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
-        if(addressManager.getAddresses().size()==0) {
+        if (addressManager.getAddresses().size() == 0) {
             new Updater(getActivity(), new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
-        }else startActivity(intent);
+        } else startActivity(intent);
     }
 
-    private void buttonAddTask(View view){
+    private void buttonAddTask(View view) {
         //кнопка добавить задание
         FloatingActionButton addTask = view.findViewById(R.id.add_task_btn);
         UserRole userRole = userRolesManager.getUserRole();
-        if(userRole!=null){
-            if(userRole.isMakeTasks()) {
+        if (userRole != null) {
+            if (userRole.isMakeTasks()) {
                 addTask.setVisibility(View.VISIBLE);
-            }
-            else addTask.setVisibility(View.INVISIBLE);
+            } else addTask.setVisibility(View.INVISIBLE);
         }
         addTask.setOnClickListener(v -> firstTimeAddAddresses());
     }
