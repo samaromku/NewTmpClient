@@ -1,8 +1,8 @@
-package com.example.andrey.newtmpclient.login.di;
+package com.example.andrey.newtmpclient.activities.login.di;
 
 import com.example.andrey.newtmpclient.di.base.BaseComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
-import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 
 import dagger.Subcomponent;
 

@@ -10,4 +10,8 @@ public interface Const {
     String UPLOAD_FILE = "Загрузка";
     String PLEASE_WAIT = "Пожалуйста подождите";
     String CREATING_TASK = "Создание задания";
+
+    String ERROR_DATA = "Ошибка получения данных";
+    String NOT_AUTH = "Вы не авторизированы";
+    String AUTH = "Авторизация";
 }

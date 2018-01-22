@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.adapter.UserAdapter;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
@@ -48,7 +49,7 @@ public class UsersActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(UsersActivity.this, AccountActivity.class));
+        startActivity(new Intent(UsersActivity.this, MainTmpActivity.class));
     }
 
     @Override

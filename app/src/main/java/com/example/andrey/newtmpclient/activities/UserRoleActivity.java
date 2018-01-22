@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.network.Request;
@@ -63,7 +64,7 @@ public class UserRoleActivity extends AppCompatActivity{
                 changePassword.isChecked(),
                 userId);
         userRolesManager.setUpdateUserRole(userRole1);
-        Intent intent = new Intent(this, UsersActivity.class);
+        Intent intent = new Intent(this, MainTmpActivity.class);
         new Updater(this, new Request(userRole1, Request.CHANGE_PERMISSION_PLEASE), intent).execute();
 //        converter.sendMessage(new Request(userRole1, Request.CHANGE_PERMISSION_PLEASE));
     }
@@ -108,7 +109,7 @@ public class UserRoleActivity extends AppCompatActivity{
     private void noRight(){
         if(userRole==null){
             Toast.makeText(this, "вы не имеете права", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(UserRoleActivity.this, UsersActivity.class));
+            startActivity(new Intent(UserRoleActivity.this, MainTmpActivity.class));
         }else hasRight = true;
     }
 }

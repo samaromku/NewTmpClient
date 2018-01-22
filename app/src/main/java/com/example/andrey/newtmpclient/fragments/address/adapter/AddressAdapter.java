@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.activities.address.adapter;
+package com.example.andrey.newtmpclient.fragments.address.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,12 +1,12 @@
-package com.example.andrey.newtmpclient.activities.address.di;
+package com.example.andrey.newtmpclient.fragments.address.di;
 
 import dagger.Module;
 import dagger.Provides;
 
 import com.example.andrey.newtmpclient.di.base.BaseModule;
-import com.example.andrey.newtmpclient.activities.address.AddressMvpView;
-import com.example.andrey.newtmpclient.activities.address.AddressMvpPresenter;
-import com.example.andrey.newtmpclient.activities.address.AddressMvpInterActor;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpView;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpPresenter;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpInterActor;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.network.TmpService;
 

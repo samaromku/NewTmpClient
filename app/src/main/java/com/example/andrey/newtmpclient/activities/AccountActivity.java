@@ -23,7 +23,7 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
-import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;

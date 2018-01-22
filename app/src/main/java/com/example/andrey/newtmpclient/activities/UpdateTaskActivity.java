@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,16 +18,11 @@ import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
-import com.example.andrey.newtmpclient.interfaces.OnNothingSelected;
-import com.example.andrey.newtmpclient.interfaces.SpinnerListener;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.DateUtil;
-import com.example.andrey.newtmpclient.storage.JsonParser;
 import com.example.andrey.newtmpclient.storage.Updater;
 
 public class UpdateTaskActivity extends BaseActivity{
@@ -125,7 +117,7 @@ public class UpdateTaskActivity extends BaseActivity{
             if(address.getId()==0){
                 Toast.makeText(this, "Список адресов пуст, получите его", Toast.LENGTH_SHORT).show();
             }else {
-                Intent intent = new Intent(this, AccountActivity.class).putExtra("createTask", true);
+                Intent intent = new Intent(this, MainTmpActivity.class).putExtra("createTask", true);
                 new Updater(this, new Request(task, Request.UPDATE_TASK), intent).execute();
 //                startActivityWithComment(new Intent(this, AccountActivity.class).putExtra("createTask", true));
             }

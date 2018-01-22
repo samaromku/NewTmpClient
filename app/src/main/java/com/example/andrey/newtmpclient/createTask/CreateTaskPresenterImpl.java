@@ -1,7 +1,6 @@
 package com.example.andrey.newtmpclient.createTask;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.AccountActivity;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 
@@ -49,9 +47,9 @@ public class CreateTaskPresenterImpl {
         view = null;
     }
 
-    void startAccountActivity() {
-        context.startActivity(new Intent(context, AccountActivity.class));
-    }
+//    void startAccountActivity() {
+//        context.startActivity(new Intent(context, AccountActivity.class));
+//    }
 
     void chooseDate(FragmentManager manager) {
         DatePickerFragment dialog = DatePickerFragment.newInstance(createTaskInteractor.getDate());

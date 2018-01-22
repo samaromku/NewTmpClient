@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.service.GpsService;
 

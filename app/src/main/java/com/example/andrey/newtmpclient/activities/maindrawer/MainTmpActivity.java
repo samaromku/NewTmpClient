@@ -18,13 +18,13 @@ import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpModule;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
-import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.service.GpsService;
 

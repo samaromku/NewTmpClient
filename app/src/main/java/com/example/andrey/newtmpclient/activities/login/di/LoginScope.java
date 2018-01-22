@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.login.di;
+package com.example.andrey.newtmpclient.activities.login.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

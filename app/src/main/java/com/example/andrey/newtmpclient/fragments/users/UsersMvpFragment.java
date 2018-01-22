@@ -4,41 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.CreateUserActivity;
 import com.example.andrey.newtmpclient.activities.UserActivity;
-import com.example.andrey.newtmpclient.activities.UsersActivity;
 import com.example.andrey.newtmpclient.base.BaseFragment;
+import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.entities.UserRole;
+import com.example.andrey.newtmpclient.fragments.users.adapter.UserAdapter;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpModule;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.support.v7.widget.RecyclerView;
-
-import com.example.andrey.newtmpclient.entities.User;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import android.support.v7.widget.LinearLayoutManager;
-
-import com.example.andrey.newtmpclient.fragments.users.adapter.UserAdapter;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
-import com.example.andrey.newtmpclient.managers.UsersManager;
 
 import java.util.List;
 
-import android.util.Log;
-
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
     private static final String TAG = UsersMvpFragment.class.getSimpleName();

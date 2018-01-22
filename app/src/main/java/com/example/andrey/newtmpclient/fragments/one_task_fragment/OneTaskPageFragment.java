@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.AccountActivity;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.adapter.CommentsAdapter;
 import com.example.andrey.newtmpclient.adapter.ContactsAdapter;
 import com.example.andrey.newtmpclient.entities.Comment;
@@ -201,14 +201,14 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     @Override
     public void startActivityWithComment(Comment newComment, String status) {
         Log.i(TAG, "startActivityWithComment: sendMessage");
-        Intent intent = new Intent(getActivity(), AccountActivity.class).putExtra(STATUS_CHANGED, true);
+        Intent intent = new Intent(getActivity(), MainTmpActivity.class).putExtra(STATUS_CHANGED, true);
         new Updater(getActivity(), new Request(newComment, status), intent).execute();
     }
 
     @Override
     public void startActivityWithTask(Task task) {
         Log.i(TAG, "startActivityWithTask: sendMessage");
-        Intent intent = new Intent(getActivity(), AccountActivity.class).putExtra("statusChanged", true);
+        Intent intent = new Intent(getActivity(), MainTmpActivity.class).putExtra("statusChanged", true);
         new Updater(getActivity(), new Request(task, task.getStatus()), intent).execute();
     }
 }

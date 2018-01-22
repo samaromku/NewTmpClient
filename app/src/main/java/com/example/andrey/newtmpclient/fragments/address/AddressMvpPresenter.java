@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.activities.address;
+package com.example.andrey.newtmpclient.fragments.address;
 
 import android.util.Log;
 

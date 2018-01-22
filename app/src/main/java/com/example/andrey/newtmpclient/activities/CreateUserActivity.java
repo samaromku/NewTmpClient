@@ -48,7 +48,6 @@ public class CreateUserActivity extends AppCompatActivity {
         create.setOnClickListener(v -> {
             createUser();
         });
-
     }
 
 

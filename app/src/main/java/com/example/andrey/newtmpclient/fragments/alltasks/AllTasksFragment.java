@@ -23,7 +23,7 @@ import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksModule;
 import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerFragment;
-import com.example.andrey.newtmpclient.login.LoginActivity;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;

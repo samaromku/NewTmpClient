@@ -1,30 +1,23 @@
 package com.example.andrey.newtmpclient.createTask;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.example.andrey.newtmpclient.activities.AccountActivity;
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
-import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 import com.example.andrey.newtmpclient.storage.DateUtil;
-import com.example.andrey.newtmpclient.storage.Updater;
 
 import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 

@@ -1,7 +1,7 @@
 package com.example.andrey.newtmpclient.di;
 
-import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
-import com.example.andrey.newtmpclient.activities.address.di.AddressMvpComponent;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.fragments.address.di.AddressMvpComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.createTask.CreateTaskActivity;
@@ -13,8 +13,8 @@ import com.example.andrey.newtmpclient.fragments.task_pager_fragment.TasksPagerF
 import com.example.andrey.newtmpclient.fragments.task_pager_fragment.di.TasksPagerComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
-import com.example.andrey.newtmpclient.login.LoginActivity;
-import com.example.andrey.newtmpclient.login.di.LoginComponent;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
+import com.example.andrey.newtmpclient.activities.login.di.LoginComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.TmpService;

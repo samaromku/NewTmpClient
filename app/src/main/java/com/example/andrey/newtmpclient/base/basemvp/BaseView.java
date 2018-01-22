@@ -8,4 +8,6 @@ public interface BaseView {
     void showDialog();
 
     void hideDialog();
+
+    void showToast(String text);
 }

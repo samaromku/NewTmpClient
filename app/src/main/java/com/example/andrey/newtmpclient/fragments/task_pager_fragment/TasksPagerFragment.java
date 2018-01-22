@@ -89,7 +89,10 @@ public class TasksPagerFragment extends BaseFragment implements TasksPagerView {
             tasksList.setAdapter(adapter);
         }
 
-        swipeLayout.setOnRefreshListener(() -> presenter.updateTasks());
+        swipeLayout.setOnRefreshListener(() -> {
+            swipeLayout.setRefreshing(true);
+            presenter.updateTasks();
+        });
     }
 
 

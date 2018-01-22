@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.activities.address.di;
+package com.example.andrey.newtmpclient.fragments.address.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

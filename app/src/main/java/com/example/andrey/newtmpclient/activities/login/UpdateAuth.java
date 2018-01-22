@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.login;
+package com.example.andrey.newtmpclient.activities.login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,8 +11,6 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.service.GpsService;
 import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.storage.ConverterMessages;
-
-import java.net.ConnectException;
 
 /**
  * Created by andrey on 13.07.2017.

@@ -1,9 +1,9 @@
-package com.example.andrey.newtmpclient.login.di;
+package com.example.andrey.newtmpclient.activities.login.di;
 
 import com.example.andrey.newtmpclient.di.base.BaseModule;
-import com.example.andrey.newtmpclient.login.LoginInterActor;
-import com.example.andrey.newtmpclient.login.LoginPresenterImpl;
-import com.example.andrey.newtmpclient.login.LoginView;
+import com.example.andrey.newtmpclient.activities.login.LoginInterActor;
+import com.example.andrey.newtmpclient.activities.login.LoginPresenterImpl;
+import com.example.andrey.newtmpclient.activities.login.LoginView;
 import com.example.andrey.newtmpclient.network.TmpService;
 
 import dagger.Module;

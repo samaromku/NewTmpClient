@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
@@ -55,7 +56,7 @@ public class UserActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.remove_user:
-                Intent intent = new Intent(this, UsersActivity.class).putExtra("removeUser", true);
+                Intent intent = new Intent(this, MainTmpActivity.class).putExtra("removeUser", true);
                 usersManager.setRemoveUser(user);
                 new Updater(this, new Request(user, Request.REMOVE_USER), intent).execute();
 //                converter.sendMessage(new Request(user, Request.REMOVE_USER));

@@ -1,8 +1,8 @@
-package com.example.andrey.newtmpclient.activities.address.di;
+package com.example.andrey.newtmpclient.fragments.address.di;
 
 import dagger.Subcomponent;
 
-import com.example.andrey.newtmpclient.activities.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 import com.example.andrey.newtmpclient.di.base.BaseComponent;
 
