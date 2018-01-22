@@ -15,13 +15,13 @@ public interface CreateTaskView {
 
     String getAddress();
 
-    String getImportance();
+//    String getImportance();
 
-    String getType();
+//    String getType();
 
-    String getStatus();
+//    String getStatus();
 
-    String getUser();
+//    String getUser();
 
     void setStatusSpinnerSelection(int position);
 
@@ -34,4 +34,14 @@ public interface CreateTaskView {
     void hideDialog();
 
     void showToast(String text);
+
+    void setTypes(String[] types);
+
+    void setImportance(String[] importance);
+
+    void setStatuses(String[]statuses);
+
+    void setUserNames(String[]userNames);
+
+    void setAddresses(String[]addresses);
 }

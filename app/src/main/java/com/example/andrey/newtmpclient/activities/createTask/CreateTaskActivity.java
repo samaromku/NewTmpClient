@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,16 +22,15 @@ import static com.example.andrey.newtmpclient.storage.Const.CREATING_TASK;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
 public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
-    private AppCompatSpinner importanceSpinner;
     private AppCompatSpinner statusSpinner;
     private EditText body;
     private Button chooseDate;
     private AutoCompleteTextView anndressNamesCompleteTV;
     private AppCompatSpinner userSpinner;
-    private AppCompatSpinner typeSpinner;
     private Button createTask;
     private ProgressDialog mDialog;
-    @Inject CreateTaskPresenterImpl createTaskPresenter;
+    @Inject
+    CreateTaskPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,9 +39,8 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
         changeToolbarTitle(R.string.create_task);
         chooseDate = (Button) findViewById(R.id.choose_date);
         anndressNamesCompleteTV = (AutoCompleteTextView) findViewById(R.id.task_title);
-        importanceSpinner = (AppCompatSpinner) findViewById(R.id.spinner_importance);
         statusSpinner = (AppCompatSpinner) findViewById(R.id.spinner_status);
-        typeSpinner = (AppCompatSpinner) findViewById(R.id.spinner_type);
+
         body = (EditText) findViewById(R.id.task_body);
         userSpinner = (AppCompatSpinner) findViewById(R.id.spinner_users);
         createTask = (Button) findViewById(R.id.create_task_btn);
@@ -70,14 +69,59 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     }
 
     private void initPresenter() {
-        createTaskPresenter.setContext(this);
-        createTask.setOnClickListener(v -> createTaskPresenter.checkValidFields());
-        chooseDate.setOnClickListener(v -> createTaskPresenter.chooseDate(getSupportFragmentManager()));
-        createTaskPresenter.clickOnImportance(importanceSpinner);
-        createTaskPresenter.clickOnStatuses(statusSpinner);
-        createTaskPresenter.clickOnTypes(typeSpinner);
-        createTaskPresenter.clickOnUserNames(userSpinner);
-        createTaskPresenter.setAddressNameAdapter(anndressNamesCompleteTV);
+        createTask.setOnClickListener(v -> presenter.checkValidFields());
+        chooseDate.setOnClickListener(v -> presenter.chooseDate(getSupportFragmentManager()));
+        presenter.clickOnImportance();
+        presenter.clickOnStatuses();
+        presenter.clickOnTypes();
+        presenter.clickOnUserNames();
+        presenter.setAddressNameAdapter();
+    }
+
+    @Override
+    public void setImportance(String[] importance) {
+        AppCompatSpinner importanceSpinner = (AppCompatSpinner) findViewById(R.id.spinner_importance);
+        baseSpinner(importance, importanceSpinner,
+                position -> presenter.setImportance(importance[position]),
+                () -> presenter.setImportance(importance[0]));
+    }
+
+    @Override
+    public void setTypes(String[] types) {
+        AppCompatSpinner typeSpinner = (AppCompatSpinner) findViewById(R.id.spinner_type);
+        baseSpinner(types, typeSpinner,
+                position -> presenter.setType(types[position]),
+                () -> presenter.setType(types[0]));
+    }
+
+    @Override
+    public void setStatuses(String[] statuses) {
+        baseSpinner(statuses, statusSpinner,
+                position -> presenter.setSelectedStatusPosition(position, statuses),
+                () -> presenter.setStatus(statuses[0]));
+    }
+
+    @Override
+    public void setUserNames(String[] userNames) {
+        baseSpinner(userNames, userSpinner,
+                position -> {
+                    if (position == 0) {
+                        setStatusSpinnerSelection(0);
+                    } else {
+                        setStatusSpinnerSelection(1);
+                    }
+                    presenter.setUserName(userNames[position]);
+                },
+                () -> {
+                    setStatusSpinnerSelection(0);
+                    presenter.setUserName(userNames[0]);
+                });
+    }
+
+    @Override
+    public void setAddresses(String[] addresses) {
+        anndressNamesCompleteTV.setAdapter(new ArrayAdapter<>
+                (this, android.R.layout.simple_dropdown_item_1line, addresses));
     }
 
     @Override
@@ -94,26 +138,6 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     @Override
     public String getAddress() {
         return anndressNamesCompleteTV.getText().toString();
-    }
-
-    @Override
-    public String getImportance() {
-        return importanceSpinner.getSelectedItem().toString();
-    }
-
-    @Override
-    public String getType() {
-        return typeSpinner.getSelectedItem().toString();
-    }
-
-    @Override
-    public String getStatus() {
-        return statusSpinner.getSelectedItem().toString();
-    }
-
-    @Override
-    public String getUser() {
-        return userSpinner.getSelectedItem().toString();
     }
 
     public void setAnndressNamesCompleteTV(String text) {

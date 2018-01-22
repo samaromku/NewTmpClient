@@ -1,7 +1,7 @@
 package com.example.andrey.newtmpclient.activities.createTask.di;
 
-import com.example.andrey.newtmpclient.activities.createTask.CreateTaskInteractorImpl;
-import com.example.andrey.newtmpclient.activities.createTask.CreateTaskPresenterImpl;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskInterActor;
+import com.example.andrey.newtmpclient.activities.createTask.CreateTaskPresenter;
 import com.example.andrey.newtmpclient.activities.createTask.CreateTaskView;
 import com.example.andrey.newtmpclient.di.base.BaseModule;
 import com.example.andrey.newtmpclient.network.TmpService;
@@ -22,13 +22,13 @@ public class CreateTaskModule implements BaseModule{
 
     @Provides
     @CreateTaskScope
-    CreateTaskPresenterImpl presenter(CreateTaskInteractorImpl interactor){
-        return new CreateTaskPresenterImpl(view, interactor);
+    CreateTaskPresenter presenter(CreateTaskInterActor interactor){
+        return new CreateTaskPresenter(view, interactor);
     }
 
     @Provides
     @CreateTaskScope
-    CreateTaskInteractorImpl interactor(TmpService tmpService){
-        return new CreateTaskInteractorImpl(tmpService);
+    CreateTaskInterActor interactor(TmpService tmpService){
+        return new CreateTaskInterActor(tmpService);
     }
 }

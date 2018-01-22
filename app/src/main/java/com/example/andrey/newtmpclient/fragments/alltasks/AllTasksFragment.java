@@ -38,6 +38,7 @@ import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 
@@ -64,6 +65,7 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
         if(usersManager.getUser()!=null) {
             setToolbarTitle(currentTasks);
 

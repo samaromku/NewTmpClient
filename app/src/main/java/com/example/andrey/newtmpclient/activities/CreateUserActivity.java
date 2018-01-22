@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.network.Request;
@@ -20,7 +21,10 @@ import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.SHAHashing;
 import com.example.andrey.newtmpclient.storage.Updater;
 
-public class CreateUserActivity extends AppCompatActivity {
+import butterknife.BindString;
+import butterknife.ButterKnife;
+
+public class CreateUserActivity extends BaseActivity {
     EditText login;
     EditText password;
     EditText fio;
@@ -33,12 +37,14 @@ public class CreateUserActivity extends AppCompatActivity {
     String roleName;
     boolean isChecked = false;
     SHAHashing hashing = new SHAHashing();
+    @BindString(R.string.make_new_user)String makeNewUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_user);
-        getSupportActionBar().setTitle("Создать пользователя");
+        ButterKnife.bind(this);
+        changeToolbarTitle(makeNewUser);
         init();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, roles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

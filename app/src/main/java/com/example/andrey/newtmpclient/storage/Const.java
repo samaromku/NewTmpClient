@@ -15,4 +15,5 @@ public interface Const {
     String NOT_AUTH = "Вы не авторизированы";
     String AUTH = "Авторизация";
     String ADDRESSES = "Адреса";
+    String WRONG_ADDRESS = "Неправильный адрес";
 }

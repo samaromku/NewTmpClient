@@ -20,12 +20,13 @@ import java.util.List;
 import io.reactivex.Observable;
 
 import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.storage.Const.WRONG_ADDRESS;
 
 /**
  * Created by andrey on 14.07.2017.
  */
 
-public class CreateTaskInteractorImpl {
+public class CreateTaskInterActor {
     private DateUtil dateUtil = new DateUtil();
     private AddressManager addressManager = AddressManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
@@ -39,33 +40,39 @@ public class CreateTaskInteractorImpl {
     private String address;
     private TmpService tmpService;
 
-    public CreateTaskInteractorImpl(TmpService tmpService) {
+    public CreateTaskInterActor(TmpService tmpService) {
         this.tmpService = tmpService;
     }
 
-    String[] getImportanceString() {
-        return new String[]{TaskEnum.STANDART, TaskEnum.INFO, TaskEnum.AVARY, TaskEnum.TIME};
+    Observable<String[]> getImportanceString() {
+        return Observable.fromCallable(() ->
+                new String[]{TaskEnum.STANDART, TaskEnum.INFO, TaskEnum.AVARY, TaskEnum.TIME});
     }
 
-    String[] getTypes() {
-        return new String[]{TaskEnum.TAKE_INFO, TaskEnum.ARTF, TaskEnum.UUTE, TaskEnum.ITP, TaskEnum.INSPECTION, TaskEnum.APARTMENT};
+    Observable<String[]> getTypes() {
+        return Observable.fromCallable(() ->
+                new String[]{TaskEnum.TAKE_INFO, TaskEnum.ARTF, TaskEnum.UUTE, TaskEnum.ITP, TaskEnum.INSPECTION, TaskEnum.APARTMENT});
     }
 
-    String[] getStatuses() {
-        return new String[]{TaskEnum.NEW_TASK};
+    Observable<String[]> getStatuses() {
+        return Observable.fromCallable(() ->
+                new String[]{TaskEnum.NEW_TASK});
     }
 
-    String[] getUserNames() {
-        return new String[]{usersManager.getUsers().get(0).getLogin()};
+    Observable<String[]> getUserNames() {
+        return Observable.fromCallable(() ->
+                new String[]{usersManager.getUsers().get(0).getLogin()});
     }
 
-    String[] getAddressName() {
-        List<Address> addresses = addressManager.getAddresses();
-        String[] addressNameArray = new String[addresses.size()];
-        for (int i = 0; i < addresses.size(); i++) {
-            addressNameArray[i] = addresses.get(i).getAddress();
-        }
-        return addressNameArray;
+    Observable<String[]> getAddressName() {
+        return Observable.fromCallable(() -> {
+            List<Address> addresses = addressManager.getAddresses();
+            String[] addressNameArray = new String[addresses.size()];
+            for (int i = 0; i < addresses.size(); i++) {
+                addressNameArray[i] = addresses.get(i).getAddress();
+            }
+            return addressNameArray;
+        });
     }
 
 
@@ -76,24 +83,28 @@ public class CreateTaskInteractorImpl {
     public Observable<Response> createTask() {
         User user = usersManager.getUserByUserName(userName);
         Address addressEntity = addressManager.getAddressByAddress(address);
-        Task task = new Task.Builder()
-                .id(tasksManager.getMaxId() + 1)
-                .body(body)
-                .address(address)
-                .orgName(addressEntity.getName())
-                .addressId(addressEntity.getId())
-                .userId(user.getId())
-                .doneTime(date)
-                .created(dateUtil.currentDate())
-                .importance(importance)
-                .type(type)
-                .status(status)
-                .build();
-        Log.i(TAG, "createTask: " + task);
-        tasksManager.setTask(task);
-        Request request = Request.requestTaskWithToken(task, Request.ADD_TASK_TO_SERVER);
-        return tmpService.createTask(request)
-                .doOnNext(response -> tasksManager.addTask(tasksManager.getTask()));
+        if(addressEntity!=null) {
+            Task task = new Task.Builder()
+                    .id(tasksManager.getMaxId() + 1)
+                    .body(body)
+                    .address(address)
+                    .orgName(addressEntity.getName())
+                    .addressId(addressEntity.getId())
+                    .userId(user.getId())
+                    .doneTime(date)
+                    .created(dateUtil.currentDate())
+                    .importance(importance)
+                    .type(type)
+                    .status(status)
+                    .build();
+            Log.i(TAG, "createTask: " + task);
+            tasksManager.setTask(task);
+            Request request = Request.requestTaskWithToken(task, Request.ADD_TASK_TO_SERVER);
+            return tmpService.createTask(request)
+                    .doOnNext(response -> tasksManager.addTask(tasksManager.getTask()));
+        }else {
+            return Observable.error(new Throwable(WRONG_ADDRESS));
+        }
     }
 
     void setTypeSelected(String type) {
