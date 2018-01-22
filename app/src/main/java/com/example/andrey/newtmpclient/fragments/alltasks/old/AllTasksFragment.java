@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments.alltasks;
+package com.example.andrey.newtmpclient.fragments.alltasks.old;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,9 +25,9 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.entities.UserRole;
-import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
-import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksModule;
-import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.di.AllTasksComponent;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.di.AllTasksModule;
+import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksFragment;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
@@ -201,7 +201,7 @@ public class AllTasksFragment extends BaseFragment implements AllTasksView {
 
         @Override
         public Fragment getItem(int position) {
-            return DoneTasksFragment.newInstance(position);
+            return new DoneTasksFragment();
         }
 
         @Override

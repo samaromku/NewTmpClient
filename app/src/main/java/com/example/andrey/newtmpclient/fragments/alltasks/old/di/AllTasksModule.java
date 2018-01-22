@@ -1,12 +1,12 @@
-package com.example.andrey.newtmpclient.fragments.alltasks.di;
+package com.example.andrey.newtmpclient.fragments.alltasks.old.di;
 
 import dagger.Module;
 import dagger.Provides;
 
 import com.example.andrey.newtmpclient.di.base.BaseModule;
-import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksView;
-import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksPresenter;
-import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksInterActor;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.AllTasksView;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.AllTasksPresenter;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.AllTasksInterActor;
 
 @Module
 public class AllTasksModule implements BaseModule {

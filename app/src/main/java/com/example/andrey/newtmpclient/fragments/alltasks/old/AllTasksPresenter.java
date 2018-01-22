@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments.alltasks;
+package com.example.andrey.newtmpclient.fragments.alltasks.old;
 
 public class AllTasksPresenter {
     private static final String TAG = AllTasksPresenter.class.getSimpleName();

@@ -2,8 +2,11 @@ package com.example.andrey.newtmpclient.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,13 +14,16 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.interfaces.OnSearch;
+import com.example.andrey.newtmpclient.adapter.TasksAdapter;
+import com.example.andrey.newtmpclient.entities.Task;
+import com.example.andrey.newtmpclient.fragments.alltasks.DoneOrNotView;
+import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -29,7 +35,8 @@ import static com.example.andrey.newtmpclient.utils.Utils.showKeyboard;
  * Created by savchenko on 22.01.18.
  */
 
-public abstract class BaseSearchFragment extends BaseFragment  {
+public abstract class BaseSearchFragment extends BaseFragment implements
+        DoneOrNotView {
     public static final String TAG = "BaseSearchFragment";
     @BindView(R.id.search_toolbar)
     Toolbar searchToolbar;
@@ -43,6 +50,10 @@ public abstract class BaseSearchFragment extends BaseFragment  {
     void onBackClick(){
         backClick();
     }
+    protected SwipeRefreshLayout swipeLayout;
+    protected RecyclerView tasksList;
+    protected TasksAdapter adapter;
+
 
     private void backClick(){
         toolbar.setVisibility(View.VISIBLE);
@@ -54,6 +65,14 @@ public abstract class BaseSearchFragment extends BaseFragment  {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        RxTextView.textChanges(etSearch)
+                .debounce(1000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(text -> onSearch(text.toString()));
+        swipeLayout = view.findViewById(R.id.swipe_layout);
+        tasksList = view.findViewById(R.id.tasks_list);
+        tasksList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
     }
 
@@ -78,6 +97,16 @@ public abstract class BaseSearchFragment extends BaseFragment  {
         toolbar.setVisibility(View.GONE);
         searchToolbar.setVisibility(View.VISIBLE);
         showKeyboard(getActivity(), etSearch);
+    }
+
+    @Override
+    public void setListToAdapter(List<Task> listToAdapter) {
+        adapter.setTasks(listToAdapter);
+        tasksList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tasksList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        swipeLayout.setRefreshing(false);
+        AuthChecker.checkAuth(getActivity());
     }
 
     public abstract void onSearch(String search);

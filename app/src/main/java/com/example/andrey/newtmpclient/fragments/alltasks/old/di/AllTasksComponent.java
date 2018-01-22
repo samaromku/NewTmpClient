@@ -1,10 +1,10 @@
-package com.example.andrey.newtmpclient.fragments.alltasks.di;
+package com.example.andrey.newtmpclient.fragments.alltasks.old.di;
 
 import dagger.Subcomponent;
 
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 import com.example.andrey.newtmpclient.di.base.BaseComponent;
-import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.AllTasksFragment;
 
 @Subcomponent(modules = AllTasksModule.class)
 @AllTasksScope

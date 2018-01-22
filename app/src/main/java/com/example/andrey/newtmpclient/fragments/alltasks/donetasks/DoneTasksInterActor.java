@@ -1,12 +1,13 @@
-package com.example.andrey.newtmpclient.fragments.donetasks;
+package com.example.andrey.newtmpclient.fragments.alltasks.donetasks;
 
+
+import android.util.Log;
 
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 
 import java.util.ArrayList;
@@ -26,15 +27,21 @@ public class DoneTasksInterActor {
         this.tmpService = tmpService;
     }
 
-    Observable<List<Task>> updateTasks() {
+    Observable<List<Task>> updateTasks(boolean done) {
         User user = usersManager.getUser();
         Request request = Request.requestUserWithToken(user, Request.UPDATE_TASKS);
         return tmpService.updateTasks(request)
                 .map(response -> {
                     List<Task> doneTasks = new ArrayList<>();
                     for (Task task : response.getTaskList()) {
-                        if (task.getStatus().equals(DONE_TASK)) {
-                            doneTasks.add(task);
+                        if(done) {
+                            if (task.getStatus().equals(DONE_TASK)) {
+                                doneTasks.add(task);
+                            }
+                        }else {
+                            if (!task.getStatus().equals(DONE_TASK)) {
+                                doneTasks.add(task);
+                            }
                         }
                     }
                     return doneTasks;
@@ -58,14 +65,15 @@ public class DoneTasksInterActor {
             for (Task task : startList) {
                 StringBuilder sb = new StringBuilder();
                 if (task.getBody() != null) {
-                    sb.append(task.getBody());
+                    sb.append(task.getBody().toLowerCase());
                 }
                 if (task.getAddress() != null) {
                     sb.append(" ");
-                    sb.append(task.getAddress());
+                    sb.append(task.getAddress().toLowerCase());
                 }
                 if (task.getBody() != null && task.getAddress() != null) {
                     String bodyAddress = sb.toString();
+                    Log.i(TAG, "searchedList: " + bodyAddress);
                     if (bodyAddress.contains(word.toLowerCase())) {
                         tasks.add(task);
                     }

@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments.alltasks.di;
+package com.example.andrey.newtmpclient.fragments.alltasks.donetasks.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -7,5 +7,5 @@ import javax.inject.Scope;
 
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-@interface AllTasksScope {
+@interface DoneTasksScope {
 }

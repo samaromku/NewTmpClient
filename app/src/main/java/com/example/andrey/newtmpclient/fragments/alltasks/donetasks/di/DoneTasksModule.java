@@ -1,12 +1,12 @@
-package com.example.andrey.newtmpclient.fragments.donetasks.di;
+package com.example.andrey.newtmpclient.fragments.alltasks.donetasks.di;
 
 import dagger.Module;
 import dagger.Provides;
 
 import com.example.andrey.newtmpclient.di.base.BaseModule;
-import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksInterActor;
-import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksView;
-import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksPresenter;
+import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksInterActor;
+import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksView;
+import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksPresenter;
 import com.example.andrey.newtmpclient.network.TmpService;
 
 @Module

@@ -7,12 +7,11 @@ import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent
 import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
-import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
-import com.example.andrey.newtmpclient.fragments.alltasks.di.AllTasksComponent;
-import com.example.andrey.newtmpclient.fragments.donetasks.DoneTasksFragment;
-import com.example.andrey.newtmpclient.fragments.donetasks.di.DoneTasksComponent;
-import com.example.andrey.newtmpclient.fragments.notdonetasks.NotDoneTasksFragment;
-import com.example.andrey.newtmpclient.fragments.notdonetasks.di.NotDoneTasksComponent;
+import com.example.andrey.newtmpclient.fragments.alltasks.old.di.AllTasksComponent;
+import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.di.DoneTasksComponent;
+import com.example.andrey.newtmpclient.fragments.alltasks.notdonetasks.NotDoneTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.notdonetasks.di.NotDoneTasksComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
@@ -39,7 +38,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module(subcomponents = {
     AddressMvpComponent.class,
-    AllTasksComponent.class,
     UsersMvpComponent.class,
     MainTmpComponent.class,
     CreateTaskComponent.class,
@@ -68,13 +66,6 @@ class AppModule {
     @IntoMap
     @ClassKey(LoginActivity.class)
     ComponentBuilder provideLogin(LoginComponent.Builder builder){
-        return builder;
-    }
-
-    @Provides
-    @IntoMap
-    @ClassKey(AllTasksFragment.class)
-    ComponentBuilder provideAllTasks(AllTasksComponent.Builder builder){
         return builder;
     }
 
