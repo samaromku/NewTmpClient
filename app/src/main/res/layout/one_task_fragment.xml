@@ -2,287 +2,297 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ScrollView01"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/type"
-            android:text="@string/type_task"
-            android:textStyle="bold"
             android:layout_marginRight="8dp"
+            android:text="@string/type_task"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_toRightOf="@+id/type"
             android:id="@+id/type_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="УУИТП"
-            android:textSize="18sp"
+            android:layout_toRightOf="@+id/type"
             android:textColor="@color/darkGreen"
-            />
+            android:textSize="18sp"
+            tools:text="УУИТП" />
 
         <TextView
-            android:layout_below="@+id/type"
+            android:id="@+id/important"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/important"
-            android:text="@string/important"
-            android:textStyle="bold"
+            android:layout_below="@+id/type"
             android:layout_marginRight="8dp"
+            android:text="@string/important"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_below="@+id/type"
-            android:layout_toRightOf="@+id/important"
             android:id="@+id/importance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="аварийная"
-            android:textSize="18sp"
+            android:layout_below="@+id/type"
+            android:layout_toRightOf="@+id/important"
             android:textColor="@color/darkGreen"
-            />
+            android:textSize="18sp"
+            tools:text="аварийная" />
 
         <TextView
-            android:layout_below="@+id/important"
+            android:id="@+id/name_of_org"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/org_name"
-            android:id="@+id/name_of_org"
-            android:textStyle="bold"
+            android:layout_below="@+id/important"
             android:layout_marginRight="8dp"
+            android:text="@string/org_name"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_below="@+id/important"
-            android:layout_toRightOf="@+id/name_of_org"
             android:id="@+id/org_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="ЖСК 10"
-            android:textSize="18sp"
+            android:layout_below="@+id/important"
+            android:layout_toRightOf="@+id/name_of_org"
             android:textColor="@color/darkGreen"
-            />
+            android:textSize="18sp"
+            tools:text="ЖСК 10" />
 
         <TextView
-            android:layout_below="@+id/org_name"
+            android:id="@+id/ad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/address"
-            android:id="@+id/ad"
-            android:textStyle="bold"
+            android:layout_below="@+id/org_name"
             android:layout_marginRight="8dp"
+            android:text="@string/address"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_below="@+id/org_name"
-            android:layout_toRightOf="@+id/ad"
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Илюшина 40"
+            android:layout_below="@+id/org_name"
+            android:layout_toRightOf="@+id/ad"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            tools:text="Илюшина 40" />
 
         <TextView
-            android:layout_below="@+id/address"
+            android:id="@+id/time_spot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/time_spot"
-            android:id="@+id/time_spot"
-            android:textStyle="bold"
+            android:layout_below="@+id/address"
             android:layout_marginRight="8dp"
+            android:text="@string/time_spot"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_toRightOf="@+id/time_spot"
-            android:layout_below="@id/address"
             android:id="@+id/deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="20 мар 2017 18:30"
-            android:textSize="18sp"
+            android:layout_below="@id/address"
+            android:layout_toRightOf="@+id/time_spot"
             android:textColor="@color/darkGreen"
-            />
+            android:textSize="18sp"
+            tools:text="20 мар 2017 18:30" />
 
         <TextView
-            android:layout_below="@+id/deadline"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user_name_task"
-            android:id="@+id/user_name"
-            android:textStyle="bold"
+            android:layout_below="@+id/deadline"
             android:layout_marginRight="8dp"
+            android:text="@string/user_name_task"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_toRightOf="@+id/user_name"
-            android:layout_below="@id/deadline"
             android:id="@+id/user_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="20 мар 2017 18:30"
-            android:textSize="18sp"
+            android:layout_below="@id/deadline"
+            android:layout_toRightOf="@+id/user_name"
             android:textColor="@color/darkGreen"
-            />
+            android:textSize="18sp"
+            tools:text="20 мар 2017 18:30" />
 
         <TextView
-            android:layout_below="@+id/user_name"
+            android:id="@+id/what_to_do"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/what_to_do"
-            android:id="@+id/what_to_do"
-            android:textStyle="bold"
+            android:layout_below="@+id/user_name"
             android:layout_marginRight="8dp"
+            android:text="@string/what_to_do"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_below="@+id/user_name"
-            android:layout_toRightOf="@+id/what_to_do"
             android:id="@+id/task_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Снять вычисления с узла учета в теплоцентре, забрать отчеты за предыдущие месяцы"
+            android:layout_below="@+id/user_name"
+            android:layout_toRightOf="@+id/what_to_do"
+            android:textColor="@color/darkGreen"
             android:textSize="18sp"
-            android:textColor="@color/darkGreen"/>
+            tools:text="Снять вычисления с узла учета в теплоцентре, забрать отчеты за предыдущие месяцы" />
 
+        <RelativeLayout
+            android:id="@+id/llComment"
+            android:layout_below="@+id/task_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/hover_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/task_body"
-            android:id="@+id/hover_comment"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnMic">
+
             <EditText
+                android:id="@+id/commentFromUser"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_below="@+id/deadline"
-                android:id="@+id/commentFromUser"
-                android:hint="@string/commentFromUser"
-                android:gravity="start"
                 android:background="@color/lightGreen"
-                android:textColor="@color/darkGreen"
-                />
+                android:gravity="start"
+                android:hint="@string/commentFromUser"
+                android:textColor="@color/darkGreen" />
         </android.support.design.widget.TextInputLayout>
 
+            <ImageButton
+                android:id="@+id/btnMic"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_mic"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/round"
+                />
+
+        </RelativeLayout>
+
         <LinearLayout
+            android:id="@+id/butt_layout_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/hover_comment"
-            android:id="@+id/butt_layout_first"
+            android:layout_below="@+id/llComment"
             android:layout_marginTop="8dp"
-            >
+            android:orientation="horizontal">
 
 
             <Button
+                android:id="@+id/done"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:id="@+id/done"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1"
-                android:text="@string/doneBtn"
                 android:background="@android:color/holo_green_dark"
-                android:textColor="@android:color/white"
-                android:layout_marginRight="4dp"/>
+                android:text="@string/doneBtn"
+                android:textColor="@android:color/white" />
 
             <Button
+                android:id="@+id/distibuted"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:id="@+id/distibuted"
-                android:text="@string/take"
                 android:background="@android:color/holo_green_light"
-                android:textColor="@android:color/white"/>
+                android:text="@string/take"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/butt_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/butt_layout_first"
-            android:id="@+id/butt_layout"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <Button
+                android:id="@+id/need_help"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_blue_light"
-                android:textColor="@android:color/white"
-                android:layout_marginRight="4dp"
                 android:text="@string/need_help"
-                android:id="@+id/need_help"
-                />
+                android:textColor="@android:color/white" />
 
             <Button
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
+                android:id="@+id/disagree"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
                 android:background="@android:color/holo_red_dark"
-                android:textColor="@android:color/white"
                 android:text="@string/disagree"
-                android:id="@+id/disagree"
-                />
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/third_butt_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/butt_layout"
-            android:id="@+id/third_butt_layout"
             android:layout_marginTop="8dp"
-            >
+            android:orientation="horizontal">
 
             <Button
+                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_green_light"
-                android:textColor="@android:color/white"
-                android:layout_marginRight="4dp"
                 android:text="@string/note"
-                android:id="@+id/note"
-                />
+                android:textColor="@android:color/white" />
 
             <Button
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
+                android:id="@+id/doing"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
                 android:background="@android:color/holo_purple"
-                android:textColor="@android:color/white"
                 android:text="@string/doing"
-                android:id="@+id/doing"
-                />
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="8dp"
-            android:layout_below="@+id/third_butt_layout"
+            android:id="@+id/comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/comments"/>
+            android:layout_below="@+id/third_butt_layout"
+            android:layout_marginTop="8dp" />
 
     </RelativeLayout>
 </ScrollView>

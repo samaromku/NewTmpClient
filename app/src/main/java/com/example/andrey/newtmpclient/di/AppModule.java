@@ -1,21 +1,18 @@
 package com.example.andrey.newtmpclient.di;
 
-import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
-import com.example.andrey.newtmpclient.fragments.address.di.AddressMvpComponent;
-import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
-import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
-import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
-import com.example.andrey.newtmpclient.fragments.alltasks.old.di.AllTasksComponent;
-import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksFragment;
-import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.di.DoneTasksComponent;
-import com.example.andrey.newtmpclient.fragments.alltasks.notdonetasks.NotDoneTasksFragment;
-import com.example.andrey.newtmpclient.fragments.alltasks.notdonetasks.di.NotDoneTasksComponent;
-import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
-import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.login.di.LoginComponent;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
+import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
+import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
+import com.example.andrey.newtmpclient.fragments.address.di.AddressMvpComponent;
+import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
+import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
+import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.TmpService;
@@ -37,13 +34,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Andrey on 06.10.2017.
  */
 @Module(subcomponents = {
-    AddressMvpComponent.class,
-    UsersMvpComponent.class,
-    MainTmpComponent.class,
-    CreateTaskComponent.class,
-    DoneTasksComponent.class,
-    LoginComponent.class,
-    NotDoneTasksComponent.class,
+        AddressMvpComponent.class,
+        UsersMvpComponent.class,
+        MainTmpComponent.class,
+        CreateTaskComponent.class,
+        DoneTasksComponent.class,
+        LoginComponent.class,
 })
 class AppModule {
     private static final String BASE_URL = "http://81.23.123.230:60123";
@@ -51,56 +47,49 @@ class AppModule {
     @Provides
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
-    ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder){
-        return builder;
-    }
-
-    @Provides
-    @IntoMap
-    @ClassKey(NotDoneTasksFragment.class)
-    ComponentBuilder provideNotDoneTasks(NotDoneTasksComponent.Builder builder){
+    ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
         return builder;
     }
 
     @Provides
     @IntoMap
     @ClassKey(LoginActivity.class)
-    ComponentBuilder provideLogin(LoginComponent.Builder builder){
+    ComponentBuilder provideLogin(LoginComponent.Builder builder) {
         return builder;
     }
 
     @Provides
     @IntoMap
     @ClassKey(UsersMvpFragment.class)
-    ComponentBuilder provideUsers(UsersMvpComponent.Builder builder){
+    ComponentBuilder provideUsers(UsersMvpComponent.Builder builder) {
         return builder;
     }
 
-     @Provides
+    @Provides
     @IntoMap
     @ClassKey(MainTmpActivity.class)
-    ComponentBuilder provideMain(MainTmpComponent.Builder builder){
+    ComponentBuilder provideMain(MainTmpComponent.Builder builder) {
         return builder;
     }
 
-     @Provides
+    @Provides
     @IntoMap
     @ClassKey(CreateTaskActivity.class)
-    ComponentBuilder provideCreateTask(CreateTaskComponent.Builder builder){
+    ComponentBuilder provideCreateTask(CreateTaskComponent.Builder builder) {
         return builder;
     }
 
 
-     @Provides
+    @Provides
     @IntoMap
-    @ClassKey(DoneTasksFragment.class)
-    ComponentBuilder provideTasksPager(DoneTasksComponent.Builder builder){
+    @ClassKey(AllTasksFragment.class)
+    ComponentBuilder provideTasksPager(DoneTasksComponent.Builder builder) {
         return builder;
     }
 
     @Singleton
     @Provides
-    TmpService tmpService(){
+    TmpService tmpService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -128,13 +117,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    AddressManager addressManager(){
+    AddressManager addressManager() {
         return AddressManager.INSTANCE;
     }
 
     @Provides
     @Singleton
-    UsersManager usersManager(){
+    UsersManager usersManager() {
         return UsersManager.INSTANCE;
     }
 }

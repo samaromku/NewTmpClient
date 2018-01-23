@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.example.andrey.newtmpclient.di.ComponentManager;
 import com.example.andrey.newtmpclient.storage.Prefs;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -19,6 +21,7 @@ public class App extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         configRealm();
         Prefs.init(this);
         componentManager = new ComponentManager();

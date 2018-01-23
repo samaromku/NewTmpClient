@@ -2,7 +2,10 @@ package com.example.andrey.newtmpclient.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -40,10 +43,10 @@ public class LoginActivity extends BaseActivity implements LoginView {
         setContentView(R.layout.activity_auth);
         ((LoginComponent)App.getComponentManager().getPresenterComponent(getClass(), new LoginModule(this))).inject(this);
         loginPresenter.init();
-        Button signIn = (Button) findViewById(R.id.sign_in);
-        CheckBox isInside = (CheckBox) findViewById(R.id.inside_ip_checkbox);
-        writeName = (EditText) findViewById(R.id.write_name);
-        writePwd = (EditText) findViewById(R.id.write_pwd);
+        Button signIn = findViewById(R.id.sign_in);
+        CheckBox isInside = findViewById(R.id.inside_ip_checkbox);
+        writeName = findViewById(R.id.write_name);
+        writePwd = findViewById(R.id.write_pwd);
         changeToolbarTitle(AUTH);
         setDialogTitleAndText(AUTH, PLEASE_WAIT);
         signIn.setOnClickListener(v -> loginPresenter.singIn(writeName.getText().toString(), writePwd.getText().toString()));

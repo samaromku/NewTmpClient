@@ -1,8 +1,11 @@
 package com.example.andrey.newtmpclient.fragments.one_task_fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.andrey.newtmpclient.R;
@@ -29,6 +33,7 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static com.example.andrey.newtmpclient.utils.Const.STATUS_CHANGED;
 
@@ -52,6 +57,8 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     private TextView etDeadLine;
     private TextView etUserLogin;
     private OneTaskFragmentPresenter oneTaskFragmentPresenter;
+    public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
+
 
     private OnListItemClickListener clickListener = (v, position) -> {
     };
@@ -63,6 +70,7 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
         arguments.putInt(ARG_TASK_ID, taskId);
         ScreenSlidePageFragment.setArguments(arguments);
         return ScreenSlidePageFragment;
+
     }
 
     @Override
@@ -89,23 +97,46 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
         return rootView;
     }
 
-    private void initiate(ViewGroup rootView) {
-        commentsList = (RecyclerView) rootView.findViewById(R.id.comments);
-        etTypeTask = (TextView) rootView.findViewById(R.id.type_task);
-        etImportance = (TextView) rootView.findViewById(R.id.importance);
-        etOrgName = (TextView) rootView.findViewById(R.id.org_name);
-        etAddress = (TextView) rootView.findViewById(R.id.address);
-        etTaskBody = (TextView) rootView.findViewById(R.id.task_body);
-        etDeadLine = (TextView) rootView.findViewById(R.id.deadline);
-        etUserLogin = (TextView) rootView.findViewById(R.id.user_login);
+    private void startInputVoice() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Скажите что-нибудь");
+        try {
+            startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,   Uri.parse("https://market.android.com/details?id=APP_PACKAGE_NAME"));
+            startActivity(browserIntent);
+        }
+    }
 
-        distributed = (Button) rootView.findViewById(R.id.distibuted);
-        doneBtn = (Button) rootView.findViewById(R.id.done);
-        needHelp = (Button) rootView.findViewById(R.id.need_help);
-        disAgree = (Button) rootView.findViewById(R.id.disagree);
-        note = (Button) rootView.findViewById(R.id.note);
-        doing = (Button) rootView.findViewById(R.id.doing);
-        comment = (EditText) rootView.findViewById(R.id.commentFromUser);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            comment.append(" " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+            Log.i(TAG, "onActivityResult: " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void initiate(ViewGroup rootView) {
+        commentsList = rootView.findViewById(R.id.comments);
+        etTypeTask = rootView.findViewById(R.id.type_task);
+        etImportance = rootView.findViewById(R.id.importance);
+        etOrgName = rootView.findViewById(R.id.org_name);
+        etAddress = rootView.findViewById(R.id.address);
+        etTaskBody = rootView.findViewById(R.id.task_body);
+        etDeadLine = rootView.findViewById(R.id.deadline);
+        etUserLogin = rootView.findViewById(R.id.user_login);
+
+        distributed = rootView.findViewById(R.id.distibuted);
+        doneBtn = rootView.findViewById(R.id.done);
+        needHelp = rootView.findViewById(R.id.need_help);
+        disAgree = rootView.findViewById(R.id.disagree);
+        note = rootView.findViewById(R.id.note);
+        doing = rootView.findViewById(R.id.doing);
+        comment = rootView.findViewById(R.id.commentFromUser);
 
         doneBtn.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.CONTROL_TASK));
         needHelp.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.NEED_HELP));
@@ -113,6 +144,8 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
         note.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.NOTE));
         doing.setOnClickListener(v -> oneTaskFragmentPresenter.userTakesTask(TaskEnum.DOING_TASK));
         distributed.setOnClickListener(v -> oneTaskFragmentPresenter.userTakesTask(TaskEnum.DISTRIBUTED_TASK));
+        ImageButton btnVoice = rootView.findViewById(R.id.btnMic);
+        btnVoice.setOnClickListener(view -> startInputVoice());
     }
 
     private void initiateContacts(ViewGroup rootView) {

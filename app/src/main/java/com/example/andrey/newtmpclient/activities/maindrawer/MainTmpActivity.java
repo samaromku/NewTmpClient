@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +22,8 @@ import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpModule;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
-import com.example.andrey.newtmpclient.fragments.alltasks.donetasks.DoneTasksFragment;
+import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapFragment;
-import com.example.andrey.newtmpclient.fragments.alltasks.notdonetasks.NotDoneTasksFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.service.GpsService;
@@ -46,17 +44,17 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         setContentView(R.layout.activity_main_drawer);
         ((MainTmpComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new MainTmpModule(this))).inject(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
@@ -73,17 +71,18 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }else if(findViewById(R.id.search_toolbar).getVisibility()== View.VISIBLE){
             findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
             findViewById(R.id.search_toolbar).setVisibility(View.GONE);
-            hideKeyboard(this, (EditText) findViewById(R.id.etSearch));
+            hideKeyboard(this, findViewById(R.id.etSearch));
         }
         else {
             super.onBackPressed();
             Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             startActivity(intent);
@@ -95,9 +94,13 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_current_tasks:
-                return openFragment(new NotDoneTasksFragment());
+                AllTasksFragment notDone = new AllTasksFragment();
+                notDone.setDone(false);
+                return openFragment(notDone);
             case R.id.nav_done_tasks:
-                return openFragment(new DoneTasksFragment());
+                AllTasksFragment done = new AllTasksFragment();
+                done.setDone(true);
+                return openFragment(done);
             case R.id.nav_users:
                 return openFragment(new UsersMvpFragment());
             case R.id.nav_addresses:
@@ -109,13 +112,13 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
                 return true;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private boolean openFragment(Fragment fragment) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         if (fragment != null) {

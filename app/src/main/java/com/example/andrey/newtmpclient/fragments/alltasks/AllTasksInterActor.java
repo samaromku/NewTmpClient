@@ -1,13 +1,12 @@
-package com.example.andrey.newtmpclient.fragments.alltasks.donetasks;
+package com.example.andrey.newtmpclient.fragments.alltasks;
 
-
-import android.util.Log;
 
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
+import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 
 import java.util.ArrayList;
@@ -16,14 +15,15 @@ import java.util.List;
 import io.reactivex.Observable;
 
 import static com.example.andrey.newtmpclient.entities.TaskEnum.DONE_TASK;
+import static com.example.andrey.newtmpclient.network.Request.requestTaskWithToken;
 
-public class DoneTasksInterActor {
-    private static final String TAG = DoneTasksInterActor.class.getSimpleName();
+public class AllTasksInterActor {
+    private static final String TAG = AllTasksInterActor.class.getSimpleName();
     private TmpService tmpService;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
 
-    public DoneTasksInterActor(TmpService tmpService) {
+    public AllTasksInterActor(TmpService tmpService) {
         this.tmpService = tmpService;
     }
 
@@ -73,7 +73,6 @@ public class DoneTasksInterActor {
                 }
                 if (task.getBody() != null && task.getAddress() != null) {
                     String bodyAddress = sb.toString();
-                    Log.i(TAG, "searchedList: " + bodyAddress);
                     if (bodyAddress.contains(word.toLowerCase())) {
                         tasks.add(task);
                     }
@@ -84,5 +83,10 @@ public class DoneTasksInterActor {
             startList.addAll(tasks);
         }
         return startList;
+    }
+
+    Observable<Response>getComments(Task task){
+        Request request = requestTaskWithToken(task, Request.WANT_SOME_COMMENTS);
+        return tmpService.getCommentsForTask(request);
     }
 }

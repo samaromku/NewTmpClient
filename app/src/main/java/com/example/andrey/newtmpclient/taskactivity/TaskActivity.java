@@ -14,6 +14,7 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
 import com.example.andrey.newtmpclient.activities.UpdateTaskActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
@@ -27,7 +28,7 @@ import com.example.andrey.newtmpclient.storage.Updater;
 
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 
-public class TaskActivity extends AppCompatActivity{
+public class TaskActivity extends BaseActivity{
     private int taskNumber;
     TasksManager tasksManager = TasksManager.INSTANCE;
     CommentsManager commentsManager = CommentsManager.INSTANCE;
@@ -44,8 +45,10 @@ public class TaskActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.one_task_view_pager);
+        initBackButton();
         if(usersManager.getUser()!=null){
-        taskNumber = getIntent().getIntExtra("taskNumber", 0);
+        taskNumber = getIntent()
+                .getIntExtra("taskNumber", 0);
         task = tasksManager.getById(taskNumber);
         if(getSupportActionBar()!=null)
         getSupportActionBar().setTitle(task.getStatus());

@@ -30,4 +30,9 @@ public interface TmpService {
     @POST("/WebApp/auth")
     Observable<Response>login(@Body Request login);
 
+    @POST("/WebApp/auth")
+    Observable<Response>getCommentsForTask(@Body Request get_comments);
+
+
+
 }

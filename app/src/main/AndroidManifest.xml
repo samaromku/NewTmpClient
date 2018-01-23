@@ -20,6 +20,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNOh1BQFheWMb_SZaUk3ptmteZfnNqCFw" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e45fc1a9945b33b1966678b708582468b8c55a35"
+            />
 
         <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
