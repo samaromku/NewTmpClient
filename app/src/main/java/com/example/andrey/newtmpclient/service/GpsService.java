@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
+
 public class GpsService extends IntentService {
     private static final String TAG = "GpsService";
     UserCoordsManager userCoordsManager = UserCoordsManager.INSTANCE;
@@ -107,41 +109,6 @@ public class GpsService extends IntentService {
 
     }
 
-    private void getLocationTest(){
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-                    @Override
-                    public void gotLocation(final Location location) {
-                        if (UsersManager.INSTANCE.getUser() != null) {
-                            UserCoords userCoords = new UserCoords(location.getLatitude(), location.getLongitude());
-                            if(userCoordsManager.getUserCoords()!=null &&
-                                    userCoords.getLat()==userCoordsManager.getUserCoords().getLat()&&
-                                    userCoords.getLog()==userCoordsManager.getUserCoords().getLog()){
-                                return;
-                            }
-                            userCoordsManager.addUserCoords(userCoords);
-                            userCoordsManager.setUserCoords(userCoords);
-                            userCoordsManager.setLocation(location);
-                            try {
-                                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                                List<android.location.Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            converter.sendMessageToServer(new Request(userCoords, Request.ADD_COORDS));
-                            AuthChecker.serverErrorStopService(getApplicationContext());
-                            getDistances(userCoords.getLat(), userCoords.getLog());
-                        }
-                    }
-                };
-                MyLocation myLocation = new MyLocation();
-                myLocation.getLocation(getApplicationContext(), locationResult);
-            }
-        });
-    }
-
     private void getDistances(double userLat, double userLon){
         DistanceUtil distanceUtil = new DistanceUtil();
         userAddresses.clear();
@@ -173,7 +140,7 @@ public class GpsService extends IntentService {
 
     private void sendNotification(Task task) {
         Intent intent = new Intent(this, RequestDoingActivity.class);
-        intent.putExtra("taskNumber", task.getId());
+        intent.putExtra(TASK_NUMBER, task.getId());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -198,13 +165,6 @@ public class GpsService extends IntentService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
-
-    private boolean isNetworkWorks(){
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        boolean networkAvaliable = cm.getActiveNetworkInfo() !=null;
-        boolean networkConnected = networkAvaliable && cm.getActiveNetworkInfo().isConnected();
-        return networkConnected;
     }
 }
 

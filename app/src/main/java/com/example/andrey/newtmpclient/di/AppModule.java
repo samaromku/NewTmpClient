@@ -6,6 +6,8 @@ import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.login.di.LoginComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
+import com.example.andrey.newtmpclient.activities.oneuser.OneUserActivity;
+import com.example.andrey.newtmpclient.activities.oneuser.di.OneUserComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.fragments.address.di.AddressMvpComponent;
@@ -40,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
         CreateTaskComponent.class,
         DoneTasksComponent.class,
         LoginComponent.class,
+        OneUserComponent.class,
 })
 class AppModule {
     private static final String BASE_URL = "http://81.23.123.230:60123";
@@ -48,6 +51,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(OneUserActivity.class)
+    ComponentBuilder provideOneUser(OneUserComponent.Builder builder) {
         return builder;
     }
 

@@ -3,6 +3,7 @@ package com.example.andrey.newtmpclient.fragments.alltasks;
 
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.User;
+import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
@@ -22,6 +23,7 @@ public class AllTasksInterActor {
     private TmpService tmpService;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
+    private AddressManager addressManager = AddressManager.INSTANCE;
 
     public AllTasksInterActor(TmpService tmpService) {
         this.tmpService = tmpService;
@@ -88,5 +90,13 @@ public class AllTasksInterActor {
     Observable<Response>getComments(Task task){
         Request request = requestTaskWithToken(task, Request.WANT_SOME_COMMENTS);
         return tmpService.getCommentsForTask(request);
+    }
+
+    Observable<Response> getFirstAddresses(){
+        if (addressManager.getAddresses().size() == 0) {
+            return tmpService.getAddresses(Request.requestWithToken(Request.GIVE_ME_ADDRESSES_PLEASE));
+        }else {
+            return Observable.empty();
+        }
     }
 }

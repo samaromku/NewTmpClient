@@ -71,14 +71,14 @@ class DataMaker {
                     Log.i(TAG, "workWithData: " + userRolesManager.getUserRole().isMakeTasks());
                     return;
 
-                case Response.ADD_COMMENTS:
-                    contactsManager.removeAll();
-                    commentsManager.addAll(responseFromServer.getComments());
-                    for(ContactOnAddress c:responseFromServer.getContacts()){
-                        contactsManager.addContact(c);
-                    }
-                    contactsManager.removeEmptyPhonesEmails();
-                    return;
+//                case Response.ADD_COMMENTS:
+//                    contactsManager.removeAll();
+//                    commentsManager.addAll(responseFromServer.getComments());
+//                    for(ContactOnAddress c:responseFromServer.getContacts()){
+//                        contactsManager.addContact(c);
+//                    }
+//                    contactsManager.removeEmptyPhonesEmails();
+//                    return;
 
                 case Response.UPDATE_USER_ROLE_SUCCESS:
                     userRolesManager.updateUserRole(userRolesManager.getUpdateUserRole());

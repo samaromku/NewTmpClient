@@ -16,4 +16,5 @@ public interface Const {
     String AUTH = "Авторизация";
     String ADDRESSES = "Адреса";
     String WRONG_ADDRESS = "Неправильный адрес";
+    String TASK_NUMBER = "taskNumber";
 }

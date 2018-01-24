@@ -1,10 +1,12 @@
 package com.example.andrey.newtmpclient.activities.createTask;
 
+import com.example.andrey.newtmpclient.base.basemvp.BaseView;
+
 /**
  * Created by andrey on 14.07.2017.
  */
 
-public interface CreateTaskView {
+public interface CreateTaskView extends BaseView{
     void setAnndressNamesCompleteTV(String text);
 
     void setBodyText(String text);

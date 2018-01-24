@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.activities.oneuser.OneUserActivity;
 import com.example.andrey.newtmpclient.adapter.UserAdapter;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
@@ -43,7 +44,7 @@ public class UsersActivity extends AppCompatActivity{
     }
 
     private OnListItemClickListener clickListener = (v, position) -> {
-        startActivity(new Intent(UsersActivity.this, UserActivity.class).putExtra("position", position));
+        startActivity(new Intent(UsersActivity.this, OneUserActivity.class).putExtra("position", position));
     };
 
     @Override

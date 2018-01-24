@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.CreateUserActivity;
-import com.example.andrey.newtmpclient.activities.UserActivity;
+import com.example.andrey.newtmpclient.activities.oneuser.OneUserActivity;
 import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.entities.UserRole;
@@ -49,7 +49,6 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
         return inflater.inflate(R.layout.fragment_users, container, false);
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -62,6 +61,12 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
     @Override
     public void onDetach() {
         super.onDetach();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         App.getComponentManager().releaseComponent(getClass());
     }
 
@@ -75,9 +80,9 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
     public void setListToAdapter(List<User> listToAdapter) {
         adapter = new UserAdapter();
         adapter.setDataList(listToAdapter);
-        adapter.setClickListener(position -> {
-            startActivity(new Intent(getActivity(), UserActivity.class).putExtra("position", position));
-        });
+        adapter.setClickListener(position ->
+                startActivity(new Intent(getActivity(), OneUserActivity.class)
+                .putExtra("position", position)));
         rvUser.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvUser.setAdapter(adapter);
     }

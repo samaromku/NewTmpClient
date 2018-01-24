@@ -22,6 +22,8 @@ import com.example.andrey.newtmpclient.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     JsonParser parser = new JsonParser();
     private static final String TAG = "MyFirebaseMsgService";
@@ -100,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         System.out.println(task.getId() + " from service");
         Intent intent = new Intent(this, TaskActivity.class);
-        intent.putExtra("taskNumber", task.getId());
+        intent.putExtra(TASK_NUMBER, task.getId());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

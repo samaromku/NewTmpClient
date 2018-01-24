@@ -6,6 +6,7 @@ import com.example.andrey.newtmpclient.entities.ContactOnAddress;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
+import com.example.andrey.newtmpclient.rx.TransformerDialog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -41,20 +42,29 @@ public class AllTasksPresenter {
 
     void getComments(Task task) {
         interActor.getComments(task)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> view.showDialog())
-                .doOnTerminate(() -> view.hideDialog())
+                .compose(new TransformerDialog<>(view))
                 .subscribe(response -> {
                             contactsManager.removeAll();
                             commentsManager.addAll(response.getComments());
-                            for(ContactOnAddress c:response.getContacts()){
+                            for (ContactOnAddress c : response.getContacts()) {
                                 contactsManager.addContact(c);
                             }
                             contactsManager.removeEmptyPhonesEmails();
-                            view.startTaskActivity(task.getId());
+                            view.startCreateTaskActivity(task.getId());
                         },
-                        throwable -> view.showToast(ERROR_DATA));
+                        throwable -> {
+                            throwable.printStackTrace();
+                            view.showToast(ERROR_DATA);
+                        });
     }
 
+    void getFirstAddresses() {
+        interActor.getFirstAddresses()
+                .compose(new TransformerDialog<>(view))
+                .subscribe(response -> view.startCreateTaskActivity(),
+                        throwable -> {
+                            throwable.printStackTrace();
+                            view.showToast(ERROR_DATA);
+                        });
+    }
 }

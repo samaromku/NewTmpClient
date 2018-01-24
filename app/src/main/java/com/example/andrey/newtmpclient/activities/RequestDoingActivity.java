@@ -17,13 +17,16 @@ import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
 import com.example.andrey.newtmpclient.storage.Updater;
 import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
 
+import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
+
 public class RequestDoingActivity extends AppCompatActivity{
     private TasksManager tasksManager = TasksManager.INSTANCE;
     public static final String FROM_DOING_LIST = "fromDoingList";
 
     private OnListItemClickListener notDoneClickListener = (v, position) -> {
         Task task = tasksManager.getNeedDoingTasks().get(position);
-        Intent intent = new Intent(this, TaskActivity.class).putExtra("taskNumber", task.getId());
+        Intent intent = new Intent(this, TaskActivity.class)
+                .putExtra(TASK_NUMBER, task.getId());
         intent.putExtra(FROM_DOING_LIST, true);
         new Updater(this, new Request(task, Request.WANT_SOME_COMMENTS), intent).execute();
     };

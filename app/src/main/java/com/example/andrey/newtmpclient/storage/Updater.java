@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 
 import com.example.andrey.newtmpclient.network.Request;
 
-import java.net.ConnectException;
-
 public class Updater extends AsyncTask<Void, Void, Void>{
     private ProgressDialog dialog;
     private Context context;

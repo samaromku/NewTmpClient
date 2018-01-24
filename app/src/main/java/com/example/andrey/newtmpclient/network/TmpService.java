@@ -34,5 +34,9 @@ public interface TmpService {
     Observable<Response>getCommentsForTask(@Body Request get_comments);
 
 
+    @POST("/WebApp/auth")
+    Observable<Response>removeUser(@Body Request remove_user);
+
+
 
 }

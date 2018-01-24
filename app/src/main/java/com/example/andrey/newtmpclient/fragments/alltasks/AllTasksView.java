@@ -12,5 +12,7 @@ import java.util.List;
 public interface AllTasksView extends BaseView{
     void setListToAdapter(List<Task> listToAdapter);
 
-    void startTaskActivity(int taskId);
+    void startCreateTaskActivity(int taskId);
+
+    void startCreateTaskActivity();
 }

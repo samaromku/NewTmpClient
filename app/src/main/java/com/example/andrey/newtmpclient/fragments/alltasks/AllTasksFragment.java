@@ -55,6 +55,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
+import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
 import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
 import static com.example.andrey.newtmpclient.utils.Utils.showKeyboard;
 
@@ -84,12 +85,10 @@ public class AllTasksFragment extends BaseFragment implements
     protected SwipeRefreshLayout swipeLayout;
     protected RecyclerView tasksList;
     protected TasksAdapter adapter;
-    private TasksManager tasksManager = TasksManager.INSTANCE;
     private boolean done;
+    private TasksManager tasksManager = TasksManager.INSTANCE;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
-    private Client client = Client.INSTANCE;
     private UsersManager usersManager = UsersManager.INSTANCE;
-    private AddressManager addressManager = AddressManager.INSTANCE;
     @Inject
     AllTasksPresenter presenter;
 
@@ -97,30 +96,21 @@ public class AllTasksFragment extends BaseFragment implements
         this.done = done;
     }
 
-    private OnListItemClickListener doneClickListener = (v, position) -> {
-        Task task = tasksManager.getDoneTasks().get(position);
-//        Intent intent = new Intent(getActivity(), TaskActivity.class).putExtra("taskNumber", task.getId());
-//        new Updater(getActivity(), new Request(task, Request.WANT_SOME_COMMENTS), intent).execute();
-        presenter.getComments(task);
-    };
-
-    private OnListItemClickListener notDoneClickListener = (v, position) -> {
-        Task task = tasksManager.getNotDoneTasks().get(position);
-//        Intent intent = new Intent(getActivity(), TaskActivity.class).putExtra("taskNumber", task.getId());
-//        new Updater(getActivity(), new Request(task, Request.WANT_SOME_COMMENTS), intent).execute();
-        presenter.getComments(task);
-    };
-
     @Override
-    public void startTaskActivity(int taskId) {
+    public void startCreateTaskActivity(int taskId) {
         startActivity(new Intent(getActivity(), TaskActivity.class)
-                .putExtra("taskNumber", taskId));
+                .putExtra(TASK_NUMBER, taskId));
     }
 
     private void backClick(){
         toolbar.setVisibility(View.VISIBLE);
         searchToolbar.setVisibility(View.GONE);
         hideKeyboard(getActivity(), etSearch);
+    }
+
+    @Override
+    public void startCreateTaskActivity() {
+        startActivity(new Intent(getActivity(), CreateTaskActivity.class));
     }
 
     @Nullable
@@ -131,10 +121,12 @@ public class AllTasksFragment extends BaseFragment implements
         ButterKnife.bind(this, getActivity());
         setDialogTitleAndText("Получаем комментарии", PLEASE_WAIT);
         if(done) {
-            adapter = new TasksAdapter(new ArrayList<>(), doneClickListener);
+            adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
+                    presenter.getComments(tasksManager.getDoneTasks().get(position)));
             setToolbarTitle(doneTasks);
         }else {
-            adapter = new TasksAdapter(new ArrayList<>(), notDoneClickListener);
+            adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
+                    presenter.getComments(tasksManager.getNotDoneTasks().get(position)));
             setToolbarTitle(currentTasks);
         }
         return inflater.inflate(R.layout.tasks_fragment, container, false);
@@ -165,10 +157,11 @@ public class AllTasksFragment extends BaseFragment implements
     }
 
     private void firstTimeAddAddresses() {
-        Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
-        if (addressManager.getAddresses().size() == 0) {
-            new Updater(getActivity(), new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
-        } else startActivity(intent);
+        presenter.getFirstAddresses();
+//        Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
+//        if (addressManager.getAddresses().size() == 0) {
+//            new Updater(getActivity(), new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
+//        } else startActivity(intent);
     }
 
     @Override

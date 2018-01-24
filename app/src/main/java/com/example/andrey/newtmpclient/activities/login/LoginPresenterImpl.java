@@ -1,6 +1,7 @@
 package com.example.andrey.newtmpclient.activities.login;
 
 import com.example.andrey.newtmpclient.network.Client;
+import com.example.andrey.newtmpclient.rx.TransformerDialog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -37,10 +38,7 @@ public class LoginPresenterImpl {
         loginInterActor.checkUser(login, pwd)
                 .subscribe(user -> {
                     loginInterActor.makeAuthResponse(user)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnSubscribe(disposable -> view.showDialog())
-                            .doOnTerminate(() -> view.hideDialog())
+                            .compose(new TransformerDialog<>(view))
                             .subscribe(response -> {
                                 if(Client.INSTANCE.isAuth()){
                                     view.successAuth();

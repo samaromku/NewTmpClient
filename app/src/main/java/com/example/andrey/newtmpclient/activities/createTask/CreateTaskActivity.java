@@ -18,6 +18,9 @@ import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskModule
 
 import javax.inject.Inject;
 
+import butterknife.BindString;
+import butterknife.ButterKnife;
+
 import static com.example.andrey.newtmpclient.storage.Const.CREATING_TASK;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
@@ -31,16 +34,19 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     private ProgressDialog mDialog;
     @Inject
     CreateTaskPresenter presenter;
+    @BindString(R.string.create_task)String createTaskTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
-        changeToolbarTitle(R.string.create_task);
+        ButterKnife.bind(this);
+        changeToolbarTitle(createTaskTitle);
         chooseDate = (Button) findViewById(R.id.choose_date);
         anndressNamesCompleteTV = (AutoCompleteTextView) findViewById(R.id.task_title);
         statusSpinner = (AppCompatSpinner) findViewById(R.id.spinner_status);
 
+        setDialogTitleAndText(createTaskTitle, PLEASE_WAIT);
         body = (EditText) findViewById(R.id.task_body);
         userSpinner = (AppCompatSpinner) findViewById(R.id.spinner_users);
         createTask = (Button) findViewById(R.id.create_task_btn);

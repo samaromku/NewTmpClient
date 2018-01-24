@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
+import com.example.andrey.newtmpclient.rx.TransformerDialog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -131,10 +132,7 @@ public class CreateTaskPresenter {
         interactor.setBody(view.getBody());
         interactor.setDate(view.getDate());
         interactor.createTask()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> view.showDialog())
-                .doOnTerminate(() -> view.hideDialog())
+                .compose(new TransformerDialog<>(view))
                 .subscribe(response -> {
                     Log.i(TAG, "createTask: " + response);
                     view.finishCreateActivity();

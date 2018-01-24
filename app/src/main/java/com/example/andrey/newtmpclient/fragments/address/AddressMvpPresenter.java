@@ -2,6 +2,8 @@ package com.example.andrey.newtmpclient.fragments.address;
 
 import android.util.Log;
 
+import com.example.andrey.newtmpclient.rx.TransformerDialog;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -17,10 +19,7 @@ public class AddressMvpPresenter {
 
     void getListFroAdapter() {
         interActor.getListFroAdapter()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> view.showDialog())
-                .doOnTerminate(() -> view.hideDialog())
+                .compose(new TransformerDialog<>(view))
                 .subscribe(list -> view.setListToAdapter(list),
                         throwable -> Log.e(TAG, throwable.getMessage(), throwable));
     }

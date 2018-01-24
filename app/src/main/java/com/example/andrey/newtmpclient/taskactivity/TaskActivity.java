@@ -27,6 +27,7 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.Updater;
 
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
+import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
 
 public class TaskActivity extends BaseActivity{
     private int taskNumber;
@@ -48,7 +49,7 @@ public class TaskActivity extends BaseActivity{
         initBackButton();
         if(usersManager.getUser()!=null){
         taskNumber = getIntent()
-                .getIntExtra("taskNumber", 0);
+                .getIntExtra(TASK_NUMBER, 0);
         task = tasksManager.getById(taskNumber);
         if(getSupportActionBar()!=null)
         getSupportActionBar().setTitle(task.getStatus());
