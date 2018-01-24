@@ -74,6 +74,7 @@
         <activity android:name=".activities.createuser.CreateNewUserActivity" />
         <activity android:name=".activities.oneuser.OneUserActivity" />
         <activity android:name=".activities.updatenewtask.UpdateNewTaskActivity" />
+        <activity android:name=".activities.allusers.AllUsersActivity" />
     </application>
 
 </manifest>
