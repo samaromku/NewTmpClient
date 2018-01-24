@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.activities;
+package com.example.andrey.newtmpclient.activities.updatenewtask;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTaskComponent;
+import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTaskModule;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
@@ -21,11 +24,17 @@ import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.DateUtil;
-import com.example.andrey.newtmpclient.storage.Updater;
 
-public class UpdateTaskActivity extends BaseActivity{
+import javax.inject.Inject;
+
+import static com.example.andrey.newtmpclient.storage.Const.FILL_FIELD;
+import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
+
+public class UpdateNewTaskActivity extends BaseActivity implements UpdateNewTaskView {
+    private static final String TAG = UpdateNewTaskActivity.class.getSimpleName();
+    @Inject
+    UpdateNewTaskPresenter presenter;
     private AppCompatSpinner importanceSpinner;
     private AppCompatSpinner statusSpinner;
     private EditText body;
@@ -56,6 +65,9 @@ public class UpdateTaskActivity extends BaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
+        ((UpdateNewTaskComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new UpdateNewTaskModule(this))).inject(this);
+        setDialogTitleAndText("Обновляение задания", PLEASE_WAIT);
         changeToolbarTitle("Изменить задание");
         init();
         getFromIntent();
@@ -67,23 +79,16 @@ public class UpdateTaskActivity extends BaseActivity{
 
         createTask.setOnClickListener(v -> clickOnBtnCreateTask());
         chooseDate.setOnClickListener(v -> chooseDate());
-
     }
 
     private void clickOnBtnCreateTask(){
         if (addressesForUpdate.getText().toString().equals("")) {
-            addressesForUpdate.setHint("Вы должны заполнить это поле");
+            addressesForUpdate.setHint(FILL_FIELD);
         } else if (body.getText().toString().equals("")) {
-            body.setHint("Вы должны заполнить это поле");
+            body.setHint(FILL_FIELD);
         } else if (chooseDate.getText().toString().equals("Выбрать дату")) {
-            chooseDate.setText("Вы должны заполнить это поле");
+            chooseDate.setText(FILL_FIELD);
         } else {
-//            System.out.println(chooseDate);
-//            if(taskId!=0){
-//                address.setId(tasksManager.getById(taskId).getAddressId());
-//                address.setAddress(tasksManager.getById(taskId).getAddress());
-//                address.setName(tasksManager.getById(taskId).getOrgName());
-//            }else
             Address address = addressManager.getAddressByAddress(addressesForUpdate.getText().toString());
             Task task = new Task.Builder()
                     .id(tasksManager.getMaxId() + 1)
@@ -97,38 +102,32 @@ public class UpdateTaskActivity extends BaseActivity{
                     .addressId(address.getId())
                     .build();
 
-//            Task task = new Task(
-//                    tasksManager.getMaxId() + 1,
-//                    dateUtil.currentDate(),
-//                    importanceSelected,
-//                    body.getText().toString(),
-//                    statusSelected,
-//                    typeSelected,
-//                    chooseDate.getText().toString(),
-//                    usersManager.getUserByUserName(userName).getId(),
-//                    address.getId()
-//            );
             task.setAddress(address.getAddress());
             task.setOrgName(address.getName());
             tasksManager.setTask(task);
             task.setId(taskId);
-//            converter.sendMessage(new Request(task, Request.UPDATE_TASK));
 
             if(address.getId()==0){
                 Toast.makeText(this, "Список адресов пуст, получите его", Toast.LENGTH_SHORT).show();
             }else {
-                Intent intent = new Intent(this, MainTmpActivity.class).putExtra("createTask", true);
-                new Updater(this, new Request(task, Request.UPDATE_TASK), intent).execute();
-//                startActivityWithComment(new Intent(this, AccountActivity.class).putExtra("createTask", true));
+                presenter.updateTask(task);
+//                Intent intent = new Intent(this, MainTmpActivity.class).putExtra("createTask", true);
+//                new Updater(this, new Request(task, Request.UPDATE_TASK), intent).execute();
             }
         }
+    }
+
+    @Override
+    public void startMainActivity() {
+        Intent intent = new Intent(this, MainTmpActivity.class)
+                .putExtra("createTask", true);
+        startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-//        startActivity(new Intent(this, MainTmpActivity.class));
     }
 
     private void chooseDate(){
@@ -175,14 +174,14 @@ public class UpdateTaskActivity extends BaseActivity{
     }
 
     private void init(){
-        chooseDate = (Button) findViewById(R.id.choose_date);
-        addressesForUpdate = (AutoCompleteTextView) findViewById(R.id.task_title);
-        importanceSpinner = (AppCompatSpinner) findViewById(R.id.spinner_importance);
-        statusSpinner = (AppCompatSpinner) findViewById(R.id.spinner_status);
-        typeSpinner = (AppCompatSpinner) findViewById(R.id.spinner_type);
-        body = (EditText) findViewById(R.id.task_body);
-        userSpinner = (AppCompatSpinner) findViewById(R.id.spinner_users);
-        createTask = (Button) findViewById(R.id.create_task_btn);
+        chooseDate = findViewById(R.id.choose_date);
+        addressesForUpdate = findViewById(R.id.task_title);
+        importanceSpinner = findViewById(R.id.spinner_importance);
+        statusSpinner = findViewById(R.id.spinner_status);
+        typeSpinner = findViewById(R.id.spinner_type);
+        body = findViewById(R.id.task_body);
+        userSpinner = findViewById(R.id.spinner_users);
+        createTask = findViewById(R.id.create_task_btn);
         createOrgNames();
         createDropMenuOrgNames();
         createUserNames();
@@ -259,4 +258,13 @@ public class UpdateTaskActivity extends BaseActivity{
                 position -> importanceSelected = importance[position],
                 () -> importanceSelected = importance[0]);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            App.getComponentManager().releaseComponent(getClass());
+        }
+    }
+
 }

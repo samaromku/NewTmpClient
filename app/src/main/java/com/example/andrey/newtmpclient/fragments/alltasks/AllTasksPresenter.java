@@ -7,6 +7,7 @@ import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -40,8 +41,8 @@ public class AllTasksPresenter {
                 }, throwable -> throwable.printStackTrace());
     }
 
-    void getComments(Task task) {
-        interActor.getComments(task)
+    void getComments(int position) {
+        interActor.getComments(position)
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response -> {
                             contactsManager.removeAll();
@@ -50,7 +51,7 @@ public class AllTasksPresenter {
                                 contactsManager.addContact(c);
                             }
                             contactsManager.removeEmptyPhonesEmails();
-                            view.startCreateTaskActivity(task.getId());
+                            view.startCreateTaskActivity(interActor.getTaskId());
                         },
                         throwable -> {
                             throwable.printStackTrace();
@@ -61,10 +62,10 @@ public class AllTasksPresenter {
     void getFirstAddresses() {
         interActor.getFirstAddresses()
                 .compose(new TransformerDialog<>(view))
-                .subscribe(response -> view.startCreateTaskActivity(),
-                        throwable -> {
-                            throwable.printStackTrace();
-                            view.showToast(ERROR_DATA);
-                        });
+                .subscribe(response -> {
+                            interActor.setAddresses(response.getAddresses()).subscribe();
+                            view.startCreateTaskActivity();
+                        },
+                        throwable -> Utils.showError(view, throwable));
     }
 }

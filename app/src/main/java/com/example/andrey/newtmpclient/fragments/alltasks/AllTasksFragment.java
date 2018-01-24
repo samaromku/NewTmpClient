@@ -82,7 +82,6 @@ public class AllTasksFragment extends BaseFragment implements
     protected RecyclerView tasksList;
     protected TasksAdapter adapter;
     private boolean done;
-    private TasksManager tasksManager = TasksManager.INSTANCE;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     private UsersManager usersManager = UsersManager.INSTANCE;
     @Inject
@@ -118,11 +117,11 @@ public class AllTasksFragment extends BaseFragment implements
         setDialogTitleAndText("Получаем комментарии", PLEASE_WAIT);
         if(done) {
             adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
-                    presenter.getComments(tasksManager.getDoneTasks().get(position)));
+                    presenter.getComments(position));
             setToolbarTitle(doneTasks);
         }else {
             adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
-                    presenter.getComments(tasksManager.getNotDoneTasks().get(position)));
+                    presenter.getComments(position));
             setToolbarTitle(currentTasks);
         }
         return inflater.inflate(R.layout.tasks_fragment, container, false);
@@ -154,10 +153,6 @@ public class AllTasksFragment extends BaseFragment implements
 
     private void firstTimeAddAddresses() {
         presenter.getFirstAddresses();
-//        Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
-//        if (addressManager.getAddresses().size() == 0) {
-//            new Updater(getActivity(), new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
-//        } else startActivity(intent);
     }
 
     @Override

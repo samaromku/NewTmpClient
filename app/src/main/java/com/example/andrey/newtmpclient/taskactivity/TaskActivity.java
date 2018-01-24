@@ -5,19 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
-import com.example.andrey.newtmpclient.activities.UpdateTaskActivity;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.activities.updatenewtask.UpdateNewTaskActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
@@ -110,7 +109,7 @@ public class TaskActivity extends BaseActivity{
 
 
     private void firstTimeAddAddresses(){
-        Intent intent = new Intent(this, UpdateTaskActivity.class).putExtra("taskId", task.getId());
+        Intent intent = new Intent(this, UpdateNewTaskActivity.class).putExtra("taskId", task.getId());
         if(addressManager.getAddresses().size()==0) {
             new Updater(this, new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
         }else startActivity(intent);

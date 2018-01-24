@@ -1,6 +1,7 @@
 package com.example.andrey.newtmpclient.fragments.alltasks;
 
 
+import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.AddressManager;
@@ -13,6 +14,7 @@ import com.example.andrey.newtmpclient.network.TmpService;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 import static com.example.andrey.newtmpclient.entities.TaskEnum.DONE_TASK;
@@ -24,6 +26,8 @@ public class AllTasksInterActor {
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
+    private List<Task>current;
+    private Task task;
 
     public AllTasksInterActor(TmpService tmpService) {
         this.tmpService = tmpService;
@@ -57,6 +61,8 @@ public class AllTasksInterActor {
 
     private List<Task> searchedList(String[] words, boolean done) {
         List<Task> startList = new ArrayList<>();
+        current = new ArrayList<>();
+
         if (done) {
             startList.addAll(tasksManager.getDoneTasks());
         } else {
@@ -83,13 +89,19 @@ public class AllTasksInterActor {
             }
             startList.clear();
             startList.addAll(tasks);
+            current.addAll(tasks);
         }
         return startList;
     }
 
-    Observable<Response>getComments(Task task){
+    Observable<Response>getComments(int position){
+        task = current.get(position);
         Request request = requestTaskWithToken(task, Request.WANT_SOME_COMMENTS);
         return tmpService.getCommentsForTask(request);
+    }
+
+    int getTaskId(){
+        return task.getId();
     }
 
     Observable<Response> getFirstAddresses(){
@@ -98,5 +110,9 @@ public class AllTasksInterActor {
         }else {
             return Observable.empty();
         }
+    }
+
+    Completable setAddresses(List<Address>addresses){
+        return Completable.fromAction(() -> addressManager.addAll(addresses));
     }
 }
