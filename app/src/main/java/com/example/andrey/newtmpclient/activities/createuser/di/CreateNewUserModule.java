@@ -7,6 +7,7 @@ import com.example.andrey.newtmpclient.di.base.BaseModule;
 import com.example.andrey.newtmpclient.activities.createuser.CreateNewUserView;
 import com.example.andrey.newtmpclient.activities.createuser.CreateNewUserPresenter;
 import com.example.andrey.newtmpclient.activities.createuser.CreateNewUserInterActor;
+import com.example.andrey.newtmpclient.network.TmpService;
 
 @Module
 public class CreateNewUserModule implements BaseModule {
@@ -24,8 +25,8 @@ public class CreateNewUserModule implements BaseModule {
 
     @CreateNewUserScope
     @Provides
-    CreateNewUserInterActor interActor() {
-        return new CreateNewUserInterActor();
+    CreateNewUserInterActor interActor(TmpService tmpService) {
+        return new CreateNewUserInterActor(tmpService);
     }
 }
 

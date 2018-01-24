@@ -52,7 +52,6 @@
         <!-- android:screenOrientation="portrait" /> -->
         <activity android:name=".activities.createTask.CreateTaskActivity" />
         <activity android:name=".activities.UserActivity" />
-        <activity android:name=".activities.CreateUserActivity" />
         <!-- <activity -->
         <!-- android:name=".activities.UsersActivity" -->
         <!-- android:screenOrientation="portrait" /> -->

@@ -18,8 +18,6 @@ import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.storage.Updater;
 
 import javax.inject.Inject;
 

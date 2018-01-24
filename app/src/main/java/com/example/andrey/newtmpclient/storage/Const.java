@@ -17,4 +17,6 @@ public interface Const {
     String ADDRESSES = "Адреса";
     String WRONG_ADDRESS = "Неправильный адрес";
     String TASK_NUMBER = "taskNumber";
+
+    String FILL_FIELD = "Вы должны заполнить это поле";
 }

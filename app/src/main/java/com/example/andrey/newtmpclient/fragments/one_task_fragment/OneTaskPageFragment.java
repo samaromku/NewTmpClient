@@ -234,14 +234,16 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     @Override
     public void startActivityWithComment(Comment newComment, String status) {
         Log.i(TAG, "startActivityWithComment: sendMessage");
-        Intent intent = new Intent(getActivity(), MainTmpActivity.class).putExtra(STATUS_CHANGED, true);
+        Intent intent = new Intent(getActivity(), MainTmpActivity.class)
+                .putExtra(STATUS_CHANGED, true);
         new Updater(getActivity(), new Request(newComment, status), intent).execute();
     }
 
     @Override
     public void startActivityWithTask(Task task) {
         Log.i(TAG, "startActivityWithTask: sendMessage");
-        Intent intent = new Intent(getActivity(), MainTmpActivity.class).putExtra("statusChanged", true);
+        Intent intent = new Intent(getActivity(), MainTmpActivity.class)
+                .putExtra("statusChanged", true);
         new Updater(getActivity(), new Request(task, task.getStatus()), intent).execute();
     }
 }

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.createuser.CreateNewUserActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.oneuser.OneUserActivity;
 import com.example.andrey.newtmpclient.adapter.UserAdapter;
@@ -91,7 +92,8 @@ public class UsersActivity extends AppCompatActivity{
         if(userRole!=null && userRole.isMakeNewUser()){
         addUser.setVisibility(View.VISIBLE);
         }else addUser.setVisibility(View.INVISIBLE);
-        addUser.setOnClickListener(v -> startActivity(new Intent(UsersActivity.this, CreateUserActivity.class)));
+        addUser.setOnClickListener(v -> startActivity(
+                new Intent(UsersActivity.this, CreateNewUserActivity.class)));
     }
 
     private void init(){

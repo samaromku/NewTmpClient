@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.CreateUserActivity;
+import com.example.andrey.newtmpclient.activities.createuser.CreateNewUserActivity;
 import com.example.andrey.newtmpclient.activities.oneuser.OneUserActivity;
 import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.entities.User;
@@ -40,7 +40,6 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
     RecyclerView rvUser;
     private UserAdapter adapter;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,13 +54,7 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
         ButterKnife.bind(this, view);
         presenter.getListFroAdapter();
         setToolbarTitle("Пользователи");
-        adminAction(view);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
+        adminAction();
     }
 
     @Override
@@ -87,12 +80,13 @@ public class UsersMvpFragment extends BaseFragment implements UsersMvpView {
         rvUser.setAdapter(adapter);
     }
 
-    private void adminAction(View view){
+    private void adminAction(){
         UserRole userRole = userRolesManager.getUserRole();
         //настройка видимости кнопки
         if(userRole!=null && userRole.isMakeNewUser()){
             addUser.setVisibility(View.VISIBLE);
         }else addUser.setVisibility(View.INVISIBLE);
-        addUser.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateUserActivity.class)));
+        addUser.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), CreateNewUserActivity.class)));
     }
 }
