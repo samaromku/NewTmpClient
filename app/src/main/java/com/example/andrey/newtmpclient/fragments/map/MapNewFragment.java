@@ -54,6 +54,7 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
             map.getUiSettings().setZoomControlsEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(true);
         });
+        setDialogTitleAndText("Получение координат", PLEASE_WAIT);
         presenter.getUsersCoordes();
     }
 
@@ -120,7 +121,6 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setDialogTitleAndText("Получение координат", PLEASE_WAIT);
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if(actionBar!=null){
             actionBar.setTitle("Карта");
