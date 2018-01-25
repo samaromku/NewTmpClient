@@ -80,12 +80,12 @@ class DataMaker {
 //                    contactsManager.removeEmptyPhonesEmails();
 //                    return;
 
-                case Response.UPDATE_USER_ROLE_SUCCESS:
+                case Response.UPDATE_USER_ROLE_SUCCESS://
                     userRolesManager.updateUserRole(userRolesManager.getUpdateUserRole());
 //                    setUserRoleChanged(true);
                     return;
 
-                case Response.ADD_LATEST_USER_COORDS:
+                case Response.ADD_LATEST_USER_COORDS://
                     userCoordsManager.addAll(responseFromServer.getUserCoordsList());
                     return;
 

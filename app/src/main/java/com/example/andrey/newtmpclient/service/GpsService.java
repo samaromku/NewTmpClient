@@ -6,14 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-
-
-import android.location.Geocoder;
 import android.location.Location;
 import android.media.RingtoneManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -21,7 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
+import com.example.andrey.newtmpclient.activities.needdoingtasks.NeedDoingTasksActivity;
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
@@ -36,11 +31,8 @@ import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.DistanceUtil;
 import com.example.andrey.newtmpclient.storage.MyLocation;
 
-import java.io.IOException;
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
 
@@ -139,7 +131,7 @@ public class GpsService extends IntentService {
     }
 
     private void sendNotification(Task task) {
-        Intent intent = new Intent(this, RequestDoingActivity.class);
+        Intent intent = new Intent(this, NeedDoingTasksActivity.class);
         intent.putExtra(TASK_NUMBER, task.getId());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

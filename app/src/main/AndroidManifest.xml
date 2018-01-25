@@ -43,10 +43,6 @@
         </service>
         <service android:name=".service.GpsService" />
 
-        <activity
-            android:name=".activities.MapActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activities.UserRoleActivity" />
         <!-- <activity -->
         <!-- android:name=".activities.AccountActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
@@ -55,10 +51,7 @@
         <!-- android:name=".activities.UsersActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
         <activity
-            android:name=".activities.RequestDoingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".taskactivity.TaskActivity"
+            android:name=".activities.taskactivity.TaskActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".activities.login.LoginActivity">
             <intent-filter>
@@ -75,6 +68,8 @@
         <activity android:name=".activities.oneuser.OneUserActivity" />
         <activity android:name=".activities.updatenewtask.UpdateNewTaskActivity" />
         <activity android:name=".activities.allusers.AllUsersActivity" />
+        <activity android:name=".activities.userrole.NewUserRoleActivity" />
+        <activity android:name=".activities.needdoingtasks.NeedDoingTasksActivity" />
     </application>
 
 </manifest>

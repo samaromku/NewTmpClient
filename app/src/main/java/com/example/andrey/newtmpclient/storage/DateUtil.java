@@ -37,16 +37,4 @@ public class DateUtil {
             return date;
         }
     }
-
-//    public String  convertDate(String date){
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-//        try {
-//            Date date1 = format.parse(date);
-//            SimpleDateFormat rightFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
-//            return rightFormat.format(date1);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//            return date;
-//        }
-//    }
 }

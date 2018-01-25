@@ -41,4 +41,10 @@ public interface TmpService {
 
     @POST("/WebApp/auth")
     Observable<Response>createUser(@Body Request create_user);
+
+    @POST("/WebApp/auth")
+    Observable<Response>getUsersCoordinates(@Body Request getUserCoords);
+
+    @POST("/WebApp/auth")
+    Observable<Response>updateUserRole(@Body Request updateUserRole);
 }

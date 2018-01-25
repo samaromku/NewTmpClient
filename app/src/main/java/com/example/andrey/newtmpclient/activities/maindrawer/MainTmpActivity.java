@@ -23,7 +23,7 @@ import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpModule;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
-import com.example.andrey.newtmpclient.fragments.map.MapFragment;
+import com.example.andrey.newtmpclient.fragments.map.MapNewFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.service.GpsService;
@@ -106,7 +106,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
             case R.id.nav_addresses:
                 return openFragment(new AddressMvpFragment());
             case R.id.nav_map:
-                return openFragment(new MapFragment());
+                return openFragment(new MapNewFragment());
             case R.id.nav_exit:
                 presenter.logout();
                 return true;

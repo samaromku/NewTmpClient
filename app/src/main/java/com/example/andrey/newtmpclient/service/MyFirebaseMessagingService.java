@@ -9,8 +9,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.taskactivity.TaskActivity;
+import com.example.andrey.newtmpclient.activities.taskactivity.TaskActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.network.Response;

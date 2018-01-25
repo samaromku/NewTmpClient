@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.taskactivity;
+package com.example.andrey.newtmpclient.activities.taskactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.RequestDoingActivity;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
+import com.example.andrey.newtmpclient.activities.needdoingtasks.NeedDoingTasksActivity;
 import com.example.andrey.newtmpclient.activities.updatenewtask.UpdateNewTaskActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.Task;
@@ -123,7 +123,7 @@ public class TaskActivity extends BaseActivity{
             startActivity(new Intent(this, MainTmpActivity.class));
             commentsManager.removeAll();
         }else {
-            startActivity(new Intent(this, RequestDoingActivity.class));
+            startActivity(new Intent(this, NeedDoingTasksActivity.class));
         }
     }
 }

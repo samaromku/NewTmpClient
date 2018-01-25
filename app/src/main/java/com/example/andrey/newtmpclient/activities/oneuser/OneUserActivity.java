@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.activities.UserRoleActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.oneuser.di.OneUserComponent;
 import com.example.andrey.newtmpclient.activities.oneuser.di.OneUserModule;
+import com.example.andrey.newtmpclient.activities.userrole.NewUserRoleActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
@@ -44,7 +44,7 @@ public class OneUserActivity extends BaseActivity implements OneUserView {
         initBackButton();
         changeToolbarTitle(user.getLogin());
         change.setOnClickListener(v -> {
-            startActivity(new Intent(this, UserRoleActivity.class)
+            startActivity(new Intent(this, NewUserRoleActivity.class)
                     .putExtra("userId", user.getId()));
             finish();
         });

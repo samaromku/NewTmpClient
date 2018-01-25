@@ -8,15 +8,21 @@ import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.login.di.LoginComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
+import com.example.andrey.newtmpclient.activities.needdoingtasks.NeedDoingTasksActivity;
+import com.example.andrey.newtmpclient.activities.needdoingtasks.di.NeedDoingTasksComponent;
 import com.example.andrey.newtmpclient.activities.oneuser.OneUserActivity;
 import com.example.andrey.newtmpclient.activities.oneuser.di.OneUserComponent;
 import com.example.andrey.newtmpclient.activities.updatenewtask.UpdateNewTaskActivity;
 import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTaskComponent;
+import com.example.andrey.newtmpclient.activities.userrole.NewUserRoleActivity;
+import com.example.andrey.newtmpclient.activities.userrole.di.NewUserRoleComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.fragments.address.di.AddressMvpComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
+import com.example.andrey.newtmpclient.fragments.map.MapNewFragment;
+import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
@@ -49,6 +55,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
         OneUserComponent.class,
         CreateNewUserComponent.class,
         UpdateNewTaskComponent.class,
+        MapNewComponent.class,
+        NewUserRoleComponent.class,
+        NeedDoingTasksComponent.class,
 })
 class AppModule {
     private static final String BASE_URL = "http://81.23.123.230:60123";
@@ -57,6 +66,27 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(NeedDoingTasksActivity.class)
+    ComponentBuilder provideNeedDoing(NeedDoingTasksComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(NewUserRoleActivity.class)
+    ComponentBuilder provideUserRole(NewUserRoleComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(MapNewFragment.class)
+    ComponentBuilder provideMap(MapNewComponent.Builder builder) {
         return builder;
     }
 

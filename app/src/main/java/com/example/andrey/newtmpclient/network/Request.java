@@ -72,6 +72,14 @@ public class Request {
         return request1;
     }
 
+    public static Request requestUserRoleWithToken(UserRole userRole, String request){
+        Request request1 = new Request();
+        request1.setRequest(request);
+        request1.userRole = userRole;
+        request1.setToken(TokenManager.instance.getToken());
+        return request1;
+    }
+
     public static Request requestTaskWithToken(Task task, String request){
         Request request1 = new Request();
         request1.setRequest(request);
