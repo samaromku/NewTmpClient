@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
 import com.example.andrey.newtmpclient.adapter.TasksAdapter;
 import com.example.andrey.newtmpclient.base.BaseFragment;
+import com.example.andrey.newtmpclient.dialogs.filter.FilterDialog;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
@@ -63,16 +65,21 @@ public class AllTasksFragment extends BaseFragment implements
     public static final String TAG = "AllTasksFragment";
     @BindView(R.id.search_toolbar)
     Toolbar searchToolbar;
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.etSearch)protected EditText etSearch;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.etSearch)
+    protected EditText etSearch;
+
     @OnClick(R.id.ivClose)
-    void onCloseClick(){
+    void onCloseClick() {
         etSearch.setText("");
     }
+
     @OnClick(R.id.ivBack)
-    void onBackClick(){
+    void onBackClick() {
         backClick();
     }
+
     @BindString(R.string.current_tasks)
     String currentTasks;
     @BindString(R.string.done_tasks)
@@ -96,7 +103,7 @@ public class AllTasksFragment extends BaseFragment implements
                 .putExtra(TASK_NUMBER, taskId));
     }
 
-    private void backClick(){
+    private void backClick() {
         toolbar.setVisibility(View.VISIBLE);
         searchToolbar.setVisibility(View.GONE);
         hideKeyboard(getActivity(), etSearch);
@@ -114,16 +121,16 @@ public class AllTasksFragment extends BaseFragment implements
                 .getPresenterComponent(getClass(), new DoneTasksModule(this))).inject(this);
         ButterKnife.bind(this, getActivity());
         setDialogTitleAndText("Получаем комментарии", PLEASE_WAIT);
-        if(done) {
+        if (done) {
             adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
                     presenter.getComments(position));
             setToolbarTitle(doneTasks);
-        }else {
+        } else {
             adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
                     presenter.getComments(position));
             setToolbarTitle(currentTasks);
         }
-        return inflater.inflate(R.layout.tasks_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_tasks, container, false);
     }
 
     private void addFireBaseTokenIfFromAuth() {
@@ -202,9 +209,20 @@ public class AllTasksFragment extends BaseFragment implements
             case R.id.action_search:
                 openToolbarSearch();
                 return true;
+            case R.id.action_filter:
+                openFilterDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openFilterDialog() {
+        FilterDialog filterDialog = new FilterDialog();
+        filterDialog.setOnDialogClosed(data -> {
+            Log.i(TAG, "openFilterDialog: " + data);
+        });
+        filterDialog.show(getFragmentManager(), "filter");
     }
 
     private void openToolbarSearch() {
@@ -223,7 +241,7 @@ public class AllTasksFragment extends BaseFragment implements
         AuthChecker.checkAuth(getActivity());
     }
 
-    public void onSearch(String search){
+    public void onSearch(String search) {
         presenter.getSearchedList(search, done);
     }
 }

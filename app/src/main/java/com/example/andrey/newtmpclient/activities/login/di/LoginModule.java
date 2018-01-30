@@ -1,5 +1,6 @@
 package com.example.andrey.newtmpclient.activities.login.di;
 
+import com.example.andrey.newtmpclient.di.ChangeUrlInterceptor;
 import com.example.andrey.newtmpclient.di.base.BaseModule;
 import com.example.andrey.newtmpclient.activities.login.LoginInterActor;
 import com.example.andrey.newtmpclient.activities.login.LoginPresenterImpl;
@@ -28,7 +29,7 @@ public class LoginModule implements BaseModule{
 
     @Provides
     @LoginScope
-    LoginInterActor interActor(TmpService tmpService){
-        return new LoginInterActor(tmpService);
+    LoginInterActor interActor(TmpService tmpService, ChangeUrlInterceptor interceptor){
+        return new LoginInterActor(tmpService, interceptor);
     }
 }

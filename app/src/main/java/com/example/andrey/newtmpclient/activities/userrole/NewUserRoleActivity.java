@@ -45,7 +45,7 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_role_activity);
+        setContentView(R.layout.activity_user_role);
         ((NewUserRoleComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new NewUserRoleModule(this))).inject(this);
         changeToolbarTitle("Права");

@@ -17,6 +17,8 @@ import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTask
 import com.example.andrey.newtmpclient.activities.userrole.NewUserRoleActivity;
 import com.example.andrey.newtmpclient.activities.userrole.di.NewUserRoleComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
+import com.example.andrey.newtmpclient.dialogs.filter.FilterDialog;
+import com.example.andrey.newtmpclient.dialogs.filter.di.FilterComponent;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.fragments.address.di.AddressMvpComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
@@ -41,6 +43,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.andrey.newtmpclient.di.ChangeUrlInterceptor.BASE_URL_OUTER;
+
 
 /**
  * Created by Andrey on 06.10.2017.
@@ -58,14 +62,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
         MapNewComponent.class,
         NewUserRoleComponent.class,
         NeedDoingTasksComponent.class,
+        FilterComponent.class,
 })
 class AppModule {
-    private static final String BASE_URL = "http://81.23.123.230:60123";
 
     @Provides
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(FilterDialog.class)
+    ComponentBuilder provideFilter(FilterComponent.Builder builder) {
         return builder;
     }
 
@@ -149,11 +160,13 @@ class AppModule {
 
     @Singleton
     @Provides
-    TmpService tmpService() {
+    TmpService tmpService(ChangeUrlInterceptor changeUrlInterceptor) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(changeUrlInterceptor)
                 .addInterceptor(logging)
+
 //                .addInterceptor(chain -> {
 //                    Request request = chain.request()
 //                            .newBuilder()
@@ -167,12 +180,20 @@ class AppModule {
 //                .setDateFormat(DATE_PATTERN)
 //                .create();
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL_OUTER)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
                 .create(TmpService.class);
+    }
+
+
+
+    @Singleton
+    @Provides
+    ChangeUrlInterceptor changeUrlInterceptor(){
+        return new ChangeUrlInterceptor();
     }
 
     @Provides

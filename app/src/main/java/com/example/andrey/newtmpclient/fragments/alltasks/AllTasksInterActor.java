@@ -12,6 +12,7 @@ import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -105,14 +106,18 @@ public class AllTasksInterActor {
     }
 
     Observable<Response> getFirstAddresses(){
-        if (addressManager.getAddresses().size() == 0) {
+//        if (addressManager.getAddresses().size() == 0) {
             return tmpService.getAddresses(Request.requestWithToken(Request.GIVE_ME_ADDRESSES_PLEASE));
-        }else {
-            return Observable.empty();
-        }
+//        }else {
+//            return Observable.empty();
+//        }
     }
 
     Completable setAddresses(List<Address>addresses){
         return Completable.fromAction(() -> addressManager.addAll(addresses));
+    }
+
+    private static Date getFinishDate(Date now, int days) {
+        return new Date(now.getTime() - days * 24 * 3600 * 1000L);
     }
 }

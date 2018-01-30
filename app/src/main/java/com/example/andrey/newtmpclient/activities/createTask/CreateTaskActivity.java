@@ -71,7 +71,7 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
 
     @Override
     public void hideDialog() {
-        mDialog.hide();
+        mDialog.dismiss();
     }
 
     private void initPresenter() {

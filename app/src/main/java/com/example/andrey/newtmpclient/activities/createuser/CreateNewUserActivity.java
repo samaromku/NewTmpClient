@@ -55,7 +55,7 @@ public class CreateNewUserActivity extends BaseActivity implements CreateNewUser
         setDialogTitleAndText("Создание пользователя", PLEASE_WAIT);
         changeToolbarTitle(makeNewUser);
         init();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, roles);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, roles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         role.setAdapter(adapter);
         role.setSelection(0);

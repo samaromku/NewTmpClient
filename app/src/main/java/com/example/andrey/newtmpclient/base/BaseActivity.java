@@ -2,10 +2,8 @@ package com.example.andrey.newtmpclient.base;
 
 import android.app.ProgressDialog;
 import android.support.annotation.StringRes;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,9 +13,6 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 import com.example.andrey.newtmpclient.interfaces.OnNothingSelected;
 import com.example.andrey.newtmpclient.interfaces.SpinnerListener;
-
-import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
-import static com.example.andrey.newtmpclient.storage.Const.UPLOAD_FILE;
 
 
 /**
@@ -82,7 +77,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
                                AppCompatSpinner spinner,
                                SpinnerListener spinnerListener,
                                OnNothingSelected onNothingSelected) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, stringArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner, stringArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);

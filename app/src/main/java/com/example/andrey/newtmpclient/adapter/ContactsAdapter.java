@@ -1,6 +1,5 @@
 package com.example.andrey.newtmpclient.adapter;
 
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutCompat.LayoutParams;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
@@ -27,7 +26,7 @@ public ContactsAdapter(List<ContactOnAddress> contacts, OnListItemClickListener 
 
 @Override
 public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contacts_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contacts, parent, false);
         return new ViewHolder(v);
         }
 

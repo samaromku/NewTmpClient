@@ -2,6 +2,7 @@ package com.example.andrey.newtmpclient.activities.login;
 
 import android.util.Log;
 
+import com.example.andrey.newtmpclient.di.ChangeUrlInterceptor;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
@@ -34,17 +35,16 @@ public class LoginInterActor  {
     private TmpService tmpService;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
-    private CommentsManager commentsManager = CommentsManager.INSTANCE;
-    private ContactsManager contactsManager = ContactsManager.Instance;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
-    private UserCoordsManager userCoordsManager = UserCoordsManager.INSTANCE;
     private Client client = Client.INSTANCE;
     private TokenManager tokenManager = TokenManager.instance;
     public static final String TAG = "LoginInterActor";
+    private ChangeUrlInterceptor interceptor;
 
-    public LoginInterActor(TmpService tmpService) {
+    public LoginInterActor(TmpService tmpService, ChangeUrlInterceptor interceptor) {
         this.tmpService = tmpService;
+        this.interceptor = interceptor;
     }
 
     Observable<User>init(){
@@ -62,6 +62,7 @@ public class LoginInterActor  {
     }
 
     void checkNetwork(boolean isChecked) {
+        interceptor.setInner(isChecked);
         checkNetwork.setNetworkInsideOrOutside(isChecked);
     }
 

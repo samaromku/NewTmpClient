@@ -17,7 +17,7 @@ import com.example.andrey.newtmpclient.interfaces.OnItemClickListener;
 public class UserAdapter extends BaseAdapter<User> {
     @Override
     public BaseViewHolder<User> onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
         return new UserViewHolder(view);
     }
 

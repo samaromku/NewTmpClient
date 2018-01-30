@@ -36,7 +36,7 @@ public class OneUserActivity extends BaseActivity implements OneUserView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_activity);
+        setContentView(R.layout.activity_user);
         ((OneUserComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new OneUserModule(this))).inject(this);
         init();

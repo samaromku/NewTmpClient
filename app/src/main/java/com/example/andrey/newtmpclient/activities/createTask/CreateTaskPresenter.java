@@ -52,11 +52,11 @@ public class CreateTaskPresenter {
                 .subscribe(strings -> view.setTypes(strings));
     }
 
-    void setType(String type){
+    void setType(String type) {
         interactor.setTypeSelected(type);
     }
 
-    void setImportance(String importance){
+    void setImportance(String importance) {
         interactor.setImportanceSelected(importance);
     }
 
@@ -65,7 +65,7 @@ public class CreateTaskPresenter {
                 .subscribe(strings -> view.setImportance(strings));
     }
 
-    void setStatus(String status){
+    void setStatus(String status) {
         interactor.setStatusSelected(status);
     }
 
@@ -74,11 +74,11 @@ public class CreateTaskPresenter {
                 .subscribe(strings -> view.setStatuses(strings));
     }
 
-    void setUserName(String userName){
+    void setUserName(String userName) {
         interactor.setUserSelected(userName);
     }
 
-    void setSelectedStatusPosition(int position, String[]statuses) {
+    void setSelectedStatusPosition(int position, String[] statuses) {
         interactor.getUserNames()
                 .subscribe(userNames -> {
                     if (statuses[position].equals(TaskEnum.NEW_TASK)) {
@@ -133,17 +133,15 @@ public class CreateTaskPresenter {
         interactor.setDate(view.getDate());
         interactor.createTask()
                 .compose(new TransformerDialog<>(view))
-                .subscribe(response -> {
-                    Log.i(TAG, "createTask: " + response);
-                    view.finishCreateActivity();
-                }, throwable -> {
-                    throwable.printStackTrace();
-                    if(throwable.getMessage().equals(WRONG_ADDRESS)){
-                        view.showToast(WRONG_ADDRESS);
-                    }else {
-                        view.showToast("Ошибка при создании задания");
-                    }
-                });
+                .subscribe(response -> view.finishCreateActivity(),
+                        throwable -> {
+                            throwable.printStackTrace();
+                            if (throwable.getMessage().equals(WRONG_ADDRESS)) {
+                                view.showToast(WRONG_ADDRESS);
+                            } else {
+                                view.showToast("Ошибка при создании задания");
+                            }
+                        });
     }
 
     void setAddressNameAdapter() {

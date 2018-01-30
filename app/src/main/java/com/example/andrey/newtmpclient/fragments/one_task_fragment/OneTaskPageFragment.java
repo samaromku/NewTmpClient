@@ -84,14 +84,14 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
         ViewGroup rootView = null;
 
         if (pageNumber == 0) {
-            rootView = (ViewGroup) inflater.inflate(R.layout.one_task_fragment, container, false);
+            rootView = (ViewGroup) inflater.inflate(R.layout.fragment_one_task, container, false);
             initiate(rootView);
             commentsList.setLayoutManager(new LinearLayoutManager(getActivity()));
             oneTaskFragmentPresenter.initFields();
             CommentsAdapter adapter = new CommentsAdapter(oneTaskFragmentPresenter.getCommentsFromInteractor(), clickListener);
             commentsList.setAdapter(adapter);
         } else if (pageNumber == 1) {
-            rootView = (ViewGroup) inflater.inflate(R.layout.contacts_fragment, container, false);
+            rootView = (ViewGroup) inflater.inflate(R.layout.fragment_contacts, container, false);
             initiateContacts(rootView);
         }
         return rootView;
