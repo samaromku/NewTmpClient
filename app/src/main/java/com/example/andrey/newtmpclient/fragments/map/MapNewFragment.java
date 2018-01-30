@@ -4,9 +4,12 @@ import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
-import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.entities.UserCoords;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewModule;
@@ -19,14 +22,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 
 import java.util.List;
 
@@ -55,6 +50,10 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
             map.getUiSettings().setMyLocationButtonEnabled(true);
         });
         setDialogTitleAndText("Получение координат", PLEASE_WAIT);
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setTitle("Карта");
+        }
         presenter.getUsersCoordes();
     }
 
@@ -114,20 +113,8 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
 
         int margin = 30;
         CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
-//        map.animateCamera(update);
         map.setOnMapLoadedCallback(() -> map.moveCamera(update));
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setTitle("Карта");
-        }
-        return inflater.inflate(R.layout.fragment_map_new, container, false);
-    }
-
 
     @Override
     public void onDetach() {
