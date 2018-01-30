@@ -9,60 +9,65 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.activities.needdoingtasks.NeedDoingTasksActivity;
+import com.example.andrey.newtmpclient.activities.taskactivity.di.OneTaskComponent;
+import com.example.andrey.newtmpclient.activities.taskactivity.di.OneTaskModule;
 import com.example.andrey.newtmpclient.activities.updatenewtask.UpdateNewTaskActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Request;
-import com.example.andrey.newtmpclient.storage.Updater;
+
+import javax.inject.Inject;
 
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
+import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
 
-public class TaskActivity extends BaseActivity{
+public class OneTaskActivity extends BaseActivity implements OneTaskView {
+    private static final String TAG = OneTaskActivity.class.getSimpleName();
+    @Inject
+    OneTaskPresenter presenter;
     private int taskNumber;
     TasksManager tasksManager = TasksManager.INSTANCE;
     CommentsManager commentsManager = CommentsManager.INSTANCE;
     UsersManager usersManager = UsersManager.INSTANCE;
     UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
-    Task task;
-    private AddressManager addressManager = AddressManager.INSTANCE;
-    ViewPager pager;
-    PagerAdapter pagerAdapter;
+    private Task task;
     boolean fromDoingList = false;
     public static final String FROM_DOING_LIST = "fromDoingList";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.one_task_view_pager);
+        ((OneTaskComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new OneTaskModule(this))).inject(this);
         initBackButton();
+        setDialogTitleAndText("Обработка запроса", PLEASE_WAIT);
         if(usersManager.getUser()!=null){
-        taskNumber = getIntent()
-                .getIntExtra(TASK_NUMBER, 0);
-        task = tasksManager.getById(taskNumber);
-        if(getSupportActionBar()!=null)
-        getSupportActionBar().setTitle(task.getStatus());
-        pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), taskNumber);
-        pager.setAdapter(pagerAdapter);
+            taskNumber = getIntent()
+                    .getIntExtra(TASK_NUMBER, 0);
+            task = tasksManager.getById(taskNumber);
+            if(getSupportActionBar()!=null)
+                getSupportActionBar().setTitle(task.getStatus());
+            ViewPager pager = findViewById(R.id.pager);
+            PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), taskNumber);
+            pager.setAdapter(pagerAdapter);
 
         }else {
             Toast.makeText(this, NOT_AUTH, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,40 +84,36 @@ public class TaskActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_task:
-                firstTimeAddAddresses();
+                presenter.getAddresses();
                 commentsManager.removeAll();
                 return true;
             case R.id.remove_task:
-                commentsManager.removeAll();
-                tasksManager.setRemoveTask(task);
-                Intent intent = new Intent(this, MainTmpActivity.class).putExtra("removeTask", true);
-                new Updater(this, new Request(task, Request.REMOVE_TASK), intent).execute();
-//                converter.sendMessage(new Request(task, Request.REMOVE_TASK));
-//                startActivityWithComment(new Intent(this, AccountActivity.class).putExtra("removeTask", true));
+                presenter.removeTask(taskNumber);
                 return true;
             case R.id.check_as_done:
                 clickToChangeStatus(TaskEnum.DONE_TASK);
                 return true;
             default:
-            return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
     }
 
-    private void clickToChangeStatus(String changedStatusTask){
-        task.setUserId(usersManager.getUser().getId());
-        task.setStatus(changedStatusTask);
-        tasksManager.setTask(task);
-        commentsManager.removeAll();
-        Intent intent = new Intent(this, MainTmpActivity.class).putExtra("statusChanged", true);
-        new Updater(this, new Request(task, changedStatusTask), intent).execute();
+    @Override
+    public void startMainActivity(String extra) {
+        Intent intent = new Intent(this, MainTmpActivity.class)
+                .putExtra(extra, true);
+        startActivity(intent);
     }
 
+    private void clickToChangeStatus(String changedStatusTask){
+        presenter.changeTaskStatus(changedStatusTask, taskNumber);
+    }
 
-    private void firstTimeAddAddresses(){
-        Intent intent = new Intent(this, UpdateNewTaskActivity.class).putExtra("taskId", task.getId());
-        if(addressManager.getAddresses().size()==0) {
-            new Updater(this, new Request(Request.GIVE_ME_ADDRESSES_PLEASE), intent).execute();
-        }else startActivity(intent);
+    @Override
+    public void startUpdateActivity() {
+        Intent intent = new Intent(this, UpdateNewTaskActivity.class)
+                .putExtra("taskId", task.getId());
+        startActivity(intent);
     }
 
     @Override
@@ -126,4 +127,13 @@ public class TaskActivity extends BaseActivity{
             startActivity(new Intent(this, NeedDoingTasksActivity.class));
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            App.getComponentManager().releaseComponent(getClass());
+        }
+    }
+
 }

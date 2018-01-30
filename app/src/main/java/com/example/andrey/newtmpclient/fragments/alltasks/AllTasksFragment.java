@@ -21,6 +21,7 @@ import android.widget.EditText;
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.createTask.CreateTaskActivity;
+import com.example.andrey.newtmpclient.activities.taskactivity.OneTaskActivity;
 import com.example.andrey.newtmpclient.adapter.TasksAdapter;
 import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.dialogs.filter.FilterDialog;
@@ -33,7 +34,6 @@ import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.storage.ConverterMessages;
-import com.example.andrey.newtmpclient.activities.taskactivity.TaskActivity;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -108,7 +108,7 @@ public class AllTasksFragment extends BaseFragment implements
 
     @Override
     public void startCreateTaskActivity(int taskId) {
-        startActivity(new Intent(getActivity(), TaskActivity.class)
+        startActivity(new Intent(getActivity(), OneTaskActivity.class)
                 .putExtra(TASK_NUMBER, taskId));
     }
 

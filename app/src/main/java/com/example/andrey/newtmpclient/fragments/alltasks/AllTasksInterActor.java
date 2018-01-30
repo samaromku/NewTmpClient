@@ -137,6 +137,7 @@ public class AllTasksInterActor {
     }
 
     private List<Task>filterTask(int days, List<Task>doneOrNot) throws ParseException {
+        current.clear();
         List<Task> filtered = new ArrayList<>();
         Date now = new Date();
         Date beforeDate = getFinishDate(now, days);
@@ -151,6 +152,7 @@ public class AllTasksInterActor {
                 }
             }
         }
+        current.addAll(filtered);
         return filtered;
     }
 }

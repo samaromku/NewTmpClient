@@ -9,7 +9,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.andrey.newtmpclient.activities.taskactivity.TaskActivity;
+import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.taskactivity.OneTaskActivity;
 import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.network.Response;
@@ -17,7 +18,6 @@ import com.example.andrey.newtmpclient.storage.JsonParser;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
-import com.example.andrey.newtmpclient.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -100,7 +100,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         System.out.println(task.getId() + " from service");
-        Intent intent = new Intent(this, TaskActivity.class);
+        Intent intent = new Intent(this, OneTaskActivity.class);
         intent.putExtra(TASK_NUMBER, task.getId());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

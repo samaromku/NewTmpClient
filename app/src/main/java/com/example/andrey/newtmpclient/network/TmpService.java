@@ -47,4 +47,10 @@ public interface TmpService {
 
     @POST("/WebApp/auth")
     Observable<Response>updateUserRole(@Body Request updateUserRole);
+
+    @POST("/WebApp/auth")
+    Observable<Response>removeTask(@Body Request removeTask);
+
+    @POST("/WebApp/auth")
+    Observable<Response>changeStatus(@Body Request status);
 }

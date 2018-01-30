@@ -50,9 +50,6 @@
         <!-- <activity -->
         <!-- android:name=".activities.UsersActivity" -->
         <!-- android:screenOrientation="portrait" /> -->
-        <activity
-            android:name=".activities.taskactivity.TaskActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".activities.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,9 +64,9 @@
         <activity android:name=".activities.createuser.CreateNewUserActivity" />
         <activity android:name=".activities.oneuser.OneUserActivity" />
         <activity android:name=".activities.updatenewtask.UpdateNewTaskActivity" />
-        <activity android:name=".activities.allusers.AllUsersActivity" />
         <activity android:name=".activities.userrole.NewUserRoleActivity" />
         <activity android:name=".activities.needdoingtasks.NeedDoingTasksActivity" />
+        <activity android:name=".activities.taskactivity.OneTaskActivity" />
     </application>
 
 </manifest>
