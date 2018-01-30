@@ -68,4 +68,11 @@ public class AllTasksPresenter {
                         },
                         throwable -> Utils.showError(view, throwable));
     }
+
+    void getTasksByFilter(int days, boolean done){
+        interActor.getTasksByFilter(days, done)
+        .subscribe(tasks -> {
+            Log.i(TAG, "getTasksByFilter: " + tasks);
+        });
+    }
 }

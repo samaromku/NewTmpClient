@@ -19,4 +19,9 @@ public interface Const {
     String TASK_NUMBER = "taskNumber";
 
     String FILL_FIELD = "Вы должны заполнить это поле";
+
+    int DAY = 1;
+    int WEEK = 7;
+    int MONTH = 30;
+    int ALL_TIME = -1;
 }

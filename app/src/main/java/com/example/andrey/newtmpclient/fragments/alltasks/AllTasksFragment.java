@@ -51,8 +51,12 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.example.andrey.newtmpclient.storage.Const.ALL_TIME;
+import static com.example.andrey.newtmpclient.storage.Const.DAY;
+import static com.example.andrey.newtmpclient.storage.Const.MONTH;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
+import static com.example.andrey.newtmpclient.storage.Const.WEEK;
 import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
 import static com.example.andrey.newtmpclient.utils.Utils.showKeyboard;
 
@@ -84,6 +88,11 @@ public class AllTasksFragment extends BaseFragment implements
     String currentTasks;
     @BindString(R.string.done_tasks)
     String doneTasks;
+    @BindString(R.string.one_day)String oneDay;
+    @BindString(R.string.one_week)String oneWeek;
+    @BindString(R.string.one_month)String oneMonth;
+    @BindString(R.string.all_period)String allTime;
+
     protected SwipeRefreshLayout swipeLayout;
     protected RecyclerView tasksList;
     protected TasksAdapter adapter;
@@ -220,6 +229,15 @@ public class AllTasksFragment extends BaseFragment implements
     private void openFilterDialog() {
         FilterDialog filterDialog = new FilterDialog();
         filterDialog.setOnDialogClosed(data -> {
+            if(oneDay.equals(data)){
+                presenter.getTasksByFilter(DAY, done);
+            }else if(oneWeek.equals(data)){
+                presenter.getTasksByFilter(WEEK, done);
+            }else if(oneMonth.equals(data)){
+                presenter.getTasksByFilter(MONTH, done);
+            }else if(allTime.equals(data)){
+                presenter.getTasksByFilter(ALL_TIME, done);
+            }
             Log.i(TAG, "openFilterDialog: " + data);
         });
         filterDialog.show(getFragmentManager(), "filter");

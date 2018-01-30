@@ -11,6 +11,7 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -119,5 +120,23 @@ public class AllTasksInterActor {
 
     private static Date getFinishDate(Date now, int days) {
         return new Date(now.getTime() - days * 24 * 3600 * 1000L);
+    }
+
+
+    Observable<List<Task>> getTasksByFilter(int days, boolean done){
+        return Observable.fromCallable(() -> {
+            List<Task>filtered = new ArrayList<>();
+            Date now = new Date();
+            Date beforeDate = getFinishDate(now, days);
+            if(done){
+
+            }else {
+                for(Task task:tasksManager.getNotDoneTasks()){
+                    Date taskCreated = new SimpleDateFormat("dd-MM-yy HH:mm").parse(task.getCreated());
+
+                }
+            }
+            return filtered;
+        });
     }
 }
