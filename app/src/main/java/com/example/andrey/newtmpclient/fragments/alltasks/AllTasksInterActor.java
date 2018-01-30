@@ -11,6 +11,7 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,8 @@ import io.reactivex.Observable;
 
 import static com.example.andrey.newtmpclient.entities.TaskEnum.DONE_TASK;
 import static com.example.andrey.newtmpclient.network.Request.requestTaskWithToken;
+import static com.example.andrey.newtmpclient.storage.Const.ALL_TIME;
+import static com.example.andrey.newtmpclient.storage.Const.DATE_FORMAT_FROM_SERVER;
 
 public class AllTasksInterActor {
     private static final String TAG = AllTasksInterActor.class.getSimpleName();
@@ -28,7 +31,7 @@ public class AllTasksInterActor {
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
-    private List<Task>current;
+    private List<Task> current;
     private Task task;
 
     public AllTasksInterActor(TmpService tmpService) {
@@ -42,11 +45,11 @@ public class AllTasksInterActor {
                 .map(response -> {
                     List<Task> doneTasks = new ArrayList<>();
                     for (Task task : response.getTaskList()) {
-                        if(done) {
+                        if (done) {
                             if (task.getStatus().equals(DONE_TASK)) {
                                 doneTasks.add(task);
                             }
-                        }else {
+                        } else {
                             if (!task.getStatus().equals(DONE_TASK)) {
                                 doneTasks.add(task);
                             }
@@ -96,25 +99,25 @@ public class AllTasksInterActor {
         return startList;
     }
 
-    Observable<Response>getComments(int position){
+    Observable<Response> getComments(int position) {
         task = current.get(position);
         Request request = requestTaskWithToken(task, Request.WANT_SOME_COMMENTS);
         return tmpService.getCommentsForTask(request);
     }
 
-    int getTaskId(){
+    int getTaskId() {
         return task.getId();
     }
 
-    Observable<Response> getFirstAddresses(){
+    Observable<Response> getFirstAddresses() {
 //        if (addressManager.getAddresses().size() == 0) {
-            return tmpService.getAddresses(Request.requestWithToken(Request.GIVE_ME_ADDRESSES_PLEASE));
+        return tmpService.getAddresses(Request.requestWithToken(Request.GIVE_ME_ADDRESSES_PLEASE));
 //        }else {
 //            return Observable.empty();
 //        }
     }
 
-    Completable setAddresses(List<Address>addresses){
+    Completable setAddresses(List<Address> addresses) {
         return Completable.fromAction(() -> addressManager.addAll(addresses));
     }
 
@@ -123,20 +126,31 @@ public class AllTasksInterActor {
     }
 
 
-    Observable<List<Task>> getTasksByFilter(int days, boolean done){
+    Observable<List<Task>> getTasksByFilter(int days, boolean done) {
         return Observable.fromCallable(() -> {
-            List<Task>filtered = new ArrayList<>();
-            Date now = new Date();
-            Date beforeDate = getFinishDate(now, days);
-            if(done){
+            if (done) {
+                return filterTask(days, tasksManager.getDoneTasks());
+            } else {
+                return filterTask(days, tasksManager.getNotDoneTasks());
+            }
+        });
+    }
 
-            }else {
-                for(Task task:tasksManager.getNotDoneTasks()){
-                    Date taskCreated = new SimpleDateFormat("dd-MM-yy HH:mm").parse(task.getCreated());
-
+    private List<Task>filterTask(int days, List<Task>doneOrNot) throws ParseException {
+        List<Task> filtered = new ArrayList<>();
+        Date now = new Date();
+        Date beforeDate = getFinishDate(now, days);
+        if (days == ALL_TIME) {
+            return doneOrNot;
+        } else {
+            for (Task task : doneOrNot) {
+                Date taskCreated = new SimpleDateFormat(DATE_FORMAT_FROM_SERVER).parse(task.getCreated());
+                if (taskCreated.getTime() > beforeDate.getTime() &&
+                        taskCreated.getTime() < now.getTime()) {
+                    filtered.add(task);
                 }
             }
-            return filtered;
-        });
+        }
+        return filtered;
     }
 }

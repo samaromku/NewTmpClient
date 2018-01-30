@@ -72,7 +72,8 @@ public class AllTasksPresenter {
     void getTasksByFilter(int days, boolean done){
         interActor.getTasksByFilter(days, done)
         .subscribe(tasks -> {
-            Log.i(TAG, "getTasksByFilter: " + tasks);
+            view.setListToAdapter(tasks);
+//            Log.i(TAG, "getTasksByFilter: " + tasks);
         });
     }
 }

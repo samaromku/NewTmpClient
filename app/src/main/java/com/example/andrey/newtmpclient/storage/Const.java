@@ -24,4 +24,6 @@ public interface Const {
     int WEEK = 7;
     int MONTH = 30;
     int ALL_TIME = -1;
+
+    String DATE_FORMAT_FROM_SERVER = "dd-MM-yy HH:mm";
 }
