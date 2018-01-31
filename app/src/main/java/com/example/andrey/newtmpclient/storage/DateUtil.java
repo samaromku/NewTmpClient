@@ -23,10 +23,6 @@ public class DateUtil {
         return forServer.format(date);
     }
 
-    public String currentDateForServer(){
-        return forServer.format(date);
-    }
-
     public String currentDate(){
         return dateFormat.format(date);
     }

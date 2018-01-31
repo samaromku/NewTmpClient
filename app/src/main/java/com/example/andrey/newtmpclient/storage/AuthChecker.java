@@ -17,29 +17,11 @@ import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
  */
 
 public class AuthChecker {
-    public static void checkAuthAndRedirect(Context context, Intent intent){
-        if(Client.INSTANCE.isAuth()) {
-            context.startActivity(intent);
-        }else {
-            Toast.makeText(context, NOT_AUTH, Toast.LENGTH_SHORT).show();
-            Intent loginIntent = new Intent(context, LoginActivity.class);
-            context.startActivity(new Intent(context, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        }
-    }
 
     public static void checkAuth(Context context){
         if(!Client.INSTANCE.isAuth()) {
             Toast.makeText(context, NOT_AUTH, Toast.LENGTH_SHORT).show();
             context.startActivity(new Intent(context, LoginActivity.class));
-        }
-    }
-
-    public static void checkServerErrorRedirectLoginActivity(Context context){
-        Log.i(TAG, "checkServerErrorRedirectLoginActivity: " + Client.INSTANCE.isServerConnection());
-        if(!Client.INSTANCE.isServerConnection()) {
-            Toast.makeText(context, "Ошибка подключения к серверу", Toast.LENGTH_SHORT).show();
-            context.startActivity(new Intent(context, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            Client.INSTANCE.setAuth(false);
         }
     }
 

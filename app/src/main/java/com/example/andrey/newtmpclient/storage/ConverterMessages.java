@@ -12,16 +12,8 @@ public class ConverterMessages {
     private HttpSender sender = new HttpSender();
     private CheckNetwork checkNetwork = CheckNetwork.instance;
     private DataMaker dataMaker = new DataMaker();
-    private boolean isAuthSuccess;
     private TokenManager tokenManager = TokenManager.instance;
 
-    public boolean isAuthSuccess() {
-        return isAuthSuccess;
-    }
-
-    public void setAuthSuccess(boolean authSuccess) {
-        isAuthSuccess = authSuccess;
-    }
 
     //отправляем запрос с реквестом и переменной, определяющей, к какой сети будет запрос, внешней или внутренней
     public void sendMessageToServer(Request request) {

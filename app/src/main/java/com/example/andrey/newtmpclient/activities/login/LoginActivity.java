@@ -1,6 +1,9 @@
 package com.example.andrey.newtmpclient.activities.login;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
@@ -21,6 +24,9 @@ import com.example.andrey.newtmpclient.service.GpsService;
 
 import javax.inject.Inject;
 
+import io.victoralbertos.rx2_permissions_result.RxPermissionsResult;
+
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static com.example.andrey.newtmpclient.storage.Const.AUTH;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
@@ -35,6 +41,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
     private String login;
     private String pwd;
     public static final String TAG = "LoginActivity";
+    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION};
 
 
     @Override
@@ -95,6 +103,25 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void successAuth() {
+        if(Build.VERSION.SDK_INT > LOLLIPOP_MR1){
+            RxPermissionsResult.on(this).requestPermissions(permissions)
+                    .subscribe(result ->
+                            showPermissionStatus(result.grantResults()));
+        }else {
+            startMainActivity();
+        }
+    }
+
+    void showPermissionStatus(int[] grantResults) {
+        boolean granted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        if (granted) {
+            startMainActivityService();
+        } else {
+            Toast.makeText(this, "Нужно разрешение на получение геопозиции", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void startMainActivityService(){
         Intent intent = new Intent(this, MainTmpActivity.class);
         startService(GpsService.newIntent(this));
         GpsService.setServiceAlarm(this, true);
