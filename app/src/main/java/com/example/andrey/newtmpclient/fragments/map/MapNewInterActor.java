@@ -9,12 +9,15 @@ import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.example.andrey.newtmpclient.network.Request.GET_USER_COORDES_PER_DAY;
 
 public class MapNewInterActor {
     private static final String TAG = MapNewInterActor.class.getSimpleName();
@@ -28,7 +31,8 @@ public class MapNewInterActor {
     }
 
     Observable<Response> getUsersCoordinates() {
-        return tmpService.getUsersCoordinates(Request.requestWithToken(Request.GIVE_ME_LAST_USERS_COORDS));
+//        return tmpService.getUsersCoordinates(Request.requestWithToken(Request.GIVE_ME_LAST_USERS_COORDS));
+        return tmpService.getUsersCoordesPerDay(Request.requestUserIdWithDateWithToken(186, new Date(), GET_USER_COORDES_PER_DAY));
     }
 
     Completable addUsersCoordes(List<UserCoords> userCoords) {

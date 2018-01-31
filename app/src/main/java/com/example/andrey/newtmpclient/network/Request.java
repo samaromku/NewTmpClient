@@ -7,6 +7,8 @@ import com.example.andrey.newtmpclient.entities.UserCoords;
 import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.managers.TokenManager;
 
+import java.util.Date;
+
 public class Request {
     private String request;
     private User user;
@@ -16,6 +18,8 @@ public class Request {
     private UserCoords userCoords;
     private Token token;
     private String fireBase;
+    private int userId;
+    private Date userCoordesDate;
     public static final String ADD_TASK_TO_SERVER = "add_task_to_server";
     public static final String WANT_SOME_COMMENTS = "give_me_comments_by_task_id";
     public static final String CHANGE_PERMISSION_PLEASE = "change_permission_please";
@@ -31,6 +35,7 @@ public class Request {
     public static final String LOGOUT = "logout";
     public static final String UPDATE_TASKS = "update_tasks";
     public static final String ADD_FIREBASE_TOKEN = "add_firebase_token";
+    public static final String GET_USER_COORDES_PER_DAY = "get_user_coordes_per_day";
 
     public void setToken(Token token) {
         this.token = token;
@@ -68,6 +73,15 @@ public class Request {
         Request request1 = new Request();
         request1.setRequest(request);
         request1.user = user;
+        request1.setToken(TokenManager.instance.getToken());
+        return request1;
+    }
+
+    public static Request requestUserIdWithDateWithToken(int userId, Date date, String request){
+        Request request1 = new Request();
+        request1.setRequest(request);
+        request1.userId = userId;
+        request1.userCoordesDate = date;
         request1.setToken(TokenManager.instance.getToken());
         return request1;
     }
