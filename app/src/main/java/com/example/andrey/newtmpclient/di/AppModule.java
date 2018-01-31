@@ -33,6 +33,7 @@ import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
+import com.example.andrey.newtmpclient.network.MapService;
 import com.example.andrey.newtmpclient.network.TmpService;
 
 import javax.inject.Singleton;
@@ -42,6 +43,7 @@ import dagger.Provides;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -206,6 +208,34 @@ class AppModule {
                 .client(client)
                 .build()
                 .create(TmpService.class);
+    }
+
+    private static final String BASE_MAP_URL = "https://maps.googleapis.com";
+    private static final String APP_KEY = "key=AAAAtzJYhJA:APA91bHSGk3gOnOGqakZbaPvNkEc2P6748IrNYnmoCV_ZIS6iBuS-awPvRHsxG0KshG8jTNdD4nrKwvfLwOA2K9uGryI5cvEpjgb3rGe2ZDK3TPKWj3F4dy3W0GsycSjSr9eMUyEMFfY";
+    @Singleton
+    @Provides
+    MapService mapService(){
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .addInterceptor(chain -> {
+                    Request request = chain.request()
+                            .newBuilder()
+                            .addHeader("Content-Type", "application/json")
+                            .addHeader("Authorization", APP_KEY)
+                            .build();
+                    return chain.proceed(request);
+                })
+                .build();
+
+        return new Retrofit.Builder()
+                .baseUrl(BASE_MAP_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(client)
+                .build()
+                .create(MapService.class);
     }
 
 

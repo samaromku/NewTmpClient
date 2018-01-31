@@ -61,6 +61,8 @@ dependencies {
 
     //permissions
     compile 'com.github.VictorAlbertos.RxPermissionsResult:rx2:0.0.4'
+    //map
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 
     //rxbinding
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'

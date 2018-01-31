@@ -1,5 +1,7 @@
 package com.example.andrey.newtmpclient.fragments.map;
 
+import android.util.Log;
+
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
 import com.example.andrey.newtmpclient.utils.Utils;
 
@@ -20,5 +22,15 @@ public class MapNewPresenter {
                     interActor.addUsersCoordes(response.getUserCoordsList())
                             .subscribe(() -> view.setUserCoordes(response.getUserCoordsList()));
                 }, throwable -> Utils.showError(view, throwable));
+    }
+
+    void getDirections(){
+        interActor.getDirections()
+                .subscribe(routeResponse -> {
+                    view.drawDirections(routeResponse);
+                    Log.i(TAG, "getDirections: " + routeResponse);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                });
     }
 }
