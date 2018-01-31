@@ -27,6 +27,8 @@ import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
 import com.example.andrey.newtmpclient.fragments.map.MapNewFragment;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
+import com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment;
+import com.example.andrey.newtmpclient.fragments.one_task_fragment.di.OneTaskFragmentComponent;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.fragments.users.di.UsersMvpComponent;
 import com.example.andrey.newtmpclient.managers.AddressManager;
@@ -66,6 +68,7 @@ import static com.example.andrey.newtmpclient.di.ChangeUrlInterceptor.BASE_URL_O
         NeedDoingTasksComponent.class,
         FilterComponent.class,
         OneTaskComponent.class,
+        OneTaskFragmentComponent.class,
 })
 class AppModule {
 
@@ -73,6 +76,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(OneTaskPageFragment.class)
+    ComponentBuilder provideOneTaskFragment(OneTaskFragmentComponent.Builder builder) {
         return builder;
     }
 

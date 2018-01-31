@@ -2,6 +2,8 @@ package com.example.andrey.newtmpclient.utils;
 
 import android.app.Service;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -31,6 +33,16 @@ public class Utils {
 
     public static void showError(BaseView view, Throwable throwable){
         throwable.printStackTrace();
-        view.showToast(ERROR_DATA);
+        view.showToast(parseThrowable(throwable));
+    }
+
+    private static String parseThrowable(@NonNull Throwable throwable) {
+        if (!TextUtils.isEmpty(throwable.getLocalizedMessage())) {
+            return throwable.getLocalizedMessage();
+        }
+        if (!TextUtils.isEmpty(throwable.getMessage())) {
+            return throwable.getMessage();
+        }
+        return throwable.toString();
     }
 }

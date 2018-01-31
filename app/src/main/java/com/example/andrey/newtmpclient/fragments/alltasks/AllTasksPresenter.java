@@ -13,6 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.andrey.newtmpclient.storage.Const.ERROR_DATA;
+import static com.example.andrey.newtmpclient.utils.Utils.showError;
 
 public class AllTasksPresenter {
     private static final String TAG = AllTasksPresenter.class.getSimpleName();
@@ -31,14 +32,13 @@ public class AllTasksPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> view.setListToAdapter(list),
-                        throwable -> Log.e(TAG, throwable.getMessage(), throwable));
+                        throwable -> showError(view, throwable));
     }
 
     void getSearchedList(String search, boolean done) {
         interActor.searchedTasks(search, done)
-                .subscribe(tasks -> {
-                    view.setListToAdapter(tasks);
-                }, throwable -> throwable.printStackTrace());
+                .subscribe(tasks -> view.setListToAdapter(tasks),
+                        throwable -> showError(view, throwable));
     }
 
     void getComments(int position) {
@@ -53,10 +53,7 @@ public class AllTasksPresenter {
                             contactsManager.removeEmptyPhonesEmails();
                             view.startCreateTaskActivity(interActor.getTaskId());
                         },
-                        throwable -> {
-                            throwable.printStackTrace();
-                            view.showToast(ERROR_DATA);
-                        });
+                        throwable -> showError(view, throwable));
     }
 
     void getFirstAddresses() {
@@ -66,14 +63,12 @@ public class AllTasksPresenter {
                             interActor.setAddresses(response.getAddresses()).subscribe();
                             view.startCreateTaskActivity();
                         },
-                        throwable -> Utils.showError(view, throwable));
+                        throwable -> showError(view, throwable));
     }
 
     void getTasksByFilter(int days, boolean done){
         interActor.getTasksByFilter(days, done)
-        .subscribe(tasks -> {
-            view.setListToAdapter(tasks);
-//            Log.i(TAG, "getTasksByFilter: " + tasks);
-        });
+        .subscribe(tasks -> view.setListToAdapter(tasks),
+                throwable -> showError(view, throwable));
     }
 }

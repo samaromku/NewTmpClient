@@ -1,5 +1,6 @@
-package com.example.andrey.newtmpclient.fragments.one_task_fragment.view;
+package com.example.andrey.newtmpclient.fragments.one_task_fragment;
 
+import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 import com.example.andrey.newtmpclient.entities.Comment;
 import com.example.andrey.newtmpclient.entities.Task;
 
@@ -7,7 +8,7 @@ import com.example.andrey.newtmpclient.entities.Task;
  * Created by andrey on 19.07.2017.
  */
 
-public interface OneTaskView {
+public interface OneTaskView extends BaseView{
 
     void setType(String type);
 
@@ -33,9 +34,7 @@ public interface OneTaskView {
 
     void setDisableDone(boolean isEnable);
 
-    void startActivityWithComment(Comment newComment, String status);
-
     void setHitComment(String hint);
 
-    void startActivityWithTask(Task task);
+    void startMainStatusChanged();
 }

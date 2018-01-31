@@ -53,4 +53,7 @@ public interface TmpService {
 
     @POST("/WebApp/auth")
     Observable<Response>changeStatus(@Body Request status);
+
+    @POST("/WebApp/auth")
+    Observable<Response>sendComment(@Body Request comment);
 }

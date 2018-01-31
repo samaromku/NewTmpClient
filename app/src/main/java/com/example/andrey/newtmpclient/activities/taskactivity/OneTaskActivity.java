@@ -1,5 +1,6 @@
 package com.example.andrey.newtmpclient.activities.taskactivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -88,7 +89,7 @@ public class OneTaskActivity extends BaseActivity implements OneTaskView {
                 commentsManager.removeAll();
                 return true;
             case R.id.remove_task:
-                presenter.removeTask(taskNumber);
+                showRemoveDialog();
                 return true;
             case R.id.check_as_done:
                 clickToChangeStatus(TaskEnum.DONE_TASK);
@@ -96,6 +97,16 @@ public class OneTaskActivity extends BaseActivity implements OneTaskView {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showRemoveDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Удаление заявки")
+                .setMessage("Вы действительно хотите удалить заявку? Действие необратимо!")
+                .setPositiveButton(R.string.ok, (dialogInterface, i) ->
+                        presenter.removeTask(taskNumber))
+                .setNegativeButton(R.string.cancel, null);
+        builder.show();
     }
 
     @Override

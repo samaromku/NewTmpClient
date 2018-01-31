@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,25 +18,25 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.adapter.CommentsAdapter;
 import com.example.andrey.newtmpclient.adapter.ContactsAdapter;
-import com.example.andrey.newtmpclient.entities.Comment;
-import com.example.andrey.newtmpclient.entities.Task;
+import com.example.andrey.newtmpclient.base.BaseFragment;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
-import com.example.andrey.newtmpclient.fragments.one_task_fragment.presenter.OneTaskFragmentPresenter;
-import com.example.andrey.newtmpclient.fragments.one_task_fragment.presenter.OneTaskFragmentPresenterImpl;
-import com.example.andrey.newtmpclient.fragments.one_task_fragment.view.OneTaskView;
-import com.example.andrey.newtmpclient.network.Request;
+import com.example.andrey.newtmpclient.fragments.one_task_fragment.di.OneTaskFragmentComponent;
+import com.example.andrey.newtmpclient.fragments.one_task_fragment.di.OneTaskFragmentModule;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
-import com.example.andrey.newtmpclient.storage.Updater;
+
+import javax.inject.Inject;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 import static com.example.andrey.newtmpclient.utils.Const.STATUS_CHANGED;
 
-public class OneTaskPageFragment extends Fragment implements OneTaskView {
+public class OneTaskPageFragment extends BaseFragment implements OneTaskView {
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     static final String ARG_TASK_ID = "arg_task_id";
     private int pageNumber;
@@ -46,7 +45,6 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     private EditText comment;
     private Button needHelp;
     private Button disAgree;
-    private Button note;
     private Button doing;
     private RecyclerView commentsList;
     private TextView etTypeTask;
@@ -56,8 +54,9 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     private TextView etTaskBody;
     private TextView etDeadLine;
     private TextView etUserLogin;
-    private OneTaskFragmentPresenter oneTaskFragmentPresenter;
+    @Inject OneTaskFragmentPresenter presenter;
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
+
 
 
     private OnListItemClickListener clickListener = (v, position) -> {
@@ -77,7 +76,16 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-        oneTaskFragmentPresenter = new OneTaskFragmentPresenterImpl(this, getArguments().getInt(ARG_TASK_ID));
+        ((OneTaskFragmentComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new OneTaskFragmentModule(this))).inject(this);
+        setDialogTitleAndText("Выполняется запрос", PLEASE_WAIT);
+        presenter.setTaskId(getArguments().getInt(ARG_TASK_ID));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        App.getComponentManager().releaseComponent(getClass());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,8 +95,8 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
             rootView = (ViewGroup) inflater.inflate(R.layout.fragment_one_task, container, false);
             initiate(rootView);
             commentsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            oneTaskFragmentPresenter.initFields();
-            CommentsAdapter adapter = new CommentsAdapter(oneTaskFragmentPresenter.getCommentsFromInteractor(), clickListener);
+            presenter.initFields();
+            CommentsAdapter adapter = new CommentsAdapter(presenter.getCommentsFromInteractor(), clickListener);
             commentsList.setAdapter(adapter);
         } else if (pageNumber == 1) {
             rootView = (ViewGroup) inflater.inflate(R.layout.fragment_contacts, container, false);
@@ -134,16 +142,16 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
         doneBtn = rootView.findViewById(R.id.done);
         needHelp = rootView.findViewById(R.id.need_help);
         disAgree = rootView.findViewById(R.id.disagree);
-        note = rootView.findViewById(R.id.note);
+        Button note = rootView.findViewById(R.id.note);
         doing = rootView.findViewById(R.id.doing);
         comment = rootView.findViewById(R.id.commentFromUser);
 
-        doneBtn.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.CONTROL_TASK));
-        needHelp.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.NEED_HELP));
-        disAgree.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.DISAGREE_TASK));
-        note.setOnClickListener(v -> oneTaskFragmentPresenter.addNesessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.NOTE));
-        doing.setOnClickListener(v -> oneTaskFragmentPresenter.userTakesTask(TaskEnum.DOING_TASK));
-        distributed.setOnClickListener(v -> oneTaskFragmentPresenter.userTakesTask(TaskEnum.DISTRIBUTED_TASK));
+        doneBtn.setOnClickListener(v -> presenter.addNecessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.CONTROL_TASK));
+        needHelp.setOnClickListener(v -> presenter.addNecessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.NEED_HELP));
+        disAgree.setOnClickListener(v -> presenter.addNecessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.DISAGREE_TASK));
+        note.setOnClickListener(v -> presenter.addNecessaryCommentTaskStatus(comment.getText().toString(), TaskEnum.NOTE));
+        doing.setOnClickListener(v -> presenter.userTakesTask(TaskEnum.DOING_TASK));
+        distributed.setOnClickListener(v -> presenter.userTakesTask(TaskEnum.DISTRIBUTED_TASK));
         ImageButton btnVoice = rootView.findViewById(R.id.btnMic);
         btnVoice.setOnClickListener(view -> startInputVoice());
     }
@@ -151,7 +159,7 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     private void initiateContacts(ViewGroup rootView) {
         RecyclerView contactsList = (RecyclerView) rootView.findViewById(R.id.contacts_list);
         contactsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ContactsAdapter adapter = new ContactsAdapter(oneTaskFragmentPresenter.getContactsFromInteractor(), clickListener);
+        ContactsAdapter adapter = new ContactsAdapter(presenter.getContactsFromInteractor(), clickListener);
         contactsList.setAdapter(adapter);
     }
 
@@ -228,22 +236,13 @@ public class OneTaskPageFragment extends Fragment implements OneTaskView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        oneTaskFragmentPresenter.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override
-    public void startActivityWithComment(Comment newComment, String status) {
-        Log.i(TAG, "startActivityWithComment: sendMessage");
+    public void startMainStatusChanged() {
         Intent intent = new Intent(getActivity(), MainTmpActivity.class)
                 .putExtra(STATUS_CHANGED, true);
-        new Updater(getActivity(), new Request(newComment, status), intent).execute();
-    }
-
-    @Override
-    public void startActivityWithTask(Task task) {
-        Log.i(TAG, "startActivityWithTask: sendMessage");
-        Intent intent = new Intent(getActivity(), MainTmpActivity.class)
-                .putExtra("statusChanged", true);
-        new Updater(getActivity(), new Request(task, task.getStatus()), intent).execute();
+        startActivity(intent);
     }
 }

@@ -26,4 +26,5 @@ public interface Const {
     int ALL_TIME = -1;
 
     String DATE_FORMAT_FROM_SERVER = "dd-MM-yy HH:mm";
+    String BASE_CREATED_DATE = "yy/MM/dd HH:mm";
 }

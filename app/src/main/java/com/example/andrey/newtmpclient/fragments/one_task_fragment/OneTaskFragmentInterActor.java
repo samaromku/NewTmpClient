@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.fragments.one_task_fragment.interactor;
+package com.example.andrey.newtmpclient.fragments.one_task_fragment;
 
 import android.text.TextUtils;
 
@@ -11,10 +11,16 @@ import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
+import com.example.andrey.newtmpclient.network.Request;
+import com.example.andrey.newtmpclient.network.Response;
+import com.example.andrey.newtmpclient.network.TmpService;
 import com.example.andrey.newtmpclient.storage.DateUtil;
 import com.example.andrey.newtmpclient.utils.Const;
 
 import java.util.List;
+
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 import static com.example.andrey.newtmpclient.entities.TaskEnum.CONTROL_TASK;
 import static com.example.andrey.newtmpclient.entities.TaskEnum.DISAGREE_TASK;
@@ -27,7 +33,7 @@ import static com.example.andrey.newtmpclient.entities.TaskEnum.NEW_TASK;
  * Created by andrey on 19.07.2017.
  */
 
-public class OneTaskFragmentInteractorImpl implements OneTaskFragmentInteractor {
+public class OneTaskFragmentInterActor {
     private Task task;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private CommentsManager commentsManager = CommentsManager.INSTANCE;
@@ -35,26 +41,26 @@ public class OneTaskFragmentInteractorImpl implements OneTaskFragmentInteractor 
     private ContactsManager contactsManager = ContactsManager.Instance;
     private int taskId;
     private OnInitTask onInitTask;
-    private OnActionsBtns onActionsBtns;
+    private TmpService tmpService;
 
-    public OneTaskFragmentInteractorImpl(int taskId, OnInitTask onInitTask) {
-        this.taskId = taskId;
+    public OneTaskFragmentInterActor(TmpService tmpService) {
+        this.tmpService = tmpService;
+    }
+
+    void setOnInitTask(OnInitTask onInitTask) {
         this.onInitTask = onInitTask;
     }
 
-    @Override
-    public void initFields() {
+    void setTaskId(int taskId){
+        this.taskId = taskId;
+    }
+
+    void initFields() {
         initTask();
         checkTaskStatusBtnsEnabled();
     }
 
-    @Override
-    public void setOnActionsBtns(OnActionsBtns onActionsBtns) {
-        this.onActionsBtns = onActionsBtns;
-    }
-
-    @Override
-    public List<ContactOnAddress> contactsOnAddress() {
+    List<ContactOnAddress> contactsOnAddress() {
         return contactsManager.getContactsList();
     }
 
@@ -79,22 +85,28 @@ public class OneTaskFragmentInteractorImpl implements OneTaskFragmentInteractor 
         }
     }
 
-    @Override
-    public List<Comment> getCommentsForTask() {
+    List<Comment> getCommentsForTask() {
         return commentsManager.getCommentsByTaskId(taskId);
     }
 
-    @Override
-    public void userTakesTask(String changedStatusTask) {
+    Observable<Response> userTakesTask(String changedStatusTask) {
         task.setUserId(usersManager.getUser().getId());
         task.setStatus(changedStatusTask);
         tasksManager.setTask(task);
         commentsManager.removeAll();
-        onActionsBtns.startActivityWithTask(task);
+//        onInitTask.startActivityWithTask(task);
+        return tmpService.changeStatus(Request.requestTaskWithToken(task, task.getStatus()));
     }
 
-    @Override
-    public void checkTaskStatusBtnsEnabled() {
+    Completable updateTask(){
+        return Completable.fromAction(() -> tasksManager.updateTask(tasksManager.getTask()));
+    }
+
+    Completable addComment(){
+        return Completable.fromAction(() -> tasksManager.updateTask(tasksManager.getStatus(), tasksManager.getTask().getId()));
+    }
+
+    private void checkTaskStatusBtnsEnabled() {
         //        - новая, помощь, отказ - взять себе доступна, остальные блок
         switch (task.getStatus()) {
             case NEW_TASK:
@@ -117,13 +129,11 @@ public class OneTaskFragmentInteractorImpl implements OneTaskFragmentInteractor 
         }
     }
 
-    @Override
-    public boolean checkIfCommentFilled(String comment) {
+    boolean checkIfCommentFilled(String comment) {
         return !TextUtils.isEmpty(comment);
     }
 
-    @Override
-    public void addComment(String comment, String status) {
+    Observable<Response> addComment(String comment, String status) {
             //создаем новый коммент
         String taskStatus;
         String requestAction;
@@ -144,11 +154,11 @@ public class OneTaskFragmentInteractorImpl implements OneTaskFragmentInteractor 
             commentsManager.setComment(newComment);
             commentsManager.removeAll();
 
-            onActionsBtns.startActivityAfterCreate(newComment, requestAction);
+        return tmpService.sendComment(Request.requestCommentWithToken(newComment, requestAction));
+//            onInitTask.startActivityAfterCreate(newComment, requestAction);
     }
 
-    @Override
-    public String getStatusTask() {
-        return task.getStatus();
+    public Observable<Response> changeStatus(Task task) {
+        return tmpService.changeStatus(Request.requestTaskWithToken(task, task.getStatus()));
     }
 }

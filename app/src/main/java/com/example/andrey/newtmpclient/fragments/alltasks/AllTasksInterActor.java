@@ -23,6 +23,7 @@ import io.reactivex.Observable;
 import static com.example.andrey.newtmpclient.entities.TaskEnum.DONE_TASK;
 import static com.example.andrey.newtmpclient.network.Request.requestTaskWithToken;
 import static com.example.andrey.newtmpclient.storage.Const.ALL_TIME;
+import static com.example.andrey.newtmpclient.storage.Const.BASE_CREATED_DATE;
 import static com.example.andrey.newtmpclient.storage.Const.DATE_FORMAT_FROM_SERVER;
 
 public class AllTasksInterActor {
@@ -136,7 +137,7 @@ public class AllTasksInterActor {
         });
     }
 
-    private List<Task>filterTask(int days, List<Task>doneOrNot) throws ParseException {
+    private List<Task>filterTask(int days, List<Task>doneOrNot)  {
         current.clear();
         List<Task> filtered = new ArrayList<>();
         Date now = new Date();
@@ -145,7 +146,16 @@ public class AllTasksInterActor {
             return doneOrNot;
         } else {
             for (Task task : doneOrNot) {
-                Date taskCreated = new SimpleDateFormat(DATE_FORMAT_FROM_SERVER).parse(task.getCreated());
+                Date taskCreated = null;
+                try {
+                    taskCreated = new SimpleDateFormat(DATE_FORMAT_FROM_SERVER).parse(task.getCreated());
+                } catch (ParseException e) {
+                    try {
+                        taskCreated = new SimpleDateFormat(BASE_CREATED_DATE).parse(task.getCreated());
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 if (taskCreated.getTime() > beforeDate.getTime() &&
                         taskCreated.getTime() < now.getTime()) {
                     filtered.add(task);

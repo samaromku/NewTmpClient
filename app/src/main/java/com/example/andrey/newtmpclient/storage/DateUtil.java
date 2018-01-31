@@ -5,10 +5,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.andrey.newtmpclient.storage.Const.BASE_CREATED_DATE;
 import static com.example.andrey.newtmpclient.storage.Const.DATE_FORMAT_FROM_SERVER;
 
 public class DateUtil {
-    private DateFormat dateFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+    private DateFormat dateFormat = new SimpleDateFormat(BASE_CREATED_DATE);
     private SimpleDateFormat forServer = new SimpleDateFormat("yy-MM-dd HH:mm");
     private DateFormat fromClient = new SimpleDateFormat(DATE_FORMAT_FROM_SERVER);
 
