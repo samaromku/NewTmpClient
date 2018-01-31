@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.entities.UserCoords;
+import com.example.andrey.newtmpclient.entities.map.Leg;
 import com.example.andrey.newtmpclient.entities.map.RouteResponse;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewModule;
@@ -66,7 +67,6 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
             actionBar.setTitle("Карта");
         }
         presenter.getUsersCoordes();
-//        presenter.getDirections();
     }
 
     @Override
@@ -100,6 +100,7 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     @Override
     public void setUserCoordes(List<UserCoords> userCoordes) {
         updateUI(userCoordes);
+        presenter.getDirections(userCoordes);
     }
 
     private void updateUI(List<UserCoords> userCoordsList){
@@ -135,7 +136,20 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     }
 
     @Override
-    public void drawDirections(RouteResponse routeResponse) {
+    public void drawDirections(RouteResponse routeResponse, List<UserCoords> userCoordes) {
+        LatLng latLng;
+        for(UserCoords userCoords:userCoordes){
+//            leg.getStartLocation();
+            latLng = new LatLng(userCoords.getLat(),
+                    userCoords.getLog());
+            MarkerOptions startMarkerOptions = new MarkerOptions()
+                    .position(latLng)
+                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_marker))
+                    .title(userCoords.getTs());
+            map.addMarker(startMarkerOptions);
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+        }
+
         drawPrimaryLinePath(PolyUtil.decode(
                 routeResponse.getRoutes().get(0).getOverviewPolyline().getPoints()), map);
     }
@@ -147,11 +161,13 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
         LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
         LatLng whereUserMarker = null;
         for (int i = 0; i < mPoints.size(); i++) {
-            MarkerOptions startMarkerOptions = new MarkerOptions()
-                    .position(mPoints.get(i))
-                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_marker))
-                    .title("was here");
-            mGoogleMap.addMarker(startMarkerOptions);
+//            MarkerOptions startMarkerOptions = new MarkerOptions()
+//                    .position(mPoints.get(i))
+//                    .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_marker))
+//                    .title("was here");
+//            mGoogleMap.addMarker(startMarkerOptions);
+
+
 //            if (i == 0) {
 //                MarkerOptions startMarkerOptions = new MarkerOptions()
 //                        .position(mPoints.get(i))
@@ -164,14 +180,14 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
 //                        .icon(bitmapDescriptorFromVector(getActivity(), R.drawable.ic_marker))
 //                        .title("Вы здесь");
 //                mGoogleMap.addMarker(endMarkerOptions);
-                whereUserMarker = startMarkerOptions.getPosition();
+//                whereUserMarker = startMarkerOptions.getPosition();
 //            }
             line.add(mPoints.get(i));
             latLngBuilder.include(mPoints.get(i));
         }
         mGoogleMap.addPolyline(line);
 
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(whereUserMarker, 10f));
+//        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(whereUserMarker, 10f));
 
 //        int size = getResources().getDisplayMetrics().widthPixels;
 //        LatLngBounds latLngBounds = latLngBuilder.build();

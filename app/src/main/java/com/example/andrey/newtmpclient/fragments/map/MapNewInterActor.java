@@ -27,20 +27,38 @@ public class MapNewInterActor {
         this.mapService = mapService;
     }
 
-    Observable<Response> getUsersCoordinates(){
+    Observable<Response> getUsersCoordinates() {
         return tmpService.getUsersCoordinates(Request.requestWithToken(Request.GIVE_ME_LAST_USERS_COORDS));
     }
 
-    Completable addUsersCoordes(List<UserCoords> userCoords){
+    Completable addUsersCoordes(List<UserCoords> userCoords) {
         return Completable.fromAction(() -> userCoordsManager.addAll(userCoords));
     }
 
-    Observable<RouteResponse>getDirections(){
+    Observable<RouteResponse> getDirections(List<UserCoords> userCoordes) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 5; i < userCoordes.size(); i++) {
+            UserCoords userCoord = userCoordes.get(i);
+            if (i == 5) {
+                sb
+                        .append("via:")
+                        .append(userCoord.getLat())
+                        .append(",")
+                        .append(userCoord.getLog());
+            } else {
+                sb
+                        .append("|via:")
+                        .append(userCoord.getLat())
+                        .append(",")
+                        .append(userCoord.getLog());
+            }
+        }
+
         return mapService.getDirection(
                 "Санкт-Петербург,Итальянская,15",
                 "Санкт-Петербург,Куйбышева,10",
-                "Санкт-Петербург,Лесной,39|Санкт-Петербург,Просвещения,16|Санкт-Петербург,Харченко,5",
-                "AIzaSyDAI8tMCJiA2PQYE9F__J2dmT1APUxTetA")
+//                "Санкт-Петербург,Лесной,39|Санкт-Петербург,Просвещения,16|Санкт-Петербург,Харченко,5",
+                sb.toString(), "AIzaSyDAI8tMCJiA2PQYE9F__J2dmT1APUxTetA")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
