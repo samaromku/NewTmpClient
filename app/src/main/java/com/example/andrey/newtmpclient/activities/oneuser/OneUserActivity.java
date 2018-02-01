@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
@@ -44,9 +45,13 @@ public class OneUserActivity extends BaseActivity implements OneUserView {
         initBackButton();
         changeToolbarTitle(user.getLogin());
         change.setOnClickListener(v -> {
-            startActivity(new Intent(this, NewUserRoleActivity.class)
-                    .putExtra("userId", user.getId()));
-            finish();
+            if(userRolesManager.getRoleByUserId(user.getId())!=null) {
+                startActivity(new Intent(this, NewUserRoleActivity.class)
+                        .putExtra("userId", user.getId()));
+                finish();
+            }else {
+                Toast.makeText(this, "вы не имеете права", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

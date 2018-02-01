@@ -37,10 +37,7 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
     private CheckBox commentTasks;
     private CheckBox changePassword;
     private Button send;
-    private UserRole userRole;
     UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
-    private boolean hasRight = false;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +57,7 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
         });
     }
 
-    private void addOrChangeUserRoleOnServer(){
+    private void addOrChangeUserRoleOnServer() {
         UserRole userRole1 = new UserRole(
                 userId,
                 makeUser.isChecked(),
@@ -77,9 +74,6 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
                 userId);
         userRolesManager.setUpdateUserRole(userRole1);
         presenter.updateUserRole(userRole1);
-//        Intent intent = new Intent(this, MainTmpActivity.class);
-//        new Updater(this, new Request(userRole1, Request.CHANGE_PERMISSION_PLEASE), intent).execute();
-//        converter.sendMessage(new Request(userRole1, Request.CHANGE_PERMISSION_PLEASE));
     }
 
     @Override
@@ -88,7 +82,7 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
         startActivity(intent);
     }
 
-    private void init(){
+    private void init() {
         send = (Button) findViewById(R.id.send);
         makeUser = (CheckBox) findViewById(R.id.make_user);
         makeTask = (CheckBox) findViewById(R.id.make_task);
@@ -102,10 +96,16 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
         commentTasks = (CheckBox) findViewById(R.id.comment_tasks);
         changePassword = (CheckBox) findViewById(R.id.change_password);
 
-        userRole = userRolesManager.getRoleByUserId(userId);
-        noRight();
-        if(hasRight) {
-            makeUser.setChecked(userRole.isMakeNewUser());
+        checkRights();
+    }
+
+    private void checkRights() {
+//        if (userRole == null) {
+//            Toast.makeText(this, "вы не имеете права", Toast.LENGTH_SHORT).show();
+//            finish();
+//        } else {
+        UserRole userRole = userRolesManager.getRoleByUserId(userId);
+        makeUser.setChecked(userRole.isMakeNewUser());
             makeTask.setChecked(userRole.isMakeTasks());
             correctionTask.setChecked(userRole.isCorrectionTask());
             makeAddress.setChecked(userRole.isMakeAddress());
@@ -116,14 +116,7 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
             watchTasks.setChecked(userRole.isWatchTasks());
             commentTasks.setChecked(userRole.isCommentTasks());
             changePassword.setChecked(userRole.isChangePassword());
-        }
-    }
-
-    private void noRight(){
-        if(userRole==null){
-            Toast.makeText(this, "вы не имеете права", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MainTmpActivity.class));
-        }else hasRight = true;
+//        };
     }
 
     @Override
@@ -133,7 +126,6 @@ public class NewUserRoleActivity extends BaseActivity implements NewUserRoleView
             App.getComponentManager().releaseComponent(getClass());
         }
     }
-
 
 
 }
