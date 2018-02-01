@@ -132,7 +132,6 @@ public class OneTaskActivity extends BaseActivity implements OneTaskView {
         fromDoingList = getIntent().getBooleanExtra(FROM_DOING_LIST, false);
         if(!fromDoingList) {
             super.onBackPressed();
-            startActivity(new Intent(this, MainTmpActivity.class));
             commentsManager.removeAll();
         }else {
             startActivity(new Intent(this, NeedDoingTasksActivity.class));

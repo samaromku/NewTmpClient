@@ -27,13 +27,15 @@ public class MapNewPresenter {
                 }, throwable -> Utils.showError(view, throwable));
     }
 
-    void getDirections(List<UserCoords> userCoordes){
-        interActor.getDirections(userCoordes)
-                .subscribe(routeResponse -> {
-                    view.drawDirections(routeResponse, userCoordes);
-                    Log.i(TAG, "getDirections: " + routeResponse);
-                }, throwable -> {
-                    throwable.printStackTrace();
-                });
+    void getDirections(){
+        interActor.getUsersCoordesPerDay()
+                .compose(new TransformerDialog<>(view))
+                .subscribe(response ->
+                        interActor.getDirections(response.getUserCoordsList())
+                        .subscribe(routeResponse -> {
+                            view.drawDirections(routeResponse, response.getUserCoordsList());
+                            Log.i(TAG, "getDirections: " + routeResponse);
+                        }, throwable -> Utils.showError(view, throwable)),
+                        throwable -> Utils.showError(view, throwable));
     }
 }

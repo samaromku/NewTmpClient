@@ -100,7 +100,8 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     @Override
     public void setUserCoordes(List<UserCoords> userCoordes) {
         updateUI(userCoordes);
-        presenter.getDirections(userCoordes);
+        //маршруты здесь
+//        presenter.getDirections(userCoordes);
     }
 
     private void updateUI(List<UserCoords> userCoordsList){

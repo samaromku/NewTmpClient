@@ -31,8 +31,12 @@ public class MapNewInterActor {
     }
 
     Observable<Response> getUsersCoordinates() {
-//        return tmpService.getUsersCoordinates(Request.requestWithToken(Request.GIVE_ME_LAST_USERS_COORDS));
-        return tmpService.getUsersCoordesPerDay(Request.requestUserIdWithDateWithToken(186, new Date(), GET_USER_COORDES_PER_DAY));
+        return tmpService.getUsersCoordinates(Request.requestWithToken(Request.GIVE_ME_LAST_USERS_COORDS));
+    }
+
+    Observable<Response> getUsersCoordesPerDay() {
+        return tmpService.getUsersCoordesPerDay(Request.
+                requestUserIdWithDateWithToken(186, new Date(), GET_USER_COORDES_PER_DAY));
     }
 
     Completable addUsersCoordes(List<UserCoords> userCoords) {
