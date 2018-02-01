@@ -49,6 +49,7 @@ public class CreateNewUserActivity extends BaseActivity implements CreateNewUser
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_user);
+        initBackButton();
         ((CreateNewUserComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new CreateNewUserModule(this))).inject(this);
         ButterKnife.bind(this);

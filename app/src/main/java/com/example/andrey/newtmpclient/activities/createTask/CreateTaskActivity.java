@@ -42,6 +42,7 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
         setContentView(R.layout.activity_create_task);
         ButterKnife.bind(this);
         changeToolbarTitle(createTaskTitle);
+        initBackButton();
         chooseDate = (Button) findViewById(R.id.choose_date);
         anndressNamesCompleteTV = (AutoCompleteTextView) findViewById(R.id.task_title);
         statusSpinner = (AppCompatSpinner) findViewById(R.id.spinner_status);

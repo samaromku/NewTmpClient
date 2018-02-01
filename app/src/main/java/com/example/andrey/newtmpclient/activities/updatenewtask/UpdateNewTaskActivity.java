@@ -65,6 +65,7 @@ public class UpdateNewTaskActivity extends BaseActivity implements UpdateNewTask
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
+        initBackButton();
         ((UpdateNewTaskComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new UpdateNewTaskModule(this))).inject(this);
         setDialogTitleAndText("Обновляение задания", PLEASE_WAIT);
