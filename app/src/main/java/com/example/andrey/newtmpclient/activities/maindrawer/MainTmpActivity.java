@@ -26,10 +26,12 @@ import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapNewFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.managers.UsersManager;
+import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.service.GpsService;
 
 import javax.inject.Inject;
 
+import static com.example.andrey.newtmpclient.storage.Const.STATE_COUNT;
 import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
 
 public class MainTmpActivity extends AppCompatActivity implements MainTmpView, NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +39,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     @Inject
     MainTmpPresenter presenter;
     private UsersManager usersManager = UsersManager.INSTANCE;
+    private int stateCount;
 
 
     @Override
@@ -55,11 +58,37 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        openFragmentOnStateCount(getIntent().getIntExtra(STATE_COUNT, 0));
+    }
+
+    private void openFragmentOnStateCount(int stateCount) {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
         tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
+        switch (stateCount) {
+            case 0:
+                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
+                break;
+            case 1:
+                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_done_tasks));
+                break;
+            case 2:
+                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_users));
+                break;
+            case 3:
+                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_addresses));
+                break;
+            case 4:
+                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_map));
+                break;
+        }
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -75,17 +104,17 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if(findViewById(R.id.search_toolbar).getVisibility()== View.VISIBLE){
+        } else if (findViewById(R.id.search_toolbar).getVisibility() == View.VISIBLE) {
             findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
             findViewById(R.id.search_toolbar).setVisibility(View.GONE);
             hideKeyboard(this, findViewById(R.id.etSearch));
-        }
-        else {
+        } else {
             super.onBackPressed();
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
+            Client.INSTANCE.setFragmentCount(stateCount);
             startActivity(intent);
         }
     }
@@ -97,17 +126,17 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
             case R.id.nav_current_tasks:
                 AllTasksFragment notDone = new AllTasksFragment();
                 notDone.setDone(false);
-                return openFragment(notDone);
+                return openFragment(notDone, 0);
             case R.id.nav_done_tasks:
                 AllTasksFragment done = new AllTasksFragment();
                 done.setDone(true);
-                return openFragment(done);
+                return openFragment(done, 1);
             case R.id.nav_users:
-                return openFragment(new UsersMvpFragment());
+                return openFragment(new UsersMvpFragment(), 2);
             case R.id.nav_addresses:
-                return openFragment(new AddressMvpFragment());
+                return openFragment(new AddressMvpFragment(), 3);
             case R.id.nav_map:
-                return openFragment(new MapNewFragment());
+                return openFragment(new MapNewFragment(), 4);
             case R.id.nav_exit:
                 presenter.logout();
                 return true;
@@ -118,7 +147,8 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         return true;
     }
 
-    private boolean openFragment(Fragment fragment) {
+    private boolean openFragment(Fragment fragment, int stateCount) {
+        this.stateCount = stateCount;
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 

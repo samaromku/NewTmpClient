@@ -29,6 +29,7 @@ import io.victoralbertos.rx2_permissions_result.RxPermissionsResult;
 import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static com.example.andrey.newtmpclient.storage.Const.AUTH;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
+import static com.example.andrey.newtmpclient.storage.Const.STATE_COUNT;
 
 /**
  * Created by andrey on 13.07.2017.
@@ -97,8 +98,9 @@ public class LoginActivity extends BaseActivity implements LoginView {
     }
 
     @Override
-    public void startMainActivity() {
-        startActivity(new Intent(this, MainTmpActivity.class));
+    public void startMainActivity(int stateFragment) {
+        startActivity(new Intent(this, MainTmpActivity.class)
+        .putExtra(STATE_COUNT, stateFragment));
     }
 
     @Override
@@ -108,7 +110,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
                     .subscribe(result ->
                             showPermissionStatus(result.grantResults()));
         }else {
-            startMainActivity();
+            startMainActivity(0);
         }
     }
 

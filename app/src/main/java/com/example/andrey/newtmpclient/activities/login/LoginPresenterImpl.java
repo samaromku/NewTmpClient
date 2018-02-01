@@ -58,7 +58,7 @@ public class LoginPresenterImpl {
 
     void startAccountActivityAfterCheck() {
         if (loginInterActor.checkAuth()) {
-            view.startMainActivity();
+            view.startMainActivity(loginInterActor.getFragmentCount());
         }
     }
 

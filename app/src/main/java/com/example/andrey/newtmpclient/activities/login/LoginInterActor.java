@@ -61,6 +61,10 @@ public class LoginInterActor  {
         return Client.INSTANCE.isAuth();
     }
 
+    int getFragmentCount(){
+        return Client.INSTANCE.getFragmentCount();
+    }
+
     void checkNetwork(boolean isChecked) {
         interceptor.setInner(isChecked);
         checkNetwork.setNetworkInsideOrOutside(isChecked);

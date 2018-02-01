@@ -10,6 +10,6 @@ import com.example.andrey.newtmpclient.entities.User;
 public interface LoginView extends BaseView{
     void setLogin(String login);
     void setPwd(String pwd);
-    void startMainActivity();
+    void startMainActivity(int stateFragment);
     void successAuth();
 }
