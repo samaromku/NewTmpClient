@@ -40,6 +40,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     MainTmpPresenter presenter;
     private UsersManager usersManager = UsersManager.INSTANCE;
     private int stateCount;
+    private NavigationView navigationView;
 
 
     @Override
@@ -62,27 +63,28 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     }
 
     private void openFragmentOnStateCount(int stateCount) {
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
         tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
-        switch (stateCount) {
-            case 0:
-                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
-                break;
-            case 1:
-                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_done_tasks));
-                break;
-            case 2:
-                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_users));
-                break;
-            case 3:
-                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_addresses));
-                break;
-            case 4:
-                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_map));
-                break;
-        }
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
+//        switch (stateCount) {
+//            case 0:
+//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
+//                break;
+//            case 1:
+//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_done_tasks));
+//                break;
+//            case 2:
+//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_users));
+//                break;
+//            case 3:
+//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_addresses));
+//                break;
+//            case 4:
+//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_map));
+//                break;
+//        }
 
     }
 
@@ -108,7 +110,10 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
             findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
             findViewById(R.id.search_toolbar).setVisibility(View.GONE);
             hideKeyboard(this, findViewById(R.id.etSearch));
-        } else {
+        }else if(stateCount!=0){
+            onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
+        }
+        else {
             super.onBackPressed();
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
