@@ -88,10 +88,14 @@ public class AllTasksFragment extends BaseFragment implements
     String currentTasks;
     @BindString(R.string.done_tasks)
     String doneTasks;
-    @BindString(R.string.one_day)String oneDay;
-    @BindString(R.string.one_week)String oneWeek;
-    @BindString(R.string.one_month)String oneMonth;
-    @BindString(R.string.all_period)String allTime;
+    @BindString(R.string.one_day)
+    String oneDay;
+    @BindString(R.string.one_week)
+    String oneWeek;
+    @BindString(R.string.one_month)
+    String oneMonth;
+    @BindString(R.string.all_period)
+    String allTime;
 
     protected SwipeRefreshLayout swipeLayout;
     protected RecyclerView tasksList;
@@ -146,7 +150,8 @@ public class AllTasksFragment extends BaseFragment implements
         if (FirebaseInstanceId.getInstance().getToken() != null) {
             ConverterMessages converter = new ConverterMessages();
             new Thread(() -> {
-                if (getActivity().getIntent().getBooleanExtra(Const.FROM_AUTH, false)) {
+                if (getActivity() != null &&
+                        getActivity().getIntent().getBooleanExtra(Const.FROM_AUTH, false)) {
                     converter.sendMessageToServer(Request.addFireBase(Request.ADD_FIREBASE_TOKEN, usersManager.getUser(), FirebaseInstanceId.getInstance().getToken()));
                 }
             }).start();
@@ -229,13 +234,13 @@ public class AllTasksFragment extends BaseFragment implements
     private void openFilterDialog() {
         FilterDialog filterDialog = new FilterDialog();
         filterDialog.setOnDialogClosed(data -> {
-            if(oneDay.equals(data)){
+            if (oneDay.equals(data)) {
                 presenter.getTasksByFilter(DAY, done);
-            }else if(oneWeek.equals(data)){
+            } else if (oneWeek.equals(data)) {
                 presenter.getTasksByFilter(WEEK, done);
-            }else if(oneMonth.equals(data)){
+            } else if (oneMonth.equals(data)) {
                 presenter.getTasksByFilter(MONTH, done);
-            }else if(allTime.equals(data)){
+            } else if (allTime.equals(data)) {
                 presenter.getTasksByFilter(ALL_TIME, done);
             }
             Log.i(TAG, "openFilterDialog: " + data);
