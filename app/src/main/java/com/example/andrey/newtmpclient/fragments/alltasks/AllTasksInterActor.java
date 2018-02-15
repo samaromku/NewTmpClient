@@ -7,6 +7,7 @@ import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
+import com.example.andrey.newtmpclient.network.ApiResponse;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
@@ -110,7 +111,7 @@ public class AllTasksInterActor {
         return task.getId();
     }
 
-    Observable<Response> getFirstAddresses() {
+    Observable<ApiResponse<List<Address>>> getFirstAddresses() {
 //        if (addressManager.getAddresses().size() == 0) {
         return tmpService.getAddresses(Request.requestWithToken(Request.GIVE_ME_ADDRESSES_PLEASE));
 //        }else {

@@ -39,7 +39,7 @@ public class OneTaskPresenter {
         interActor.getFirstAddresses()
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response -> {
-                    interActor.setAddresses(response.getAddresses())
+                    interActor.setAddresses(response.getData())
                             .subscribe(() -> view.startUpdateActivity());
                 }, throwable -> {
                     Utils.showError(view, throwable);

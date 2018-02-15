@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 
 import com.example.andrey.newtmpclient.entities.Address;
 import com.example.andrey.newtmpclient.managers.AddressManager;
+import com.example.andrey.newtmpclient.network.ApiResponse;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
@@ -26,7 +27,7 @@ public class AddressMvpInterActor {
         if(addressManager.getAddresses().isEmpty()) {
             Request request = Request.requestWithToken(GIVE_ME_ADDRESSES_PLEASE);
             return tmpService.getAddresses(request)
-                    .map(Response::getAddresses);
+                    .map(ApiResponse::getData);
         }else {
             return Observable.fromCallable(() -> addressManager.getAddresses());
         }

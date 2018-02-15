@@ -60,7 +60,7 @@ public class AllTasksPresenter {
         interActor.getFirstAddresses()
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response -> {
-                            interActor.setAddresses(response.getAddresses()).subscribe();
+                            interActor.setAddresses(response.getData()).subscribe();
                             view.startCreateTaskActivity();
                         },
                         throwable -> showError(view, throwable));
