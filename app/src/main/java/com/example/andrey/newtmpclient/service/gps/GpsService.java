@@ -1,4 +1,4 @@
-package com.example.andrey.newtmpclient.service;
+package com.example.andrey.newtmpclient.service.gps;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.needdoingtasks.NeedDoingTasksActivity;
 import com.example.andrey.newtmpclient.entities.Address;
@@ -25,31 +26,41 @@ import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UserCoordsManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Request;
+import com.example.andrey.newtmpclient.service.gps.di.GpsComponent;
+import com.example.andrey.newtmpclient.service.gps.di.GpsModule;
 import com.example.andrey.newtmpclient.storage.AuthChecker;
-import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.storage.DistanceUtil;
 import com.example.andrey.newtmpclient.storage.MyLocation;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
 
-public class GpsService extends IntentService {
+public class GpsService extends IntentService implements GpsView{
     private static final String TAG = "GpsService";
     UserCoordsManager userCoordsManager = UserCoordsManager.INSTANCE;
     private static final int INTERVAL = 1000 * 60 * 3;
-    private ConverterMessages converter = new ConverterMessages();
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
     private List<Address>userAddresses = new ArrayList<>();
     private static final double MIN_DISTANCE = 0.1;
+    @Inject
+    GpsPresenter presenter;
 
 
     public static Intent newIntent(Context context){
         return new Intent(context, GpsService.class);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ((GpsComponent) App.getComponentManager()
+                .getPresenterComponent(getClass(), new GpsModule(this))).inject(this);
     }
 
     public GpsService() {
@@ -89,7 +100,7 @@ public class GpsService extends IntentService {
                             userCoordsManager.setUserCoords(userCoords);
                             userCoordsManager.setLocation(location);
 
-                            converter.sendMessageToServer(new Request(userCoords, Request.ADD_COORDS));
+                            presenter.addCoordinates(userCoords);
                             AuthChecker.serverErrorStopService(getApplicationContext());
                             getDistances(userCoords.getLat(), userCoords.getLog());
                         }

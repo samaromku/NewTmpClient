@@ -64,4 +64,13 @@ public interface TmpService {
 
     @POST("/auth")
     Observable<Response>sendComment(@Body Request comment);
+
+    @POST("/auth")
+    Observable<ApiResponse<Boolean>>addFireBaseToken(@Body Request fireBase);
+
+
+    @POST("/auth")
+    Observable<ApiResponse<Boolean>>addCoordinates(@Body Request coordinates);
+
+
 }

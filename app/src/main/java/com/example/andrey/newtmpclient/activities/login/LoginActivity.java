@@ -16,7 +16,7 @@ import com.example.andrey.newtmpclient.activities.login.di.LoginComponent;
 import com.example.andrey.newtmpclient.activities.login.di.LoginModule;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
-import com.example.andrey.newtmpclient.service.GpsService;
+import com.example.andrey.newtmpclient.service.gps.GpsService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;

@@ -1,5 +1,7 @@
 package com.example.andrey.newtmpclient.fragments.alltasks;
 
+import android.util.Log;
+
 import com.example.andrey.newtmpclient.entities.ContactOnAddress;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
@@ -75,5 +77,12 @@ public class AllTasksPresenter {
         interActor.getTasksByFilter(days, done)
         .subscribe(tasks -> view.setListToAdapter(tasks),
                 throwable -> showError(view, throwable));
+    }
+
+    void addFireBaseToken(){
+        interActor.addFireBaseToken()
+                .compose(new TransformerDialog<>(view))
+                .subscribe(booleanApiResponse -> Log.i(TAG, "addFireBaseToken: token success added"),
+                        Throwable::printStackTrace);
     }
 }

@@ -2,14 +2,12 @@ package com.example.andrey.newtmpclient.storage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.network.Client;
-import com.example.andrey.newtmpclient.service.GpsService;
+import com.example.andrey.newtmpclient.service.gps.GpsService;
 
-import static android.content.ContentValues.TAG;
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 
 /**

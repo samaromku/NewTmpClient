@@ -31,9 +31,7 @@ import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksModule;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.storage.AuthChecker;
-import com.example.andrey.newtmpclient.storage.ConverterMessages;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -148,15 +146,10 @@ public class AllTasksFragment extends BaseFragment implements
 
     private void addFireBaseTokenIfFromAuth() {
         if (FirebaseInstanceId.getInstance().getToken() != null) {
-            ConverterMessages converter = new ConverterMessages();
-            new Thread(() -> {
-                if (getActivity() != null &&
-                        getActivity().getIntent().getBooleanExtra(Const.FROM_AUTH, false)) {
-                    converter.sendMessageToServer(Request.addFireBase(Request.ADD_FIREBASE_TOKEN, usersManager.getUser(), FirebaseInstanceId.getInstance().getToken()));
-                }
-            }).start();
+            if (getActivity() != null &&
+                    getActivity().getIntent().getBooleanExtra(Const.FROM_AUTH, false))
+                presenter.addFireBaseToken();
         }
-
     }
 
     private void buttonAddTask(View view) {

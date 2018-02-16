@@ -11,6 +11,7 @@ import com.example.andrey.newtmpclient.network.ApiResponse;
 import com.example.andrey.newtmpclient.network.Request;
 import com.example.andrey.newtmpclient.network.Response;
 import com.example.andrey.newtmpclient.network.TmpService;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -165,5 +166,12 @@ public class AllTasksInterActor {
         }
         current.addAll(filtered);
         return filtered;
+    }
+
+    Observable<ApiResponse<Boolean>> addFireBaseToken(){
+        return tmpService.addFireBaseToken(Request.addFireBase(
+                Request.ADD_FIREBASE_TOKEN,
+                usersManager.getUser().getId(),
+                FirebaseInstanceId.getInstance().getToken()));
     }
 }

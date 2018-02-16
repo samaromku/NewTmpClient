@@ -26,8 +26,7 @@ import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapNewFragment;
 import com.example.andrey.newtmpclient.fragments.users.UsersMvpFragment;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.example.andrey.newtmpclient.network.Client;
-import com.example.andrey.newtmpclient.service.GpsService;
+import com.example.andrey.newtmpclient.service.gps.GpsService;
 
 import javax.inject.Inject;
 

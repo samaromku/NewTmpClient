@@ -119,9 +119,9 @@ public class Request {
         return instance;
     }
 
-    public static Request addFireBase(String request, User user, String fireBase){
+    public static Request addFireBase(String request, int userId, String fireBase){
         getInstance().request = request;
-        getInstance().user = user;
+        getInstance().userId = userId;
         getInstance().fireBase = fireBase;
         return getInstance();
     }
