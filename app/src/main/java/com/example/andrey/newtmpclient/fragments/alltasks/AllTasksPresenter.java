@@ -1,18 +1,13 @@
 package com.example.andrey.newtmpclient.fragments.alltasks;
 
-import android.util.Log;
-
 import com.example.andrey.newtmpclient.entities.ContactOnAddress;
-import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
-import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.example.andrey.newtmpclient.storage.Const.ERROR_DATA;
 import static com.example.andrey.newtmpclient.utils.Utils.showError;
 
 public class AllTasksPresenter {
@@ -39,6 +34,16 @@ public class AllTasksPresenter {
         interActor.searchedTasks(search, done)
                 .subscribe(tasks -> view.setListToAdapter(tasks),
                         throwable -> showError(view, throwable));
+    }
+
+    void getDoneTasksIfEmpty(boolean done){
+        if(done) {
+            interActor.getDoneTasksIfEmpty()
+                    .compose(new TransformerDialog<>(view))
+                    .subscribe(tasks ->
+                            interActor.setDoneTasks(tasks)
+                                    .subscribe(() -> view.setListToAdapter(tasks)));
+        }
     }
 
     void getComments(int position) {

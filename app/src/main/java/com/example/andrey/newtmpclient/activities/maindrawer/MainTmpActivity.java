@@ -100,7 +100,6 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
-            Client.INSTANCE.setFragmentCount(stateCount);
             startActivity(intent);
         }
     }

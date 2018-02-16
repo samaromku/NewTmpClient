@@ -5,11 +5,8 @@ import android.util.Log;
 import com.example.andrey.newtmpclient.di.ChangeUrlInterceptor;
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.managers.AddressManager;
-import com.example.andrey.newtmpclient.managers.CommentsManager;
-import com.example.andrey.newtmpclient.managers.ContactsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.TokenManager;
-import com.example.andrey.newtmpclient.managers.UserCoordsManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.CheckNetwork;
@@ -59,10 +56,6 @@ public class LoginInterActor  {
 
     boolean checkAuth() {
         return Client.INSTANCE.isAuth();
-    }
-
-    int getFragmentCount(){
-        return Client.INSTANCE.getFragmentCount();
     }
 
     void checkNetwork(boolean isChecked) {

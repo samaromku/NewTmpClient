@@ -195,6 +195,7 @@ public class AllTasksFragment extends BaseFragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        presenter.getDoneTasksIfEmpty(done);
         RxTextView.textChanges(etSearch)
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())

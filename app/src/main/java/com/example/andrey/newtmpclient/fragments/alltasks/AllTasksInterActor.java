@@ -56,6 +56,15 @@ public class AllTasksInterActor {
         return Observable.fromCallable(() -> searchedList(search.split(" "), done));
     }
 
+    Observable<List<Task>>getDoneTasksIfEmpty(){
+        User user = usersManager.getUser();
+        if(tasksManager.getDoneTasks().isEmpty()){
+            return tmpService.getDoneTasks(Request.requestUserWithToken(user, Request.GET_DONE_TASKS))
+                    .map(ApiResponse::getData);
+        }else {
+            return Observable.empty();
+        }
+    }
 
     private List<Task> searchedList(String[] words, boolean done) {
         List<Task> startList = new ArrayList<>();
@@ -103,11 +112,11 @@ public class AllTasksInterActor {
     }
 
     Observable<ApiResponse<List<Address>>> getFirstAddresses() {
-//        if (addressManager.getAddresses().size() == 0) {
         return tmpService.getAddresses(Request.requestWithToken(Request.GIVE_ME_ADDRESSES_PLEASE));
-//        }else {
-//            return Observable.empty();
-//        }
+    }
+
+    Completable setDoneTasks(List<Task>tasks){
+        return Completable.fromAction(() -> tasksManager.setDoneTasks(tasks));
     }
 
     Completable setAddresses(List<Address> addresses) {

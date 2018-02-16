@@ -36,9 +36,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     private String login;
     private String pwd;
     public static final String TAG = "LoginActivity";
-    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION};
-
+    private boolean permissionChecked;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +59,9 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     protected void onResume() {
         super.onResume();
-        loginPresenter.startAccountActivityAfterCheck();
+        if(permissionChecked) {
+            loginPresenter.startAccountActivityAfterCheck();
+        }
     }
 
     @Override
@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     }
 
     @Override
-    public void startMainActivity(int stateFragment) {
+    public void startMainActivity() {
         startActivity(new Intent(this, MainTmpActivity.class));
     }
 
@@ -106,12 +106,14 @@ public class LoginActivity extends BaseActivity implements LoginView {
                     .subscribe(granted -> {
                         if (granted) {
                             startMainActivityService();
+                            permissionChecked = true;
                         } else {
                             Toast.makeText(this, "Нужно разрешение на получение геопозиции", Toast.LENGTH_SHORT).show();
                         }
                     });
         }else {
             startMainActivityService();
+            permissionChecked = true;
         }
     }
 

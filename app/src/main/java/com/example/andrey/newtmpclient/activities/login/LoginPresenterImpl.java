@@ -3,9 +3,6 @@ package com.example.andrey.newtmpclient.activities.login;
 import com.example.andrey.newtmpclient.network.Client;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
 import static com.example.andrey.newtmpclient.storage.Const.ERROR_DATA;
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 
@@ -58,7 +55,7 @@ public class LoginPresenterImpl {
 
     void startAccountActivityAfterCheck() {
         if (loginInterActor.checkAuth()) {
-            view.startMainActivity(loginInterActor.getFragmentCount());
+            view.startMainActivity();
         }
     }
 
