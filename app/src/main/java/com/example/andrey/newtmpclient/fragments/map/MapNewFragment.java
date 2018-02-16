@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.entities.UserCoords;
-import com.example.andrey.newtmpclient.entities.map.Leg;
 import com.example.andrey.newtmpclient.entities.map.RouteResponse;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewModule;
@@ -62,20 +61,19 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
             map.getUiSettings().setMyLocationButtonEnabled(true);
         });
         setDialogTitleAndText("Получение координат", PLEASE_WAIT);
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if(actionBar!=null){
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
             actionBar.setTitle("Карта");
         }
-        presenter.getUsersCoordes();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        presenter.getUsersCoordes();
     }
 
-    void setDialogTitleAndText(String title, String message){
+    void setDialogTitleAndText(String title, String message) {
         dialog = new ProgressDialog(getActivity());
         dialog.setCancelable(false);
         dialog.setMessage(message);
@@ -104,21 +102,22 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
 //        presenter.getDirections(userCoordes);
     }
 
-    private void updateUI(List<UserCoords> userCoordsList){
-        if(map==null){
+    private void updateUI(List<UserCoords> userCoordsList) {
+        if (map == null) {
             return;
         }
         map.clear();
         for (int i = 0; i < userCoordsList.size(); i++) {
             UserCoords userCoords = userCoordsList.get(i);
             LatLng point = new LatLng(userCoords.getLat(), userCoords.getLog());
-            MarkerOptions mark = new MarkerOptions().position(point).title(usersManager.getUserById(userCoords.getUserId()).getLogin());
+            String login = usersManager.getUserById(userCoords.getUserId()).getLogin();
+            MarkerOptions mark = new MarkerOptions().position(point).title(login);
             map.addMarker(mark);
         }
         LatLng myPoint = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         MarkerOptions myMarker = new MarkerOptions()
                 .position(myPoint)
-                .title(usersManager.getUser().getLogin()+(int)myPoint.latitude+(int)myPoint.longitude);
+                .title(usersManager.getUser().getLogin() + " это я");
         map.addMarker(myMarker);
 
         LatLngBounds bounds = new LatLngBounds.Builder()
@@ -139,7 +138,7 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     @Override
     public void drawDirections(RouteResponse routeResponse, List<UserCoords> userCoordes) {
         LatLng latLng;
-        for(UserCoords userCoords:userCoordes){
+        for (UserCoords userCoords : userCoordes) {
 //            leg.getStartLocation();
             latLng = new LatLng(userCoords.getLat(),
                     userCoords.getLog());
@@ -155,7 +154,7 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
                 routeResponse.getRoutes().get(0).getOverviewPolyline().getPoints()), map);
     }
 
-    private void drawPrimaryLinePath(List<LatLng>mPoints, GoogleMap mGoogleMap) {
+    private void drawPrimaryLinePath(List<LatLng> mPoints, GoogleMap mGoogleMap) {
 
         PolylineOptions line = new PolylineOptions();
         line.width(4f).color(R.color.colorAccent);

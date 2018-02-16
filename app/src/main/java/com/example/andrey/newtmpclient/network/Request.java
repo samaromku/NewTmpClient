@@ -34,6 +34,8 @@ public class Request {
     public static final String AUTH = "auth";
     public static final String LOGOUT = "logout";
     public static final String UPDATE_TASKS = "update_tasks";
+    public static final String GET_DONE_TASKS = "get_done_tasks";
+    public static final String GET_NOT_DONE_TASKS = "get_not_done_tasks";
     public static final String ADD_FIREBASE_TOKEN = "add_firebase_token";
     public static final String GET_USER_COORDES_PER_DAY = "get_user_coordes_per_day";
 
@@ -58,7 +60,6 @@ public class Request {
 
     public Request(String request){
         this.request = request;
-//        this.token = TokenManager.instance.getToken();
     }
 
     public static Request requestWithToken(String request){

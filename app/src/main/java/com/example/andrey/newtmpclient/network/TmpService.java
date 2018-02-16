@@ -1,6 +1,7 @@
 package com.example.andrey.newtmpclient.network;
 
 import com.example.andrey.newtmpclient.entities.Address;
+import com.example.andrey.newtmpclient.entities.Task;
 
 import java.util.List;
 
@@ -24,6 +25,12 @@ public interface TmpService {
 
     @POST("/auth")
     Observable<Response>updateTasks(@Body Request updateTasks);
+
+    @POST("/auth")
+    Observable<ApiResponse<List<Task>>>getDoneTasks(@Body Request updateTasks);
+
+    @POST("/auth")
+    Observable<ApiResponse<List<Task>>>getNotDoneTasks(@Body Request updateTasks);
 
     @POST("/auth")
     Observable<Response>updateOneTask(@Body Request updateOneTask);

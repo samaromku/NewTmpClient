@@ -59,8 +59,8 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    //permissions
-    compile 'com.github.VictorAlbertos.RxPermissionsResult:rx2:0.0.4'
+    //another perm
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     //map
     compile 'com.google.maps.android:android-maps-utils:0.4+'
 

@@ -150,8 +150,7 @@
             android:id="@+id/task_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_name"
-            android:layout_toRightOf="@+id/what_to_do"
+            android:layout_below="@+id/what_to_do"
             android:textColor="@color/darkGreen"
             android:textSize="18sp"
             tools:text="Снять вычисления с узла учета в теплоцентре, забрать отчеты за предыдущие месяцы" />

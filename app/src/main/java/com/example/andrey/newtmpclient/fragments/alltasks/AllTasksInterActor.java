@@ -21,7 +21,6 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-import static com.example.andrey.newtmpclient.entities.TaskEnum.DONE_TASK;
 import static com.example.andrey.newtmpclient.network.Request.requestTaskWithToken;
 import static com.example.andrey.newtmpclient.storage.Const.ALL_TIME;
 import static com.example.andrey.newtmpclient.storage.Const.BASE_CREATED_DATE;
@@ -42,23 +41,15 @@ public class AllTasksInterActor {
 
     Observable<List<Task>> updateTasks(boolean done) {
         User user = usersManager.getUser();
-        Request request = Request.requestUserWithToken(user, Request.UPDATE_TASKS);
-        return tmpService.updateTasks(request)
-                .map(response -> {
-                    List<Task> doneTasks = new ArrayList<>();
-                    for (Task task : response.getTaskList()) {
-                        if (done) {
-                            if (task.getStatus().equals(DONE_TASK)) {
-                                doneTasks.add(task);
-                            }
-                        } else {
-                            if (!task.getStatus().equals(DONE_TASK)) {
-                                doneTasks.add(task);
-                            }
-                        }
-                    }
-                    return doneTasks;
-                });
+        if(done){
+            return tmpService.getDoneTasks(Request.requestUserWithToken(user, Request.GET_DONE_TASKS))
+                    .doOnNext(listApiResponse -> tasksManager.setDoneTasks(listApiResponse.getData()))
+                    .map(ApiResponse::getData);
+        }else {
+            return tmpService.getNotDoneTasks(Request.requestUserWithToken(user, Request.GET_NOT_DONE_TASKS))
+                    .doOnNext(listApiResponse -> tasksManager.setNotDoneTasks(listApiResponse.getData()))
+                    .map(ApiResponse::getData);
+        }
     }
 
     Observable<List<Task>> searchedTasks(String search, boolean done) {

@@ -31,7 +31,6 @@ import com.example.andrey.newtmpclient.service.GpsService;
 
 import javax.inject.Inject;
 
-import static com.example.andrey.newtmpclient.storage.Const.STATE_COUNT;
 import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
 
 public class MainTmpActivity extends AppCompatActivity implements MainTmpView, NavigationView.OnNavigationItemSelectedListener {
@@ -59,33 +58,15 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        openFragmentOnStateCount(getIntent().getIntExtra(STATE_COUNT, 0));
+        openFragmentOnStateCount();
     }
 
-    private void openFragmentOnStateCount(int stateCount) {
+    private void openFragmentOnStateCount() {
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
         tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
-//        switch (stateCount) {
-//            case 0:
-//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
-//                break;
-//            case 1:
-//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_done_tasks));
-//                break;
-//            case 2:
-//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_users));
-//                break;
-//            case 3:
-//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_addresses));
-//                break;
-//            case 4:
-//                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_map));
-//                break;
-//        }
-
     }
 
     @Override

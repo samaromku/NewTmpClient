@@ -2,13 +2,9 @@ package com.example.andrey.newtmpclient.activities.login;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -21,15 +17,13 @@ import com.example.andrey.newtmpclient.activities.login.di.LoginModule;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.service.GpsService;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
-
-import io.victoralbertos.rx2_permissions_result.RxPermissionsResult;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
 import static com.example.andrey.newtmpclient.storage.Const.AUTH;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
-import static com.example.andrey.newtmpclient.storage.Const.STATE_COUNT;
 
 /**
  * Created by andrey on 13.07.2017.
@@ -99,27 +93,25 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void startMainActivity(int stateFragment) {
-        startActivity(new Intent(this, MainTmpActivity.class)
-        .putExtra(STATE_COUNT, stateFragment));
+        startActivity(new Intent(this, MainTmpActivity.class));
     }
 
     @Override
     public void successAuth() {
-        if(Build.VERSION.SDK_INT > LOLLIPOP_MR1){
-            RxPermissionsResult.on(this).requestPermissions(permissions)
-                    .subscribe(result ->
-                            showPermissionStatus(result.grantResults()));
+        if(Build.VERSION.SDK_INT > LOLLIPOP_MR1) {
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions
+                    .request(Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            startMainActivityService();
+                        } else {
+                            Toast.makeText(this, "Нужно разрешение на получение геопозиции", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }else {
-            startMainActivity(0);
-        }
-    }
-
-    void showPermissionStatus(int[] grantResults) {
-        boolean granted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        if (granted) {
             startMainActivityService();
-        } else {
-            Toast.makeText(this, "Нужно разрешение на получение геопозиции", Toast.LENGTH_SHORT).show();
         }
     }
 
