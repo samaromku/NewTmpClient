@@ -9,5 +9,7 @@ import java.util.List;
 public interface MapNewView extends BaseView{
     void setUserCoordes(List<UserCoords>userCoordes);
 
-    void drawDirections(RouteResponse routeResponse, List<UserCoords> userCoordes);
+    void drawDirections(
+//            RouteResponse routeResponse,
+            List<UserCoords> userCoordes);
 }

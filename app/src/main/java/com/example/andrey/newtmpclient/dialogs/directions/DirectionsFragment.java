@@ -27,6 +27,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.example.andrey.newtmpclient.dialogs.directions.adapter.UserAdapter;
 import com.example.andrey.newtmpclient.interfaces.UserDateGetter;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -40,6 +41,11 @@ public class DirectionsFragment extends DialogFragment implements DirectionsView
     private static final String TAG = DirectionsFragment.class.getSimpleName();
     private UserDateGetter userDateGetter;
     private UserAdapter adapter;
+    private Date calDate;
+
+    public void setCalDate(Date calDate) {
+        this.calDate = calDate;
+    }
 
     public void setUserDateGetter(UserDateGetter userDateGetter) {
         this.userDateGetter = userDateGetter;
@@ -77,6 +83,12 @@ public class DirectionsFragment extends DialogFragment implements DirectionsView
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         presenter.getListFroAdapter();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(calDate);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        dpDirectionsDate.init(year, month, day, null);
     }
 
     @Override

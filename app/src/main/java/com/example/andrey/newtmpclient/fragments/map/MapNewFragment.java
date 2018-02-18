@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,12 +24,10 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.dialogs.directions.DirectionsFragment;
 import com.example.andrey.newtmpclient.entities.UserCoords;
-import com.example.andrey.newtmpclient.entities.map.RouteResponse;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewModule;
 import com.example.andrey.newtmpclient.managers.UserCoordsManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -40,8 +37,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,8 +52,9 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     private GoogleMap map;
     private UserCoordsManager userCoordsManager = UserCoordsManager.INSTANCE;
     private Location currentLocation = userCoordsManager.getLocation();
-    UsersManager usersManager = UsersManager.INSTANCE;
-    ProgressDialog dialog;
+    private UsersManager usersManager = UsersManager.INSTANCE;
+    private ProgressDialog dialog;
+    private Date calDate = new Date();
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -79,7 +77,9 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.getUsersCoordes();
-        setHasOptionsMenu(true);
+        if(UsersManager.INSTANCE.getUser().getLogin().equals("АВ")){
+            setHasOptionsMenu(true);
+        }
     }
 
 
@@ -146,8 +146,9 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     }
 
     @Override
-    public void drawDirections(RouteResponse routeResponse, List<UserCoords> userCoordes) {
+    public void drawDirections(List<UserCoords> userCoordes) {
         LatLng latLng;
+        map.clear();
         for (UserCoords userCoords : userCoordes) {
 //            leg.getStartLocation();
             latLng = new LatLng(userCoords.getLat(),
@@ -160,8 +161,8 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
         }
 
-        drawPrimaryLinePath(PolyUtil.decode(
-                routeResponse.getRoutes().get(0).getOverviewPolyline().getPoints()), map);
+//        drawPrimaryLinePath(PolyUtil.decode(
+//                routeResponse.getRoutes().get(0).getOverviewPolyline().getPoints()), map);
     }
 
     private void drawPrimaryLinePath(List<LatLng> mPoints, GoogleMap mGoogleMap) {
@@ -234,8 +235,10 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
         switch (item.getItemId()) {
             case R.id.action_directions_settings:
                 DirectionsFragment directionsFragment = new DirectionsFragment();
+                directionsFragment.setCalDate(calDate);
                 directionsFragment.setUserDateGetter((user, date) -> {
                     Log.i(TAG, "onOptionsItemSelected: " + user + " date " + date);
+                    calDate = date;
                     presenter.getDirections(user, date);
 
                 });

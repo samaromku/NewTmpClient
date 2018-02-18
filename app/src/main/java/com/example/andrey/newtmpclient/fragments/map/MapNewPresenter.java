@@ -1,14 +1,10 @@
 package com.example.andrey.newtmpclient.fragments.map;
 
-import android.util.Log;
-
 import com.example.andrey.newtmpclient.entities.User;
-import com.example.andrey.newtmpclient.entities.UserCoords;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
 import com.example.andrey.newtmpclient.utils.Utils;
 
 import java.util.Date;
-import java.util.List;
 
 public class MapNewPresenter {
     private static final String TAG = MapNewPresenter.class.getSimpleName();
@@ -29,15 +25,15 @@ public class MapNewPresenter {
                 }, throwable -> Utils.showError(view, throwable));
     }
 
-    void getDirections(User user, Date date){
+    void getDirections(User user, Date date) {
         interActor.getUsersCoordesPerDay(user, date)
                 .compose(new TransformerDialog<>(view))
-                .subscribe(response ->
-                        interActor.getDirections(response.getUserCoordsList())
-                        .subscribe(routeResponse -> {
-                            view.drawDirections(routeResponse, response.getUserCoordsList());
-                            Log.i(TAG, "getDirections: " + routeResponse);
-                        }, throwable -> Utils.showError(view, throwable)),
-                        throwable -> Utils.showError(view, throwable));
+                .subscribe(response -> {
+                            if (!response.getUserCoordsList().isEmpty()) {
+                                view.drawDirections(response.getUserCoordsList());
+                            } else {
+                                view.showToast("Список маршрутов пуст");
+                            }
+                        }, throwable -> Utils.showError(view, throwable));
     }
 }

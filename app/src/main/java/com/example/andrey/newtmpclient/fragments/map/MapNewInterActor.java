@@ -63,13 +63,14 @@ public class MapNewInterActor {
                         .append(userCoord.getLog());
             }
         }
-
+        UserCoords originUserCoords = userCoordes.get(0);
+        UserCoords destUserCoords = userCoordes.get(userCoordes.size()-1);
         return mapService.getDirection(
-                "59.9311306,30.3355647",
-                "59.9441505,30.2901415",
+                originUserCoords.getLat() + "," + originUserCoords.getLog(),
+                destUserCoords.getLat() + "," + destUserCoords.getLog(),
 //                "Санкт-Петербург,Лесной,39|Санкт-Петербург,Просвещения,16|Санкт-Петербург,Харченко,5",
-//                sb.toString(),
-                "via:60.22073982,30.32309633|via:60.06676873,30.34539298",
+                sb.toString(),
+//                "via:60.22073982,30.32309633|via:60.06676873,30.34539298",
                 "AIzaSyDAI8tMCJiA2PQYE9F__J2dmT1APUxTetA")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
