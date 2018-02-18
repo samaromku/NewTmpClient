@@ -55,16 +55,13 @@ public class DatePickerFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle("Выбрать дату")
-                .setPositiveButton("Подтвердить", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int year = datePicker.getYear();
-                        int month = datePicker.getMonth();
-                        int day = datePicker.getDayOfMonth();
-                        Date date1 = new GregorianCalendar(year, month, day).getTime();
-                        sendResult(Activity.RESULT_OK, date1);
+                .setPositiveButton("Подтвердить", (dialog, which) -> {
+                    int year1 = datePicker.getYear();
+                    int month1 = datePicker.getMonth();
+                    int day1 = datePicker.getDayOfMonth();
+                    Date date1 = new GregorianCalendar(year1, month1, day1).getTime();
+                    sendResult(Activity.RESULT_OK, date1);
 
-                    }
                 })
                 .create();
     }

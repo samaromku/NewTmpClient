@@ -1,11 +1,13 @@
 package com.example.andrey.newtmpclient.base;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 
 
@@ -43,5 +45,10 @@ public class BaseFragment extends Fragment implements BaseView{
     @Override
     public void showToast(String text) {
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void notSuccessAuth() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 }

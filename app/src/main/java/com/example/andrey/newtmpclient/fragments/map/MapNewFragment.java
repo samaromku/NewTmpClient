@@ -2,20 +2,28 @@ package com.example.andrey.newtmpclient.fragments.map;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
+import com.example.andrey.newtmpclient.dialogs.directions.DirectionsFragment;
 import com.example.andrey.newtmpclient.entities.UserCoords;
 import com.example.andrey.newtmpclient.entities.map.RouteResponse;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
@@ -71,7 +79,10 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.getUsersCoordes();
+        setHasOptionsMenu(true);
     }
+
+
 
     void setDialogTitleAndText(String title, String message) {
         dialog = new ProgressDialog(getActivity());
@@ -98,8 +109,6 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
     @Override
     public void setUserCoordes(List<UserCoords> userCoordes) {
         updateUI(userCoordes);
-        //маршруты здесь
-//        presenter.getDirections(userCoordes);
     }
 
     private void updateUI(List<UserCoords> userCoordsList) {
@@ -120,13 +129,14 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
                 .title(usersManager.getUser().getLogin() + " это я");
         map.addMarker(myMarker);
 
-        LatLngBounds bounds = new LatLngBounds.Builder()
-                .include(myPoint)
-                .build();
+        //draw myself on map
+//        LatLngBounds bounds = new LatLngBounds.Builder()
+//                .include(myPoint)
+//                .build();
 
-        int margin = 30;
-        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
-        map.setOnMapLoadedCallback(() -> map.moveCamera(update));
+//        int margin = 30;
+//        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
+//        map.setOnMapLoadedCallback(() -> map.moveCamera(update));
     }
 
     @Override
@@ -204,4 +214,35 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
+    @Override
+    public void notSuccessAuth() {
+        if(getContext()!=null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.map_admin_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_directions_settings:
+                DirectionsFragment directionsFragment = new DirectionsFragment();
+                directionsFragment.setUserDateGetter((user, date) -> {
+                    Log.i(TAG, "onOptionsItemSelected: " + user + " date " + date);
+                    presenter.getDirections(user, date);
+
+                });
+                directionsFragment.show(getFragmentManager(), "directions");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

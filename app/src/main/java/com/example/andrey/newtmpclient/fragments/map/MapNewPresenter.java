@@ -2,10 +2,12 @@ package com.example.andrey.newtmpclient.fragments.map;
 
 import android.util.Log;
 
+import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.entities.UserCoords;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
 import com.example.andrey.newtmpclient.utils.Utils;
 
+import java.util.Date;
 import java.util.List;
 
 public class MapNewPresenter {
@@ -27,8 +29,8 @@ public class MapNewPresenter {
                 }, throwable -> Utils.showError(view, throwable));
     }
 
-    void getDirections(){
-        interActor.getUsersCoordesPerDay()
+    void getDirections(User user, Date date){
+        interActor.getUsersCoordesPerDay(user, date)
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response ->
                         interActor.getDirections(response.getUserCoordsList())

@@ -23,13 +23,12 @@ public class AddressMvpInterActor {
         this.tmpService = tmpService;
     }
 
-    Observable<List<Address>> getListFroAdapter() {
-        if(addressManager.getAddresses().isEmpty()) {
+    Observable<ApiResponse<List<Address>>> getListFroAdapter() {
+//        if(addressManager.getAddresses().isEmpty()) {
             Request request = Request.requestWithToken(GIVE_ME_ADDRESSES_PLEASE);
-            return tmpService.getAddresses(request)
-                    .map(ApiResponse::getData);
-        }else {
-            return Observable.fromCallable(() -> addressManager.getAddresses());
-        }
+            return tmpService.getAddresses(request);
+//        }else {
+//            return Observable.fromCallable(() -> addressManager.getAddresses());
+//        }
     }
 }

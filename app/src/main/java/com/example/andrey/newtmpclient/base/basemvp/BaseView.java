@@ -10,4 +10,6 @@ public interface BaseView {
     void hideDialog();
 
     void showToast(String text);
+
+    void notSuccessAuth();
 }

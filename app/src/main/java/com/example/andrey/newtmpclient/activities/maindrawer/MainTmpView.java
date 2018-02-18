@@ -6,7 +6,5 @@ public interface MainTmpView {
 
     void showToast(String text);
 
-    void startLoginActivity();
-
     void stopServices();
 }

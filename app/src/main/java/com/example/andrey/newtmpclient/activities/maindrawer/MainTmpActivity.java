@@ -150,11 +150,6 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
     }
 
     @Override
-    public void startLoginActivity() {
-
-    }
-
-    @Override
     public void stopServices() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -19,6 +19,8 @@ import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTask
 import com.example.andrey.newtmpclient.activities.userrole.NewUserRoleActivity;
 import com.example.andrey.newtmpclient.activities.userrole.di.NewUserRoleComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
+import com.example.andrey.newtmpclient.dialogs.directions.DirectionsFragment;
+import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsComponent;
 import com.example.andrey.newtmpclient.dialogs.filter.FilterDialog;
 import com.example.andrey.newtmpclient.dialogs.filter.di.FilterComponent;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
@@ -74,6 +76,7 @@ import static com.example.andrey.newtmpclient.di.ChangeUrlInterceptor.BASE_URL_O
         OneTaskComponent.class,
         OneTaskFragmentComponent.class,
         GpsComponent.class,
+        DirectionsComponent.class,
 })
 class AppModule {
 
@@ -81,6 +84,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(DirectionsFragment.class)
+    ComponentBuilder provideDirections(DirectionsComponent.Builder builder) {
         return builder;
     }
 

@@ -10,6 +10,7 @@ public class User {
     private String telephone;
     private String email;
     private UserRole userRole;
+    private boolean selected;
 
     public static String USER_ROLE = "userRole";
     public static String ADMIN_ROLE = "adminRole";
@@ -20,6 +21,14 @@ public class User {
     public User(String name, String password){
         this.login = name;
         this.password = password;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public UserRole getUserRole() {
@@ -93,5 +102,20 @@ public class User {
         this.role = role;
         this.telephone = telephone;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", FIO='" + FIO + '\'' +
+                ", role='" + role + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", userRole=" + userRole +
+                ", selected=" + selected +
+                '}';
     }
 }

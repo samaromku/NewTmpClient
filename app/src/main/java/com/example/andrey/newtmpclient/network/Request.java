@@ -50,6 +50,7 @@ public class Request {
 
     public Request(UserCoords userCoords, String request){
         this.userCoords = userCoords;
+        this.token= TokenManager.instance.getToken();
         this.request = request;
     }
 

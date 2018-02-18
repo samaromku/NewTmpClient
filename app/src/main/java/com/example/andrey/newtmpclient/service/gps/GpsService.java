@@ -87,7 +87,7 @@ public class GpsService extends IntentService implements GpsView{
                 MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                     @Override
                     public void gotLocation(final Location location) {
-                        if (UsersManager.INSTANCE.getUser() != null) {
+                        if (UsersManager.INSTANCE.getUser() != null && location!=null) {
                             UserCoords userCoords = new UserCoords(location.getLatitude(), location.getLongitude());
                             if(userCoordsManager.getUserCoords()!=null &&
                                     userCoords.getLat()==userCoordsManager.getUserCoords().getLat()&&

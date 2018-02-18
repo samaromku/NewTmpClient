@@ -30,7 +30,6 @@ import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksModule;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
-import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -100,7 +99,6 @@ public class AllTasksFragment extends BaseFragment implements
     protected TasksAdapter adapter;
     private boolean done;
     private UserRolesManager userRolesManager = UserRolesManager.INSTANCE;
-    private UsersManager usersManager = UsersManager.INSTANCE;
     @Inject
     AllTasksPresenter presenter;
 

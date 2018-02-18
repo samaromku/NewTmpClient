@@ -1,6 +1,7 @@
 package com.example.andrey.newtmpclient.base;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 import com.example.andrey.newtmpclient.interfaces.OnNothingSelected;
 import com.example.andrey.newtmpclient.interfaces.SpinnerListener;
@@ -93,5 +95,10 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
                 onNothingSelected.onNothingSelected();
             }
         });
+    }
+
+    @Override
+    public void notSuccessAuth() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

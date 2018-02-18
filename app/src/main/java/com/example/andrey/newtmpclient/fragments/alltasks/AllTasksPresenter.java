@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.andrey.newtmpclient.entities.ContactOnAddress;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
+import com.example.andrey.newtmpclient.network.ApiResponse;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -42,9 +43,11 @@ public class AllTasksPresenter {
         if(done) {
             interActor.getDoneTasksIfEmpty()
                     .compose(new TransformerDialog<>(view))
+                    .map(ApiResponse::getData)
                     .subscribe(tasks ->
                             interActor.setDoneTasks(tasks)
-                                    .subscribe(() -> view.setListToAdapter(tasks)));
+                                    .subscribe(() -> view.setListToAdapter(tasks),
+                                            Throwable::printStackTrace));
         }
     }
 
