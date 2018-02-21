@@ -64,7 +64,9 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
-        tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
+        if(usersManager.getUser()!=null) {
+            tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
+        }
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
     }
 
