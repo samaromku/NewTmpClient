@@ -120,7 +120,9 @@ public class GpsService extends IntentService implements GpsView{
         }
         tasksManager.removeDoing();
         for(Address a: userAddresses) {
-            if (a != null) {
+            if (a != null &&
+                    a.getCoordsLat()!=null &&
+                    a.getCoordsLon()!=null) {
                 double lat1 = Double.parseDouble(a.getCoordsLat());
                 double log1 = Double.parseDouble(a.getCoordsLon());
 

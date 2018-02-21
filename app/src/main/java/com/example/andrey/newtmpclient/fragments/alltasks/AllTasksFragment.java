@@ -191,7 +191,8 @@ public class AllTasksFragment extends BaseFragment implements
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(text -> onSearch(text.toString()));
+                .subscribe(text -> onSearch(text.toString()),
+                        Throwable::printStackTrace);
         swipeLayout = view.findViewById(R.id.swipe_layout);
         tasksList = view.findViewById(R.id.tasks_list);
         tasksList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
