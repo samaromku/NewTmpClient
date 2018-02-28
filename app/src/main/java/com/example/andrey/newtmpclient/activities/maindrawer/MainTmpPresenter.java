@@ -7,11 +7,11 @@ import com.example.andrey.newtmpclient.managers.TokenManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.network.Client;
+import com.example.andrey.newtmpclient.rx.TransformerDialog;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.example.andrey.newtmpclient.storage.Const.SUCCESS_LOGOUT;
 
 public class MainTmpPresenter {
     private static final String TAG = MainTmpPresenter.class.getSimpleName();
@@ -25,15 +25,12 @@ public class MainTmpPresenter {
 
     void logout(){
         interActor.logout()
+                .compose(new TransformerDialog<>(view))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.getResponse().equals(SUCCESS_LOGOUT)){
-                        logoutAll();
-                    }else {
-                        view.showToast("Вы и так не залогинены");
-                    }
-                }, Throwable::printStackTrace);
+                    logoutAll();
+                }, throwable -> Utils.showError(view, throwable));
     }
 
     private void logoutAll(){

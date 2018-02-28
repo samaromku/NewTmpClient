@@ -19,7 +19,7 @@ public class Request {
     private Token token;
     private String fireBase;
     private int userId;
-    private Date userCoordesDate;
+    private String userCoordesDate;
     public static final String ADD_TASK_TO_SERVER = "add_task_to_server";
     public static final String WANT_SOME_COMMENTS = "give_me_comments_by_task_id";
     public static final String CHANGE_PERMISSION_PLEASE = "change_permission_please";
@@ -79,7 +79,7 @@ public class Request {
         return request1;
     }
 
-    public static Request requestUserIdWithDateWithToken(int userId, Date date, String request){
+    public static Request requestUserIdWithDateWithToken(int userId, String date, String request){
         Request request1 = new Request();
         request1.setRequest(request);
         request1.userId = userId;

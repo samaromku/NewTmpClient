@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -239,8 +240,8 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
                 directionsFragment.setUserDateGetter((user, date) -> {
                     Log.i(TAG, "onOptionsItemSelected: " + user + " date " + date);
                     calDate = date;
-                    presenter.getDirections(user, date);
-
+                    String dateStr = new SimpleDateFormat("yyyy.MM.dd").format(calDate)+" 00:00 AM";
+                    presenter.getDirections(user, dateStr);
                 });
                 directionsFragment.show(getFragmentManager(), "directions");
                 return true;

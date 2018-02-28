@@ -35,7 +35,7 @@ public class MapNewInterActor {
         return tmpService.getUsersCoordinates(Request.requestWithToken(Request.GIVE_ME_LAST_USERS_COORDS));
     }
 
-    Observable<Response> getUsersCoordesPerDay(User user, Date date) {
+    Observable<Response> getUsersCoordesPerDay(User user, String date) {
         return tmpService.getUsersCoordesPerDay(Request.
                 requestUserIdWithDateWithToken(user.getId(), date, GET_USER_COORDES_PER_DAY));
     }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.andrey.newtmpclient.network.ApiResponse;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -23,6 +24,6 @@ public class AddressMvpPresenter {
                 .compose(new TransformerDialog<>(view))
                 .map(ApiResponse::getData)
                 .subscribe(list -> view.setListToAdapter(list),
-                        throwable -> Log.e(TAG, throwable.getMessage(), throwable));
+                        throwable -> Utils.showError(view, throwable));
     }
 }

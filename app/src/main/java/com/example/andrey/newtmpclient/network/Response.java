@@ -38,6 +38,7 @@ public class Response {
     public static final String SUCCESS_REMOVE_TASK = "success_remove_task";
     public static final String SUCCESS_UPDATE_TASKS = "success_update_tasks";
     public static final String NOT_SUCCESS_AUTH = "not_success_auth";
+    public static final String NOT_SUCCESS = "not_success";
     public static final String SUCCESS_FIRE_ADD = "success_fire_add";
 
     public List<ContactOnAddress> getContacts() {

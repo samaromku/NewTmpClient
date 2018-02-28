@@ -40,16 +40,16 @@ public class AllTasksInterActor {
         this.tmpService = tmpService;
     }
 
-    Observable<List<Task>> updateTasks(boolean done) {
+    Observable<ApiResponse<List<Task>>> updateTasks(boolean done) {
         User user = usersManager.getUser();
         if(done){
-            return tmpService.getDoneTasks(Request.requestUserWithToken(user, Request.GET_DONE_TASKS))
-                    .doOnNext(listApiResponse -> tasksManager.setDoneTasks(listApiResponse.getData()))
-                    .map(ApiResponse::getData);
+            return tmpService.getDoneTasks(Request.requestUserWithToken(user, Request.GET_DONE_TASKS));
+//                    .doOnNext(listApiResponse -> tasksManager.setDoneTasks(listApiResponse.getData()))
+//                    .map(ApiResponse::getData);
         }else {
-            return tmpService.getNotDoneTasks(Request.requestUserWithToken(user, Request.GET_NOT_DONE_TASKS))
-                    .doOnNext(listApiResponse -> tasksManager.setNotDoneTasks(listApiResponse.getData()))
-                    .map(ApiResponse::getData);
+            return tmpService.getNotDoneTasks(Request.requestUserWithToken(user, Request.GET_NOT_DONE_TASKS));
+//                    .doOnNext(listApiResponse -> tasksManager.setNotDoneTasks(listApiResponse.getData()))
+//                    .map(ApiResponse::getData);
         }
     }
 
@@ -117,6 +117,10 @@ public class AllTasksInterActor {
 
     Completable setDoneTasks(List<Task>tasks){
         return Completable.fromAction(() -> tasksManager.setDoneTasks(tasks));
+    }
+
+    Completable setNotDoneTasks(List<Task>tasks){
+        return Completable.fromAction(() -> tasksManager.setNotDoneTasks(tasks));
     }
 
     Completable setAddresses(List<Address> addresses) {

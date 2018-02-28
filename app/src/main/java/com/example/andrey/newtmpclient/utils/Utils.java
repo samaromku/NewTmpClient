@@ -9,7 +9,9 @@ import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 
+import static com.example.andrey.newtmpclient.storage.Const.AUTH_FAILED;
 import static com.example.andrey.newtmpclient.storage.Const.ERROR_DATA;
+import static com.example.andrey.newtmpclient.storage.Const.RESPONSE_FAILED;
 
 /**
  * Created by savchenko on 22.01.18.
@@ -33,7 +35,11 @@ public class Utils {
 
     public static void showError(BaseView view, Throwable throwable){
         throwable.printStackTrace();
-        view.showToast(parseThrowable(throwable));
+        if(throwable.getMessage().equals(AUTH_FAILED)){
+            view.notSuccessAuth();
+        }else if(throwable.getMessage().equals(RESPONSE_FAILED)){
+            view.showToast("Ошибка запроса");
+        }
     }
 
     private static String parseThrowable(@NonNull Throwable throwable) {

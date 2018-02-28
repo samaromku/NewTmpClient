@@ -3,10 +3,14 @@ package com.example.andrey.newtmpclient.fragments.alltasks;
 import android.util.Log;
 
 import com.example.andrey.newtmpclient.entities.ContactOnAddress;
+import com.example.andrey.newtmpclient.entities.Task;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
 import com.example.andrey.newtmpclient.network.ApiResponse;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
+import com.example.andrey.newtmpclient.utils.Utils;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -27,9 +31,16 @@ public class AllTasksPresenter {
 
     void updateTasks(boolean done) {
         interActor.updateTasks(done)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list -> view.setListToAdapter(list),
+                .compose(new TransformerDialog<>(view))
+                .subscribe(apiResponse -> {
+                            List<Task> tasks = apiResponse.getData();
+                            if (done) {
+                                interActor.setDoneTasks(tasks);
+                            } else {
+                                interActor.setNotDoneTasks(tasks);
+                            }
+                            view.setListToAdapter(tasks);
+                        },
                         throwable -> showError(view, throwable));
     }
 
@@ -39,15 +50,15 @@ public class AllTasksPresenter {
                         throwable -> showError(view, throwable));
     }
 
-    void getDoneTasksIfEmpty(boolean done){
-        if(done) {
+    void getDoneTasksIfEmpty(boolean done) {
+        if (done) {
             interActor.getDoneTasksIfEmpty()
                     .compose(new TransformerDialog<>(view))
                     .map(ApiResponse::getData)
                     .subscribe(tasks ->
                             interActor.setDoneTasks(tasks)
                                     .subscribe(() -> view.setListToAdapter(tasks),
-                                            Throwable::printStackTrace));
+                                            throwable -> Utils.showError(view, throwable)));
         }
     }
 
@@ -76,13 +87,13 @@ public class AllTasksPresenter {
                         throwable -> showError(view, throwable));
     }
 
-    void getTasksByFilter(int days, boolean done){
+    void getTasksByFilter(int days, boolean done) {
         interActor.getTasksByFilter(days, done)
-        .subscribe(tasks -> view.setListToAdapter(tasks),
-                throwable -> showError(view, throwable));
+                .subscribe(tasks -> view.setListToAdapter(tasks),
+                        throwable -> showError(view, throwable));
     }
 
-    void addFireBaseToken(){
+    void addFireBaseToken() {
         interActor.addFireBaseToken()
                 .compose(new TransformerDialog<>(view))
                 .subscribe(booleanApiResponse -> Log.i(TAG, "addFireBaseToken: token success added"),

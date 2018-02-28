@@ -1,8 +1,8 @@
 package com.example.andrey.newtmpclient.activities.maindrawer;
 
-import java.util.List;
+import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 
-public interface MainTmpView {
+public interface MainTmpView extends BaseView{
 
     void showToast(String text);
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -135,7 +136,7 @@ public class CreateTaskPresenter {
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response -> view.finishCreateActivity(),
                         throwable -> {
-                            throwable.printStackTrace();
+                            Utils.showError(view, throwable);
                             if (throwable.getMessage().equals(WRONG_ADDRESS)) {
                                 view.showToast(WRONG_ADDRESS);
                             } else {

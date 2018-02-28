@@ -21,6 +21,7 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.activities.login.LoginActivity;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpComponent;
 import com.example.andrey.newtmpclient.activities.maindrawer.di.MainTmpModule;
+import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.fragments.address.AddressMvpFragment;
 import com.example.andrey.newtmpclient.fragments.alltasks.AllTasksFragment;
 import com.example.andrey.newtmpclient.fragments.map.MapNewFragment;
@@ -30,9 +31,12 @@ import com.example.andrey.newtmpclient.service.gps.GpsService;
 
 import javax.inject.Inject;
 
+import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 import static com.example.andrey.newtmpclient.utils.Utils.hideKeyboard;
 
-public class MainTmpActivity extends AppCompatActivity implements MainTmpView, NavigationView.OnNavigationItemSelectedListener {
+public class MainTmpActivity extends BaseActivity implements
+        MainTmpView,
+        NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainTmpActivity.class.getSimpleName();
     @Inject
     MainTmpPresenter presenter;
@@ -49,6 +53,7 @@ public class MainTmpActivity extends AppCompatActivity implements MainTmpView, N
                 .getPresenterComponent(getClass(), new MainTmpModule(this))).inject(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setDialogTitleAndText("Выход", PLEASE_WAIT);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

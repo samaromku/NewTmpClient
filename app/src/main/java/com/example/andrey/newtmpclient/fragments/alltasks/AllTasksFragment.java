@@ -30,7 +30,6 @@ import com.example.andrey.newtmpclient.entities.UserRole;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksComponent;
 import com.example.andrey.newtmpclient.fragments.alltasks.di.DoneTasksModule;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
-import com.example.andrey.newtmpclient.storage.AuthChecker;
 import com.example.andrey.newtmpclient.utils.Const;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -254,7 +253,7 @@ public class AllTasksFragment extends BaseFragment implements
         tasksList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);
-        AuthChecker.checkAuth(getActivity());
+//        AuthChecker.checkAuth(getActivity());
     }
 
     public void onSearch(String search) {

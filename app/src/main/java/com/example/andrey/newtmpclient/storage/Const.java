@@ -18,6 +18,9 @@ public interface Const {
     String WRONG_ADDRESS = "Неправильный адрес";
     String TASK_NUMBER = "taskNumber";
 
+    String RESPONSE_FAILED = "response_failed";
+    String AUTH_FAILED = "auth_failed";
+
     String FILL_FIELD = "Вы должны заполнить это поле";
 
     int DAY = 1;

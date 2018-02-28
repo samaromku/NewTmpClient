@@ -2,6 +2,7 @@ package com.example.andrey.newtmpclient.activities.oneuser;
 
 import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -24,10 +25,7 @@ public class OneUserPresenter {
                 .subscribe(response -> {
                     interActor.setRemoveUser().subscribe();
                     view.removeUser();
-                }, throwable -> {
-                    throwable.printStackTrace();
-                    view.showToast(ERROR_DATA);
-                });
+                }, throwable -> Utils.showError(view, throwable));
     }
 
 }

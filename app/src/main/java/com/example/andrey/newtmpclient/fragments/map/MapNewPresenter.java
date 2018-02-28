@@ -25,7 +25,7 @@ public class MapNewPresenter {
                 }, throwable -> Utils.showError(view, throwable));
     }
 
-    void getDirections(User user, Date date) {
+    void getDirections(User user, String date) {
         interActor.getUsersCoordesPerDay(user, date)
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response -> {
