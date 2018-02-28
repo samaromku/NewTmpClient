@@ -28,6 +28,7 @@ import com.example.andrey.newtmpclient.fragments.map.di.MapNewComponent;
 import com.example.andrey.newtmpclient.fragments.map.di.MapNewModule;
 import com.example.andrey.newtmpclient.managers.UserCoordsManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -131,13 +132,13 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
         map.addMarker(myMarker);
 
         //draw myself on map
-//        LatLngBounds bounds = new LatLngBounds.Builder()
-//                .include(myPoint)
-//                .build();
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(myPoint)
+                .build();
 
-//        int margin = 30;
-//        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
-//        map.setOnMapLoadedCallback(() -> map.moveCamera(update));
+        int margin = 30;
+        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
+        map.setOnMapLoadedCallback(() -> map.moveCamera(update));
     }
 
     @Override

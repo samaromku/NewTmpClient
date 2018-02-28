@@ -3,28 +3,19 @@ package com.example.andrey.newtmpclient.dialogs.directions;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-
-import com.example.andrey.newtmpclient.App;
-import com.example.andrey.newtmpclient.R;
-import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsComponent;
-import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsModule;
-
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
-import android.support.v7.widget.RecyclerView;
-
-import com.example.andrey.newtmpclient.entities.User;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-import android.support.v7.widget.LinearLayoutManager;
-
+import com.example.andrey.newtmpclient.App;
+import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.dialogs.directions.adapter.UserAdapter;
+import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsComponent;
+import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsModule;
+import com.example.andrey.newtmpclient.entities.User;
 import com.example.andrey.newtmpclient.interfaces.UserDateGetter;
 
 import java.util.Calendar;
@@ -32,10 +23,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.util.Log;
-import android.widget.DatePicker;
-
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DirectionsFragment extends DialogFragment implements DirectionsView {
     private static final String TAG = DirectionsFragment.class.getSimpleName();
@@ -118,7 +110,9 @@ public class DirectionsFragment extends DialogFragment implements DirectionsView
         int year1 = dpDirectionsDate.getYear();
         int month1 = dpDirectionsDate.getMonth();
         int day1 = dpDirectionsDate.getDayOfMonth();
-        Date date1 = new GregorianCalendar(year1, month1, day1).getTime();
+        Calendar cal = new GregorianCalendar(year1, month1, day1);
+        cal.set(Calendar.AM_PM, Calendar.AM);
+        Date date1 = cal.getTime();
         userDateGetter.onUserDateGet(user, date1);
     }
 
