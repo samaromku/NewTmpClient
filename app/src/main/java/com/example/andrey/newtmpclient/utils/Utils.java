@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -13,7 +11,6 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 
 import static com.example.andrey.newtmpclient.storage.Const.AUTH_FAILED;
-import static com.example.andrey.newtmpclient.storage.Const.ERROR_DATA;
 import static com.example.andrey.newtmpclient.storage.Const.RESPONSE_FAILED;
 
 /**
@@ -43,16 +40,6 @@ public class Utils {
         }else if(throwable.getMessage().equals(RESPONSE_FAILED)){
             view.showToast("Ошибка запроса");
         }
-    }
-
-    private static String parseThrowable(@NonNull Throwable throwable) {
-        if (!TextUtils.isEmpty(throwable.getLocalizedMessage())) {
-            return throwable.getLocalizedMessage();
-        }
-        if (!TextUtils.isEmpty(throwable.getMessage())) {
-            return throwable.getMessage();
-        }
-        return throwable.toString();
     }
 
     public static void showDialog(Context context,

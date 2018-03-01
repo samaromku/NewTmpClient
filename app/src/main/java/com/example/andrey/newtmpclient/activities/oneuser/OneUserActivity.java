@@ -96,12 +96,12 @@ public class OneUserActivity extends BaseActivity implements OneUserView {
     }
 
     private void init() {
-        change = (ImageView) findViewById(R.id.change);
-        TextView login = (TextView) findViewById(R.id.login);
-        TextView fio = (TextView) findViewById(R.id.fio);
-        TextView role = (TextView) findViewById(R.id.role);
-        TextView phone = (TextView) findViewById(R.id.phone);
-        TextView email = (TextView) findViewById(R.id.email);
+        change = findViewById(R.id.change);
+        TextView login = findViewById(R.id.login);
+        TextView fio = findViewById(R.id.fio);
+        TextView role = findViewById(R.id.role);
+        TextView phone = findViewById(R.id.phone);
+        TextView email = findViewById(R.id.email);
 
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
