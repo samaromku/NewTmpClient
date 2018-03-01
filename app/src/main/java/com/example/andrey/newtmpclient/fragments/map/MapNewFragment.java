@@ -122,7 +122,9 @@ public class MapNewFragment extends SupportMapFragment implements MapNewView {
             UserCoords userCoords = userCoordsList.get(i);
             LatLng point = new LatLng(userCoords.getLat(), userCoords.getLog());
             String login = usersManager.getUserById(userCoords.getUserId()).getLogin();
-            MarkerOptions mark = new MarkerOptions().position(point).title(login);
+            MarkerOptions mark = new MarkerOptions()
+                    .position(point)
+                    .title(login + " " +userCoords.getTs());
             map.addMarker(mark);
         }
         LatLng myPoint = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
