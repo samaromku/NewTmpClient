@@ -46,12 +46,12 @@ public class DirectionsFragment extends DialogFragment implements DirectionsView
     @Inject
     DirectionsPresenter presenter;
 
-    @OnClick(R.id.btn_cancel)
+    @OnClick(R.id.btnCancel)
     void onCancelClick() {
         hideDialog();
     }
 
-    @OnClick(R.id.btn_ok)
+    @OnClick(R.id.btnOk)
     void onOkClick() {
         presenter.getSelected();
     }

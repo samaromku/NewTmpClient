@@ -1,12 +1,15 @@
 package com.example.andrey.newtmpclient.utils;
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 
 import static com.example.andrey.newtmpclient.storage.Const.AUTH_FAILED;
@@ -50,5 +53,21 @@ public class Utils {
             return throwable.getMessage();
         }
         return throwable.toString();
+    }
+
+    public static void showDialog(Context context,
+                                  String title,
+                                  String message,
+                                  DialogInterface.OnClickListener onClickListener){
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, onClickListener)
+                .setNegativeButton(R.string.cancel, null).create();
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        });
+        dialog.show();
     }
 }

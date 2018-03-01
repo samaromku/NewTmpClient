@@ -26,8 +26,6 @@ public class MainTmpPresenter {
     void logout(){
         interActor.logout()
                 .compose(new TransformerDialog<>(view))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     logoutAll();
                 }, throwable -> Utils.showError(view, throwable));

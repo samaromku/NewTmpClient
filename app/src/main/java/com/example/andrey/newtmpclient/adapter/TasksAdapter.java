@@ -1,6 +1,7 @@
 package com.example.andrey.newtmpclient.adapter;
 
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,58 +43,38 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         holder.bind(tasks.get(position));
         if(tasks.get(position).getImportance()!=null){
             if(tasks.get(position).getStatus().equals(TaskEnum.DONE_TASK)){
-                holder.itemView.setBackgroundColor(Color.LTGRAY);
-                holder.title.setTextColor(Color.BLACK);
-                holder.body.setTextColor(Color.BLACK);
-                holder.address.setTextColor(Color.BLACK);
-                holder.doneTime.setTextColor(Color.BLACK);
-                holder.firsLetter.setTextColor(Color.BLACK);
-                holder.userLogin.setTextColor(Color.BLACK);
+                setColorsToItem(Color.LTGRAY,Color.BLACK,holder);
                 return;
             }
 
             switch (tasks.get(position).getImportance()){
                 case TaskEnum.STANDART:
-                    holder.itemView.setBackgroundColor(Color.WHITE);
-                    holder.title.setTextColor(Color.BLACK);
-                    holder.body.setTextColor(Color.BLACK);
-                    holder.address.setTextColor(Color.BLACK);
-                    holder.doneTime.setTextColor(Color.BLACK);
-                    holder.firsLetter.setTextColor(Color.BLACK);
-                    holder.userLogin.setTextColor(Color.BLACK);
+                    setColorsToItem(Color.WHITE,Color.BLACK,holder);
                     break;
 
                 case TaskEnum.AVARY:
-                    holder.itemView.setBackgroundColor(Color.RED);
-                    holder.title.setTextColor(Color.WHITE);
-                    holder.body.setTextColor(Color.WHITE);
-                    holder.address.setTextColor(Color.WHITE);
-                    holder.doneTime.setTextColor(Color.WHITE);
-                    holder.firsLetter.setTextColor(Color.WHITE);
-                    holder.userLogin.setTextColor(Color.WHITE);
+                    setColorsToItem(Color.RED,Color.WHITE,holder);
                     break;
 
                 case TaskEnum.INFO:
-                    holder.itemView.setBackgroundColor(Color. BLUE);
-                    holder.title.setTextColor(Color.WHITE);
-                    holder.body.setTextColor(Color.WHITE);
-                    holder.address.setTextColor(Color.WHITE);
-                    holder.doneTime.setTextColor(Color.WHITE);
-                    holder.firsLetter.setTextColor(Color.WHITE);
-                    holder.userLogin.setTextColor(Color.WHITE);
+                    setColorsToItem(Color.BLUE,Color.WHITE,holder);
                     break;
 
                 default:
-                    holder.itemView.setBackgroundColor(Color.WHITE);
-                    holder.title.setTextColor(Color.BLACK);
-                    holder.body.setTextColor(Color.BLACK);
-                    holder.address.setTextColor(Color.BLACK);
-                    holder.doneTime.setTextColor(Color.BLACK);
-                    holder.firsLetter.setTextColor(Color.BLACK);
-                    holder.userLogin.setTextColor(Color.BLACK);
+                    setColorsToItem(Color.WHITE,Color.BLACK,holder);
                     break;
             }
         }
+    }
+
+    private void setColorsToItem(int backColor, int itemsColor, ViewHolder holder){
+        holder.cvMain.setCardBackgroundColor(backColor);
+        holder.title.setTextColor(itemsColor);
+        holder.body.setTextColor(itemsColor);
+        holder.address.setTextColor(itemsColor);
+        holder.doneTime.setTextColor(itemsColor);
+        holder.firsLetter.setTextColor(itemsColor);
+        holder.userLogin.setTextColor(itemsColor);
     }
 
     @Override
@@ -108,15 +89,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         TextView doneTime;
         TextView firsLetter;
         TextView userLogin;
+        CardView cvMain;
 
         private ViewHolder(View itemView) {
             super(itemView);
-            userLogin = (TextView) itemView.findViewById(R.id.user_login);
-            title = (TextView) itemView.findViewById(R.id.title);
-            address = (TextView) itemView.findViewById(R.id.address);
-            doneTime = (TextView) itemView.findViewById(R.id.date);
-            firsLetter = (TextView) itemView.findViewById(R.id.firstLetter);
-            body = (TextView) itemView.findViewById(R.id.body);
+            userLogin = itemView.findViewById(R.id.user_login);
+            title = itemView.findViewById(R.id.title);
+            address = itemView.findViewById(R.id.address);
+            doneTime = itemView.findViewById(R.id.date);
+            firsLetter = itemView.findViewById(R.id.firstLetter);
+            body = itemView.findViewById(R.id.body);
+            cvMain = itemView.findViewById(R.id.cvMain);
             itemView.setOnClickListener(this);
         }
 

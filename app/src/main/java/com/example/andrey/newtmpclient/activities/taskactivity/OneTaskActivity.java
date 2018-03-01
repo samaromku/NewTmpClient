@@ -25,6 +25,7 @@ import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UserRolesManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -100,13 +101,10 @@ public class OneTaskActivity extends BaseActivity implements OneTaskView {
     }
 
     private void showRemoveDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Удаление заявки")
-                .setMessage("Вы действительно хотите удалить заявку? Действие необратимо!")
-                .setPositiveButton(R.string.ok, (dialogInterface, i) ->
-                        presenter.removeTask(taskNumber))
-                .setNegativeButton(R.string.cancel, null);
-        builder.show();
+        Utils.showDialog(this,
+                "Удаление заявки",
+                "Вы действительно хотите удалить заявку? Действие необратимо!",
+                (dialogInterface, i) -> presenter.removeTask(taskNumber));
     }
 
     @Override

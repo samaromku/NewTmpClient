@@ -1,91 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?android:listSeparatorTextViewStyle"
+    android:id="@+id/cvMain"
     android:layout_width="match_parent"
-    android:layout_height="105dp"
-    android:padding="8dp">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:contentPadding="8dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/firstLetter"
-        android:layout_width="35dp"
-        android:layout_height="25dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:textColor="@color/darkGreen"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        tools:text="К" />
-
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="100dp"
-        android:layout_toEndOf="@+id/firstLetter"
-        android:layout_toRightOf="@id/firstLetter"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:textColor="@color/darkGreen"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        tools:text="Поменять трубы на периметре Поменять трубы на периметре Поменять трубы на периметре " />
-
-    <TextView
-        android:id="@+id/user_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:gravity="end"
-        android:minWidth="40dp"
-        android:textColor="@color/darkGreen"
-        android:textStyle="bold"
-        tools:text="Не назначена" />
-
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_toEndOf="@+id/firstLetter"
-        android:layout_toRightOf="@id/firstLetter"
-        android:textColor="@color/darkGreen"
-        tools:text="Савушкина, 25" />
-
-
-    <TextView
-        android:id="@+id/body"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/address"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:ellipsize="marquee"
-        android:maxLines="2"
-        android:textColor="@color/darkGreen"
-        tools:text="Текст задания, он очень большой, так что приходится изаращаться как только можно, чтобы все" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/firstLetter"
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="@color/darkGreen"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            tools:text="К" />
 
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/address"
-        android:gravity="center_horizontal"
-        android:textColor="@color/darkGreen"
-        tools:text="Выполнить до\n11/12/17 20:00" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_toEndOf="@+id/firstLetter"
+            android:layout_toRightOf="@id/firstLetter"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/darkGreen"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            tools:text="Поменять трубы на периметре Поменять трубы на периметре Поменять трубы на периметре " />
 
-    <!--<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/doneBtn"
-        android:text="@string/doneBtn"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"/>-->
+        <TextView
+            android:id="@+id/user_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="end"
+            android:minWidth="40dp"
+            android:textColor="@color/darkGreen"
+            android:textStyle="bold"
+            tools:text="Не назначена" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_toEndOf="@+id/firstLetter"
+            android:layout_toRightOf="@id/firstLetter"
+            android:textColor="@color/darkGreen"
+            tools:text="Савушкина, 25" />
+
+
+        <TextView
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/address"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:ellipsize="marquee"
+            android:maxLines="2"
+            android:textColor="@color/darkGreen"
+            tools:text="Текст задания, он очень большой, так что приходится изаращаться как только можно, чтобы все" />
+
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/address"
+            android:gravity="center_horizontal"
+            android:textColor="@color/darkGreen"
+            tools:text="Выполнить до\n11/12/17 20:00" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

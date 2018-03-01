@@ -38,6 +38,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile "com.android.support:design:${mySupportVersion}"
+    compile "com.android.support:cardview-v7:${mySupportVersion}"
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.google.android.gms:play-services-maps:10.2.6'
     compile 'com.google.firebase:firebase-core:10.2.6'

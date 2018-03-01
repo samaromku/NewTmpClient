@@ -5,7 +5,8 @@
     android:orientation="horizontal">
 
     <Button
-        android:id="@+id/btn_cancel"
+        style="@style/TmpButton"
+        android:id="@+id/btnCancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -13,7 +14,8 @@
         android:text="@string/cancel" />
 
     <Button
-        android:id="@+id/btn_ok"
+        style="@style/TmpButton"
+        android:id="@+id/btnOk"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

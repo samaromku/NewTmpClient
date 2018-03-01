@@ -194,7 +194,7 @@ public class AllTasksFragment extends BaseFragment implements
                         Throwable::printStackTrace);
         swipeLayout = view.findViewById(R.id.swipe_layout);
         tasksList = view.findViewById(R.id.tasks_list);
-        tasksList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//        tasksList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         addFireBaseTokenIfFromAuth();
         buttonAddTask(view);
         swipeLayout.setOnRefreshListener(() -> {
