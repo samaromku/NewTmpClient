@@ -2,13 +2,16 @@ package com.example.andrey.newtmpclient.activities.updatenewtask;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
@@ -25,9 +28,11 @@ import com.example.andrey.newtmpclient.managers.AddressManager;
 import com.example.andrey.newtmpclient.managers.TasksManager;
 import com.example.andrey.newtmpclient.managers.UsersManager;
 import com.example.andrey.newtmpclient.storage.DateUtil;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
 
+import static com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment.VOICE_RECOGNITION_REQUEST_CODE;
 import static com.example.andrey.newtmpclient.storage.Const.FILL_FIELD;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
@@ -80,6 +85,17 @@ public class UpdateNewTaskActivity extends BaseActivity implements UpdateNewTask
 
         createTask.setOnClickListener(v -> clickOnBtnCreateTask());
         chooseDate.setOnClickListener(v -> chooseDate());
+        ImageButton btnMic = findViewById(R.id.btnMic);
+        btnMic.setOnClickListener(v -> Utils.startInputVoice(this));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            body.append(" " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+            Log.i(TAG, "onActivityResult: " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void clickOnBtnCreateTask(){

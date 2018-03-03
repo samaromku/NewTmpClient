@@ -1,13 +1,17 @@
 package com.example.andrey.newtmpclient.activities.createTask;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
@@ -15,12 +19,15 @@ import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskModule;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
+import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment.VOICE_RECOGNITION_REQUEST_CODE;
 import static com.example.andrey.newtmpclient.storage.Const.CREATING_TASK;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 
@@ -58,6 +65,17 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
         mDialog.setCancelable(false);
         mDialog.setMessage(CREATING_TASK);
         mDialog.setTitle(PLEASE_WAIT);
+        ImageButton btnMic = findViewById(R.id.btnMic);
+        btnMic.setOnClickListener(v -> Utils.startInputVoice(this));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            body.append(" " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+            Log.i(TAG, "onActivityResult: " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

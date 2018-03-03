@@ -37,17 +37,42 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp" />
 
-        <android.support.design.widget.TextInputLayout
+        <RelativeLayout
+            android:id="@+id/llComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/task_body"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/hover_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/task_body" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@+id/btnMic">
+
+                <EditText
+                    android:id="@+id/task_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/task_body"
+                    android:textColor="@color/darkGreen" />
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/btnMic"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/round"
+                android:src="@drawable/ic_mic" />
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/choose_date"

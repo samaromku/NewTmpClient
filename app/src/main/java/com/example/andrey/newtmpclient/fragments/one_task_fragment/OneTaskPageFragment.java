@@ -1,9 +1,7 @@
 package com.example.andrey.newtmpclient.fragments.one_task_fragment;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
@@ -28,6 +26,7 @@ import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.one_task_fragment.di.OneTaskFragmentComponent;
 import com.example.andrey.newtmpclient.fragments.one_task_fragment.di.OneTaskFragmentModule;
 import com.example.andrey.newtmpclient.storage.OnListItemClickListener;
+import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -105,20 +104,6 @@ public class OneTaskPageFragment extends BaseFragment implements OneTaskView {
         return rootView;
     }
 
-    private void startInputVoice() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Скажите что-нибудь");
-        try {
-            startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
-        } catch (ActivityNotFoundException e) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW,   Uri.parse("https://market.android.com/details?id=APP_PACKAGE_NAME"));
-            startActivity(browserIntent);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -153,7 +138,7 @@ public class OneTaskPageFragment extends BaseFragment implements OneTaskView {
         doing.setOnClickListener(v -> presenter.userTakesTask(TaskEnum.DOING_TASK));
         distributed.setOnClickListener(v -> presenter.userTakesTask(TaskEnum.DISTRIBUTED_TASK));
         ImageButton btnVoice = rootView.findViewById(R.id.btnMic);
-        btnVoice.setOnClickListener(view -> startInputVoice());
+        btnVoice.setOnClickListener(view -> Utils.startInputVoice(getActivity()));
     }
 
     private void initiateContacts(ViewGroup rootView) {

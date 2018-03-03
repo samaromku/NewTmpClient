@@ -1,15 +1,21 @@
 package com.example.andrey.newtmpclient.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.speech.RecognizerIntent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.andrey.newtmpclient.R;
 import com.example.andrey.newtmpclient.base.basemvp.BaseView;
 
+import static com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment.VOICE_RECOGNITION_REQUEST_CODE;
 import static com.example.andrey.newtmpclient.storage.Const.AUTH_FAILED;
 import static com.example.andrey.newtmpclient.storage.Const.RESPONSE_FAILED;
 
@@ -56,5 +62,19 @@ public class Utils {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
         });
         dialog.show();
+    }
+
+    public static void startInputVoice(Context context) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Скажите что-нибудь");
+        try {
+            ((Activity)context).startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,   Uri.parse("https://market.android.com/details?id=APP_PACKAGE_NAME"));
+            context.startActivity(browserIntent);
+        }
     }
 }
