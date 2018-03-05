@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -64,17 +65,17 @@ public class Utils {
         dialog.show();
     }
 
-    public static void startInputVoice(Context context) {
+    public static void startInputVoice(Activity activity) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 "Скажите что-нибудь");
         try {
-            ((Activity)context).startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+            activity.startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
         } catch (ActivityNotFoundException e) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW,   Uri.parse("https://market.android.com/details?id=APP_PACKAGE_NAME"));
-            context.startActivity(browserIntent);
+            activity.startActivity(browserIntent);
         }
     }
 }

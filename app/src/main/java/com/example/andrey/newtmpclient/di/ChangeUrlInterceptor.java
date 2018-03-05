@@ -22,6 +22,7 @@ public class ChangeUrlInterceptor implements Interceptor {
     private static final String HTTP = "http";
     private boolean inner;
 
+
     public void setInner(boolean inner) {
         this.inner = inner;
     }

@@ -1,10 +1,14 @@
 package com.example.andrey.newtmpclient.fragments.one_task_fragment;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,9 +57,9 @@ public class OneTaskPageFragment extends BaseFragment implements OneTaskView {
     private TextView etTaskBody;
     private TextView etDeadLine;
     private TextView etUserLogin;
-    @Inject OneTaskFragmentPresenter presenter;
+    @Inject
+    OneTaskFragmentPresenter presenter;
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
-
 
 
     private OnListItemClickListener clickListener = (v, position) -> {
@@ -104,14 +108,6 @@ public class OneTaskPageFragment extends BaseFragment implements OneTaskView {
         return rootView;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
-            comment.append(" " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
-            Log.i(TAG, "onActivityResult: " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     private void initiate(ViewGroup rootView) {
         commentsList = rootView.findViewById(R.id.comments);

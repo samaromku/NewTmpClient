@@ -2,11 +2,14 @@ package com.example.andrey.newtmpclient.activities.taskactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
@@ -28,6 +31,8 @@ import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
 
+import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment.VOICE_RECOGNITION_REQUEST_CODE;
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
 import static com.example.andrey.newtmpclient.storage.Const.TASK_NUMBER;
@@ -69,6 +74,16 @@ public class OneTaskActivity extends BaseActivity implements OneTaskView {
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            ((EditText)findViewById(R.id.commentFromUser)).append(" " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+            Log.i(TAG, "onActivityResult: " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
