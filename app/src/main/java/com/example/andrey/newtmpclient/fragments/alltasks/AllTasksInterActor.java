@@ -59,11 +59,16 @@ public class AllTasksInterActor {
 
     Observable<ApiResponse<List<Task>>>getDoneTasksIfEmpty(){
         User user = usersManager.getUser();
-        if(tasksManager.getDoneTasks().isEmpty()){
+//        if(tasksManager.getDoneTasks().isEmpty()){
             return tmpService.getDoneTasks(Request.requestUserWithToken(user, Request.GET_DONE_TASKS));
-        }else {
-            return Observable.empty();
-        }
+//        }else {
+//            return Observable.empty();
+//        }
+    }
+
+    Observable<ApiResponse<List<Task>>>getNotDoneTasksIfEmpty(){
+        User user = usersManager.getUser();
+        return tmpService.getNotDoneTasks(Request.requestUserWithToken(user, Request.GET_NOT_DONE_TASKS));
     }
 
     private List<Task> searchedList(String[] words, boolean done) {

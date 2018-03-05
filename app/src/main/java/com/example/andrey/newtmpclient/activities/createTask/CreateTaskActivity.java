@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
+import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskModule;
@@ -202,6 +203,9 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
 
     @Override
     public void finishCreateActivity() {
-        finish();
+        Intent newIntent = new Intent(this, MainTmpActivity.class);
+        newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(newIntent);
     }
 }

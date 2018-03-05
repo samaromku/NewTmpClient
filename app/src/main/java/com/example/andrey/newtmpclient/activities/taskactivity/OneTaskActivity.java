@@ -31,7 +31,6 @@ import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
 
-import static android.content.ContentValues.TAG;
 import static com.example.andrey.newtmpclient.fragments.one_task_fragment.OneTaskPageFragment.VOICE_RECOGNITION_REQUEST_CODE;
 import static com.example.andrey.newtmpclient.storage.Const.NOT_AUTH;
 import static com.example.andrey.newtmpclient.storage.Const.PLEASE_WAIT;
@@ -100,6 +99,7 @@ public class OneTaskActivity extends BaseActivity implements OneTaskView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_task:
+                tasksManager.setTask(task);
                 presenter.getAddresses();
                 commentsManager.removeAll();
                 return true;

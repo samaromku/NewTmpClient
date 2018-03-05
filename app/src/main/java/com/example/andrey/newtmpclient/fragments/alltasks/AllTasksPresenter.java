@@ -12,9 +12,6 @@ import com.example.andrey.newtmpclient.utils.Utils;
 
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
 import static com.example.andrey.newtmpclient.utils.Utils.showError;
 
 public class AllTasksPresenter {
@@ -50,13 +47,21 @@ public class AllTasksPresenter {
                         throwable -> showError(view, throwable));
     }
 
-    void getDoneTasksIfEmpty(boolean done) {
+    void getDoneOrNotTasksIfEmpty(boolean done) {
         if (done) {
             interActor.getDoneTasksIfEmpty()
                     .compose(new TransformerDialog<>(view))
                     .map(ApiResponse::getData)
                     .subscribe(tasks ->
                             interActor.setDoneTasks(tasks)
+                                    .subscribe(() -> view.setListToAdapter(tasks),
+                                            throwable -> Utils.showError(view, throwable)));
+        }else {
+            interActor.getNotDoneTasksIfEmpty()
+                    .compose(new TransformerDialog<>(view))
+                    .map(ApiResponse::getData)
+                    .subscribe(tasks ->
+                            interActor.setNotDoneTasks(tasks)
                                     .subscribe(() -> view.setListToAdapter(tasks),
                                             throwable -> Utils.showError(view, throwable)));
         }

@@ -66,12 +66,12 @@ public class TasksManager {
     }
 
     public void setDoneTasks(List<Task> doneTasks) {
-        tasks.removeAll(this.doneTasks);
+        tasks.clear();
         tasks.addAll(doneTasks);
     }
 
     public void setNotDoneTasks(List<Task> notDoneTasks) {
-        tasks.removeAll(this.notDoneTasks);
+        tasks.clear();
         tasks.addAll(notDoneTasks);
     }
 
