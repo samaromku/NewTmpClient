@@ -58,27 +58,29 @@ public class TimePickerFragment extends DialogFragment {
             timePicker.setMinute(minutes);
         }
 
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle("Выбери время")
-                .setPositiveButton("Подтвердить", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int hours=0;
-                        int minutes=0;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            hours = timePicker.getHour();
-                            minutes = timePicker.getMinute();
-                        }else{
-                            hours = timePicker.getCurrentHour();
-                            minutes = timePicker.getCurrentMinute();
-                        }
-                        Date date1 = new GregorianCalendar(year, month, day, hours, minutes).getTime();
-                        Button activityChooseDate = (Button)getActivity().findViewById(R.id.choose_date);
-                        activityChooseDate.setText(dateUtil.getDDFromYY(dateUtil.dateForServer(date1)));
+                .setPositiveButton("Подтвердить", (dialog1, which) -> {
+                    int hours1 =0;
+                    int minutes1 =0;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        hours1 = timePicker.getHour();
+                        minutes1 = timePicker.getMinute();
+                    }else{
+                        hours1 = timePicker.getCurrentHour();
+                        minutes1 = timePicker.getCurrentMinute();
                     }
+                    Date date1 = new GregorianCalendar(year, month, day, hours1, minutes1).getTime();
+                    Button activityChooseDate = (Button)getActivity().findViewById(R.id.choose_date);
+                    activityChooseDate.setText(dateUtil.getDDFromYY(dateUtil.dateForServer(date1)));
                 })
                 .create();
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+            dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+        });
+        return dialog;
     }
 }
 

@@ -52,18 +52,22 @@ public class DatePickerFragment extends DialogFragment {
         datePicker = (DatePicker) view.findViewById(R.id.date_picker);
         datePicker.init(year, month, day, null);
 
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle("Выбрать дату")
-                .setPositiveButton("Подтвердить", (dialog, which) -> {
+                .setPositiveButton("Подтвердить", (d, which) -> {
                     int year1 = datePicker.getYear();
                     int month1 = datePicker.getMonth();
                     int day1 = datePicker.getDayOfMonth();
                     Date date1 = new GregorianCalendar(year1, month1, day1).getTime();
                     sendResult(Activity.RESULT_OK, date1);
 
-                })
-                .create();
+                }).create();
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+            dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+        });
+        return dialog;
     }
 
     private void sendResult(int resultCode, Date date){
