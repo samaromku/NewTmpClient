@@ -1,6 +1,8 @@
 package com.example.andrey.newtmpclient.activities.maindrawer;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,8 +70,15 @@ public class MainTmpActivity extends BaseActivity implements
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         TextView tvUserName = navigationView.getHeaderView(0).findViewById(R.id.tvUserName);
+        TextView tvVersion = navigationView.getHeaderView(0).findViewById(R.id.tvVersion);
         if(usersManager.getUser()!=null) {
             tvUserName.setText("Привет, " + usersManager.getUser().getLogin());
+        }
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            tvVersion.setText("Версия: " + pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_current_tasks));
     }
