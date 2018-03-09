@@ -18,7 +18,7 @@ public class ChangeUrlInterceptor implements Interceptor {
     private static final String BASE_HOST_OUTER = "81.23.123.230";
     private static final String BASE_HOST_INNER = "192.168.0.98";//tmp
 //    private static final String BASE_HOST_INNER = "10.0.2.2";//mine computer emulator
-    private static final int PORT = 8888;
+    private static final int PORT = 8443;
     private static final String HTTP = "http";
     private boolean inner;
 
