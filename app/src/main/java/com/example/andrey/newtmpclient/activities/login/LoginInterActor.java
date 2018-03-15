@@ -71,6 +71,7 @@ public class LoginInterActor  {
                         Log.i("data", "добавляем админа");
                         tasksManager.addUnique(response.getTaskList());
                         usersManager.addAll(response.getUserList());
+                        addressManager.addAllUserAddresses(response.getAddresses());
                         tokenManager.setToken(response.getToken());
                         Log.i(TAG, "token "+ tokenManager.getToken());
                         for (User u : usersManager.getUsers()) {

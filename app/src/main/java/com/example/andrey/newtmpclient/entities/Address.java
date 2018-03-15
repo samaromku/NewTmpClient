@@ -8,8 +8,8 @@ public class Address extends RealmObject{
     private int id;
     private String name;
     private String address;
-    private String coordsLat;
-    private String coordsLon;
+    private String lat;
+    private String lng;
 
     public Address(int id, String name, String address) {
         this.id = id;
@@ -27,8 +27,8 @@ public class Address extends RealmObject{
         this.id = id;
         this.name = name;
         this.address = address;
-        this.coordsLat = coordsLat;
-        this.coordsLon = coordsLon;
+        this.lat = coordsLat;
+        this.lng = coordsLon;
     }
 
     public Address(){}
@@ -57,26 +57,26 @@ public class Address extends RealmObject{
         this.address = address;
     }
 
-    public String getCoordsLat() {
-        return coordsLat;
+    public String getLat() {
+        return lat;
     }
 
-    public void setCoordsLat(String coordsLat) {
-        this.coordsLat = coordsLat;
+    public void setLat(String lat) {
+        this.lat = lat;
     }
 
-    public String getCoordsLon() {
-        return coordsLon;
+    public String getLng() {
+        return lng;
     }
 
-    public void setCoordsLon(String coordsLon) {
-        this.coordsLon = coordsLon;
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     @Override
     public String toString() {
-        return "Address [id=" + id + ", name=" + name + ", address=" + address + ", coordsLat=" + coordsLat
-                + ", coordsLon=" + coordsLon + "]";
+        return "Address [id=" + id + ", name=" + name + ", address=" + address + ", lat=" + lat
+                + ", lng=" + lng + "]";
     }
 
 

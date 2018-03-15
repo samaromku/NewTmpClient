@@ -33,7 +33,7 @@ public class AllTasksInterActor {
     private UsersManager usersManager = UsersManager.INSTANCE;
     private TasksManager tasksManager = TasksManager.INSTANCE;
     private AddressManager addressManager = AddressManager.INSTANCE;
-    private List<Task> current;
+    private List<Task> current = new ArrayList<>();
     private Task task;
 
     public AllTasksInterActor(TmpService tmpService) {
@@ -73,7 +73,7 @@ public class AllTasksInterActor {
 
     private List<Task> searchedList(String[] words, boolean done) {
         List<Task> startList = new ArrayList<>();
-        current = new ArrayList<>();
+        current.clear();
 
         if (done) {
             startList.addAll(tasksManager.getDoneTasks());
@@ -107,9 +107,11 @@ public class AllTasksInterActor {
     }
 
     Observable<Response> getComments(int position) {
-        task = current.get(position);
-        Request request = requestTaskWithToken(task, Request.WANT_SOME_COMMENTS);
-        return tmpService.getCommentsForTask(request);
+        if(!current.isEmpty()) {
+            task = current.get(position);
+            Request request = requestTaskWithToken(task, Request.WANT_SOME_COMMENTS);
+            return tmpService.getCommentsForTask(request);
+        }else return Observable.empty();
     }
 
     int getTaskId() {

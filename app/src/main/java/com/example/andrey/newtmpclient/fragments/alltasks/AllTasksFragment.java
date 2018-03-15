@@ -128,15 +128,7 @@ public class AllTasksFragment extends BaseFragment implements
                 .getPresenterComponent(getClass(), new DoneTasksModule(this))).inject(this);
         ButterKnife.bind(this, getActivity());
         setDialogTitleAndText("Получение данных", PLEASE_WAIT);
-        if (done) {
-            adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
-                    presenter.getComments(position));
-            setToolbarTitle(doneTasks);
-        } else {
-            adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
-                    presenter.getComments(position));
-            setToolbarTitle(currentTasks);
-        }
+
         return inflater.inflate(R.layout.fragment_tasks, container, false);
     }
 
@@ -195,7 +187,9 @@ public class AllTasksFragment extends BaseFragment implements
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(text -> onSearch(text.toString()),
+                .subscribe(text -> {
+                            onSearch(text.toString());
+                        },
                         Throwable::printStackTrace);
         swipeLayout = view.findViewById(R.id.swipe_layout);
         tasksList = view.findViewById(R.id.tasks_list);
@@ -206,6 +200,19 @@ public class AllTasksFragment extends BaseFragment implements
             swipeLayout.setRefreshing(true);
             presenter.updateTasks(done);
         });
+        getComments();
+    }
+
+    private void getComments() {
+        if (done) {
+            adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
+                    presenter.getComments(position));
+            setToolbarTitle(doneTasks);
+        } else {
+            adapter = new TasksAdapter(new ArrayList<>(), (v, position) ->
+                    presenter.getComments(position));
+            setToolbarTitle(currentTasks);
+        }
     }
 
     @Override

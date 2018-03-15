@@ -2,7 +2,6 @@ package com.example.andrey.newtmpclient.activities.needdoingtasks;
 
 
 import com.example.andrey.newtmpclient.entities.Comment;
-import com.example.andrey.newtmpclient.entities.Contact;
 import com.example.andrey.newtmpclient.entities.ContactOnAddress;
 import com.example.andrey.newtmpclient.managers.CommentsManager;
 import com.example.andrey.newtmpclient.managers.ContactsManager;
@@ -13,7 +12,6 @@ import com.example.andrey.newtmpclient.network.TmpService;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public class NeedDoingTasksInterActor {
@@ -28,8 +26,9 @@ public class NeedDoingTasksInterActor {
         this.tmpService = tmpService;
     }
 
-    Observable<Response>getComments(){
-        return tmpService.getCommentsForTask(Request.requestWithToken(Request.WANT_SOME_COMMENTS));
+    Observable<Response>getComments(int position){
+        return tmpService.getCommentsForTask(Request.requestTaskWithToken(
+                TasksManager.INSTANCE.getNeedDoingTasks().get(position), Request.WANT_SOME_COMMENTS));
     }
 
     Observable<Integer> getCommentsForTask(int position, List<Comment>comments, List<ContactOnAddress>contacts){

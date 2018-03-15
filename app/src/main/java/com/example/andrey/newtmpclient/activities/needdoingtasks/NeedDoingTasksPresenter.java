@@ -14,7 +14,7 @@ public class NeedDoingTasksPresenter {
     }
 
     void getComments(int position){
-        interActor.getComments()
+        interActor.getComments(position)
                 .compose(new TransformerDialog<>(view))
         .subscribe(response -> {
             interActor.getCommentsForTask(position, response.getComments(), response.getContacts())
