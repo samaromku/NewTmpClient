@@ -67,16 +67,12 @@ public class GpsService extends IntentService implements GpsView{
         super(TAG);
     }
 
-    public static void setServiceAlarm(Context context, boolean isOn){
+    public static void setServiceAlarm(Context context){
         Intent i = GpsService.newIntent(context);
         PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if(isOn){
-            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), INTERVAL, pi);
-        }else{
-            am.cancel(pi);
-            pi.cancel();
-        }
+        if(am!=null)
+        am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), INTERVAL, pi);
     }
 
     @Override

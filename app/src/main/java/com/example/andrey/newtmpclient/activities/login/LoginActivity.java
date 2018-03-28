@@ -17,6 +17,7 @@ import com.example.andrey.newtmpclient.activities.login.di.LoginModule;
 import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.service.gps.GpsService;
+import com.example.andrey.newtmpclient.service.period.PeriodService;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
@@ -120,7 +121,10 @@ public class LoginActivity extends BaseActivity implements LoginView {
     private void startMainActivityService(){
         Intent intent = new Intent(this, MainTmpActivity.class);
         startService(GpsService.newIntent(this));
-        GpsService.setServiceAlarm(this, true);
+        GpsService.setServiceAlarm(this);
+
+        startService(PeriodService.newIntent(this));
+        PeriodService.setAlarmManger(this);
         startActivity(intent);
     }
 

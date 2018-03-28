@@ -39,6 +39,8 @@ import com.example.andrey.newtmpclient.network.MapService;
 import com.example.andrey.newtmpclient.network.TmpService;
 import com.example.andrey.newtmpclient.service.gps.GpsService;
 import com.example.andrey.newtmpclient.service.gps.di.GpsComponent;
+import com.example.andrey.newtmpclient.service.period.PeriodService;
+import com.example.andrey.newtmpclient.service.period.di.PeriodComponent;
 
 import javax.inject.Singleton;
 
@@ -76,6 +78,7 @@ import static com.example.andrey.newtmpclient.di.ChangeUrlInterceptor.BASE_URL_O
         OneTaskComponent.class,
         OneTaskFragmentComponent.class,
         GpsComponent.class,
+        PeriodComponent.class,
         DirectionsComponent.class,
 })
 class AppModule {
@@ -84,6 +87,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(PeriodService.class)
+    ComponentBuilder providePeriod(PeriodComponent.Builder builder) {
         return builder;
     }
 

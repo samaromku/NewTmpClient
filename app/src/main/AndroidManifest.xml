@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".App"
@@ -43,13 +44,25 @@
         </service>
         <service android:name=".service.gps.GpsService" />
 
-        <!-- <activity -->
-        <!-- android:name=".activities.AccountActivity" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <activity android:name=".activities.createTask.CreateTaskActivity" />
-        <!-- <activity -->
-        <!-- android:name=".activities.UsersActivity" -->
-        <!-- android:screenOrientation="portrait" /> -->
+        <service android:name=".service.period.PeriodService"
+            android:exported="false"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.example.andrey.newtmpclient.PeriodService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".service.RestartService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".activities.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,6 +74,7 @@
             android:name=".activities.maindrawer.MainTmpActivity"
             android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.createTask.CreateTaskActivity" />
         <activity android:name=".activities.createuser.CreateNewUserActivity" />
         <activity android:name=".activities.oneuser.OneUserActivity" />
         <activity android:name=".activities.updatenewtask.UpdateNewTaskActivity" />
@@ -68,5 +82,6 @@
         <activity android:name=".activities.needdoingtasks.NeedDoingTasksActivity" />
         <activity android:name=".activities.taskactivity.OneTaskActivity" />
     </application>
+
 
 </manifest>
