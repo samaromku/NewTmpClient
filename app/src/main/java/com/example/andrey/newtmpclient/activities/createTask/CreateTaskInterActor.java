@@ -20,6 +20,7 @@ import java.util.List;
 import io.reactivex.Observable;
 
 import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.entities.TaskEnum.TIME;
 import static com.example.andrey.newtmpclient.storage.Const.WRONG_ADDRESS;
 
 /**
@@ -46,7 +47,7 @@ public class CreateTaskInterActor {
 
     Observable<String[]> getImportanceString() {
         return Observable.fromCallable(() ->
-                new String[]{TaskEnum.STANDART, TaskEnum.INFO, TaskEnum.AVARY, TaskEnum.TIME});
+                new String[]{TaskEnum.STANDART, TaskEnum.INFO, TaskEnum.AVARY, TIME});
     }
 
     Observable<String[]> getTypes() {

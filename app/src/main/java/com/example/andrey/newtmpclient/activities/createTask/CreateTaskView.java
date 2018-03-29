@@ -46,4 +46,8 @@ public interface CreateTaskView extends BaseView{
     void setUserNames(String[]userNames);
 
     void setAddresses(String[]addresses);
+
+    void setPeriodVisibility();
+
+    void setChooseTimeVisibility();
 }

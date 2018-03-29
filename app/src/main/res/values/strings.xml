@@ -78,6 +78,7 @@
     <string name="cancel">Отмена</string>
     <string name="ok">ок</string>
     <string name="choose_date">Выбрать дату</string>
+    <string name="choose_period">Выбрать период</string>
     <string name="choose_user">Выбрать пользователя</string>
 
 </resources>

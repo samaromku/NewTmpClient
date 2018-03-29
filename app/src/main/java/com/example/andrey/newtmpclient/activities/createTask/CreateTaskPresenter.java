@@ -4,22 +4,25 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.andrey.newtmpclient.base.BasePresenter;
 import com.example.andrey.newtmpclient.entities.TaskEnum;
 import com.example.andrey.newtmpclient.fragments.datepicker.DatePickerFragment;
 import com.example.andrey.newtmpclient.rx.TransformerDialog;
 import com.example.andrey.newtmpclient.utils.Utils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
+import static com.example.andrey.newtmpclient.entities.TaskEnum.TIME;
 import static com.example.andrey.newtmpclient.storage.Const.WRONG_ADDRESS;
 
 /**
  * Created by andrey on 14.07.2017.
  */
 
-public class CreateTaskPresenter {
+public class CreateTaskPresenter extends BasePresenter {
     private CreateTaskView view;
     private CreateTaskInterActor interactor;
     private static final String DIALOG_DATE = "date_dialog";
@@ -27,10 +30,12 @@ public class CreateTaskPresenter {
     private static final String CHOOSE_DATE = "Выбрать дату";
     private static final String GET_ADDRESSES = "Получите адреса в нужной вкладке";
     private static final String NOT_DISTRIBUTED = "Не назначена";
+    private CompositeDisposable cp;
 
     public CreateTaskPresenter(CreateTaskView createTaskView, CreateTaskInterActor createTaskInteractor) {
         this.view = createTaskView;
         this.interactor = createTaskInteractor;
+        cp = new CompositeDisposable();
     }
 
     void chooseDate(FragmentManager manager) {
@@ -49,8 +54,8 @@ public class CreateTaskPresenter {
 
 
     void clickOnTypes() {
-        interactor.getTypes()
-                .subscribe(strings -> view.setTypes(strings));
+        cp.add(interactor.getTypes()
+                .subscribe(strings -> view.setTypes(strings)));
     }
 
     void setType(String type) {
@@ -59,11 +64,16 @@ public class CreateTaskPresenter {
 
     void setImportance(String importance) {
         interactor.setImportanceSelected(importance);
+        if (importance.equals(TIME)) {
+            view.setPeriodVisibility();
+        } else {
+            view.setChooseTimeVisibility();
+        }
     }
 
     void clickOnImportance() {
-        interactor.getImportanceString()
-                .subscribe(strings -> view.setImportance(strings));
+        cp.add(interactor.getImportanceString()
+                .subscribe(strings -> view.setImportance(strings)));
     }
 
     void setStatus(String status) {
@@ -71,8 +81,8 @@ public class CreateTaskPresenter {
     }
 
     void clickOnStatuses() {
-        interactor.getStatuses()
-                .subscribe(strings -> view.setStatuses(strings));
+        cp.add(interactor.getStatuses()
+                .subscribe(strings -> view.setStatuses(strings)));
     }
 
     void setUserName(String userName) {
@@ -80,7 +90,7 @@ public class CreateTaskPresenter {
     }
 
     void setSelectedStatusPosition(int position, String[] statuses) {
-        interactor.getUserNames()
+        cp.add(interactor.getUserNames()
                 .subscribe(userNames -> {
                     if (statuses[position].equals(TaskEnum.NEW_TASK)) {
                         for (int i = 0; i < userNames.length; i++) {
@@ -91,12 +101,12 @@ public class CreateTaskPresenter {
                     }
                     interactor.setStatusSelected(statuses[position]);
                     Log.i(TAG, "setSelectedStatusPosition: " + statuses[position]);
-                });
+                }));
     }
 
     void clickOnUserNames() {
-        interactor.getUserNames()
-                .subscribe(strings -> view.setUserNames(strings));
+        cp.add(interactor.getUserNames()
+                .subscribe(strings -> view.setUserNames(strings)));
     }
 
     private boolean checkBody(String bodyText) {
@@ -132,7 +142,7 @@ public class CreateTaskPresenter {
         interactor.setAddress(view.getAddress());
         interactor.setBody(view.getBody());
         interactor.setDate(view.getDate());
-        interactor.createTask()
+        cp.add(interactor.createTask()
                 .compose(new TransformerDialog<>(view))
                 .subscribe(response -> view.finishCreateActivity(),
                         throwable -> {
@@ -142,17 +152,22 @@ public class CreateTaskPresenter {
                             } else {
                                 view.showToast("Ошибка при создании задания");
                             }
-                        });
+                        }));
     }
 
     void setAddressNameAdapter() {
-        interactor.getAddressName()
+        cp.add(interactor.getAddressName()
                 .subscribe(addressNames -> {
                     Log.i(TAG, "setAddressNameAdapter: " + addressNames.length);
                     view.setAddresses(addressNames);
                     if (addressNames.length == 0) {
                         view.setAnndressNamesCompleteTV(GET_ADDRESSES);
                     }
-                });
+                }));
+    }
+
+    @Override
+    public void onDetachView() {
+        cp.clear();
     }
 }

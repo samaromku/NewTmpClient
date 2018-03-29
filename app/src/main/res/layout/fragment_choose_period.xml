@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <co.ceryle.radiorealbutton.RadioRealButtonGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rrbg_bottomLineColor="@color/colorPrimary"
+        app:rrbg_bottomLineSize="2dp"
+        app:rrbg_dividerColor="@color/colorPrimary"
+        app:rrbg_checkedPosition="1">
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="1 день"/>
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="1 неделя"/>
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="1 месяц"/>
+
+    </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+
+</LinearLayout>

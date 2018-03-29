@@ -1,5 +1,6 @@
 package com.example.andrey.newtmpclient.activities.createTask;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskModule;
+import com.example.andrey.newtmpclient.dialogs.chooseperiod.ChoosePeriodFragment;
 import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
@@ -44,6 +46,7 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     CreateTaskPresenter presenter;
     @BindString(R.string.create_task)String createTaskTitle;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +54,14 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
         ButterKnife.bind(this);
         changeToolbarTitle(createTaskTitle);
         initBackButton();
-        chooseDate = (Button) findViewById(R.id.choose_date);
-        anndressNamesCompleteTV = (AutoCompleteTextView) findViewById(R.id.task_title);
-        statusSpinner = (AppCompatSpinner) findViewById(R.id.spinner_status);
+        chooseDate = findViewById(R.id.choose_date);
+        anndressNamesCompleteTV = findViewById(R.id.task_title);
+        statusSpinner = findViewById(R.id.spinner_status);
 
         setDialogTitleAndText(createTaskTitle, PLEASE_WAIT);
-        body = (EditText) findViewById(R.id.task_body);
-        userSpinner = (AppCompatSpinner) findViewById(R.id.spinner_users);
-        createTask = (Button) findViewById(R.id.create_task_btn);
+        body = findViewById(R.id.task_body);
+        userSpinner = findViewById(R.id.spinner_users);
+        createTask = findViewById(R.id.create_task_btn);
         ((CreateTaskComponent) App.getComponentManager()
                 .getPresenterComponent(getClass(), new CreateTaskModule(this))).inject(this);
         initPresenter();
@@ -106,15 +109,28 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
 
     @Override
     public void setImportance(String[] importance) {
-        AppCompatSpinner importanceSpinner = (AppCompatSpinner) findViewById(R.id.spinner_importance);
+        AppCompatSpinner importanceSpinner = findViewById(R.id.spinner_importance);
         baseSpinner(importance, importanceSpinner,
                 position -> presenter.setImportance(importance[position]),
                 () -> presenter.setImportance(importance[0]));
     }
 
     @Override
+    public void setPeriodVisibility() {
+        chooseDate.setText(getResources().getText(R.string.choose_period));
+        chooseDate.setOnClickListener(v ->
+                new ChoosePeriodFragment().show(getSupportFragmentManager(), "period"));
+    }
+
+    @Override
+    public void setChooseTimeVisibility() {
+        chooseDate.setText(getResources().getText(R.string.choose_date));
+        chooseDate.setOnClickListener(v -> presenter.chooseDate(getSupportFragmentManager()));
+    }
+
+    @Override
     public void setTypes(String[] types) {
-        AppCompatSpinner typeSpinner = (AppCompatSpinner) findViewById(R.id.spinner_type);
+        AppCompatSpinner typeSpinner = findViewById(R.id.spinner_type);
         baseSpinner(types, typeSpinner,
                 position -> presenter.setType(types[position]),
                 () -> presenter.setType(types[0]));
@@ -153,6 +169,7 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.onDetachView();
         App.getComponentManager().releaseComponent(getClass());
     }
 

@@ -19,6 +19,8 @@ import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTask
 import com.example.andrey.newtmpclient.activities.userrole.NewUserRoleActivity;
 import com.example.andrey.newtmpclient.activities.userrole.di.NewUserRoleComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
+import com.example.andrey.newtmpclient.dialogs.chooseperiod.ChoosePeriodFragment;
+import com.example.andrey.newtmpclient.dialogs.chooseperiod.di.ChoosePeriodComponent;
 import com.example.andrey.newtmpclient.dialogs.directions.DirectionsFragment;
 import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsComponent;
 import com.example.andrey.newtmpclient.dialogs.filter.FilterDialog;
@@ -80,6 +82,7 @@ import static com.example.andrey.newtmpclient.di.ChangeUrlInterceptor.BASE_URL_O
         GpsComponent.class,
         PeriodComponent.class,
         DirectionsComponent.class,
+        ChoosePeriodComponent.class,
 })
 class AppModule {
 
@@ -87,6 +90,13 @@ class AppModule {
     @IntoMap
     @ClassKey(AddressMvpFragment.class)
     ComponentBuilder provideNewOrder(AddressMvpComponent.Builder builder) {
+        return builder;
+    }
+
+    @Provides
+    @IntoMap
+    @ClassKey(ChoosePeriodFragment.class)
+    ComponentBuilder providePeriodChooser(ChoosePeriodComponent.Builder builder) {
         return builder;
     }
 
