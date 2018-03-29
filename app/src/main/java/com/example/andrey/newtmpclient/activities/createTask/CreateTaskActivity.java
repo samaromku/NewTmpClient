@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -40,7 +41,7 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     private Button chooseDate;
     private AutoCompleteTextView anndressNamesCompleteTV;
     private AppCompatSpinner userSpinner;
-    private Button createTask;
+    private FloatingActionButton createTask;
     private ProgressDialog mDialog;
     @Inject
     CreateTaskPresenter presenter;

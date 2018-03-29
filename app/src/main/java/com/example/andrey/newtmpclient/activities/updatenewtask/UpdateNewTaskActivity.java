@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class UpdateNewTaskActivity extends BaseActivity implements UpdateNewTask
     private AutoCompleteTextView addressesForUpdate;
     private AppCompatSpinner userSpinner;
     private AppCompatSpinner typeSpinner;
-    private Button createTask;
+    private FloatingActionButton createTask;
     private String userName;
     private DateUtil dateUtil = new DateUtil();
     private AddressManager addressManager = AddressManager.INSTANCE;
@@ -159,7 +160,7 @@ public class UpdateNewTaskActivity extends BaseActivity implements UpdateNewTask
         Task task = tasksManager.getById(taskId);
         body.setText(task.getBody());
         chooseDate.setText(task.getDoneTime());
-        createTask.setText("Изменить задание");
+//        createTask.setText("Изменить задание");
         addressesForUpdate.setText(task.getAddress());
         int userPosition = 0;
         //заглушка на удаленного пользователя
