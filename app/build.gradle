@@ -9,7 +9,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.andrey.newtmpclient"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 3011
         versionName "3.11"

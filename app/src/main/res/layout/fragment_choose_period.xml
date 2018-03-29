@@ -1,33 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <co.ceryle.radiorealbutton.RadioRealButtonGroup
+        android:id="@+id/rgChoosePeriod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rrbg_bottomLineColor="@color/colorPrimary"
         app:rrbg_bottomLineSize="2dp"
-        app:rrbg_dividerColor="@color/colorPrimary"
-        app:rrbg_checkedPosition="1">
+        app:rrbg_checkedPosition="0"
+        app:rrbg_dividerColor="@color/colorPrimary">
 
         <co.ceryle.radiorealbutton.RadioRealButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:rrb_text="1 день"/>
+            app:rrb_text="1 день" />
 
         <co.ceryle.radiorealbutton.RadioRealButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:rrb_text="1 неделя"/>
+            app:rrb_text="1 неделя" />
 
         <co.ceryle.radiorealbutton.RadioRealButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:rrb_text="1 месяц"/>
+            app:rrb_text="1 месяц" />
 
     </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+
+    <co.ceryle.radiorealbutton.RadioRealButtonGroup
+        android:id="@+id/rgWeekDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rrbg_bottomLineColor="@color/colorPrimary"
+        app:rrbg_bottomLineSize="2dp"
+        app:rrbg_checkedPosition="0"
+        app:rrbg_dividerColor="@color/colorPrimary">
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Пн" />
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Вт" />
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Ср" />
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Чт" />
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Пт" />
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Сб" />
+
+        <co.ceryle.radiorealbutton.RadioRealButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rrb_text="Вс" />
+
+    </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_calendar" />
+
+        <Button
+            style="@style/TmpButton"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnChooseDateFirst"
+            tools:text="12-06-2017"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:drawableEnd="@drawable/rect_icon"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/time_start_icon" />
+
+        <Button
+            style="@style/TmpButton"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnChooseTimeFirst"
+            tools:text="12-20"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:drawableEnd="@drawable/rect_icon"/>
+
+    </LinearLayout>
 
 </LinearLayout>

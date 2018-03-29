@@ -19,7 +19,7 @@ import com.example.andrey.newtmpclient.activities.updatenewtask.di.UpdateNewTask
 import com.example.andrey.newtmpclient.activities.userrole.NewUserRoleActivity;
 import com.example.andrey.newtmpclient.activities.userrole.di.NewUserRoleComponent;
 import com.example.andrey.newtmpclient.di.base.ComponentBuilder;
-import com.example.andrey.newtmpclient.dialogs.chooseperiod.ChoosePeriodFragment;
+import com.example.andrey.newtmpclient.dialogs.chooseperiod.ChoosePeriodDialog;
 import com.example.andrey.newtmpclient.dialogs.chooseperiod.di.ChoosePeriodComponent;
 import com.example.andrey.newtmpclient.dialogs.directions.DirectionsFragment;
 import com.example.andrey.newtmpclient.dialogs.directions.di.DirectionsComponent;
@@ -95,7 +95,7 @@ class AppModule {
 
     @Provides
     @IntoMap
-    @ClassKey(ChoosePeriodFragment.class)
+    @ClassKey(ChoosePeriodDialog.class)
     ComponentBuilder providePeriodChooser(ChoosePeriodComponent.Builder builder) {
         return builder;
     }

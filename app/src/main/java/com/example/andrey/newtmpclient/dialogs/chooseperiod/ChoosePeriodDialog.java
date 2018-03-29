@@ -3,7 +3,6 @@ package com.example.andrey.newtmpclient.dialogs.chooseperiod;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 
 import com.example.andrey.newtmpclient.App;
 import com.example.andrey.newtmpclient.R;
@@ -13,14 +12,21 @@ import com.example.andrey.newtmpclient.dialogs.chooseperiod.di.ChoosePeriodModul
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 import javax.inject.Inject;
 
-public class ChoosePeriodFragment extends DialogFragment implements ChoosePeriodView {
-    private static final String TAG = ChoosePeriodFragment.class.getSimpleName();
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import co.ceryle.radiorealbutton.RadioRealButtonGroup;
+
+public class ChoosePeriodDialog extends DialogFragment implements ChoosePeriodView {
+    private static final String TAG = ChoosePeriodDialog.class.getSimpleName();
     @Inject
     ChoosePeriodPresenter presenter;
+    @BindView(R.id.btnChooseDateFirst)Button btnChooseDateFirst;
+    @BindView(R.id.btnChooseTimeFirst)Button btnChooseTimeFirst;
 
 
     @Nullable
@@ -32,6 +38,19 @@ public class ChoosePeriodFragment extends DialogFragment implements ChoosePeriod
         return inflater.inflate(R.layout.fragment_choose_period, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        RadioRealButtonGroup rgChoosePeriod = view.findViewById(R.id.rgChoosePeriod);
+        rgChoosePeriod.setOnPositionChangedListener((button, currentPosition, lastPosition) -> {
+            if(currentPosition==1){
+                btnChooseDateFirst.setVisibility(View.GONE);
+            }else {
+                btnChooseDateFirst.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
     @Override
     public void onDetach() {

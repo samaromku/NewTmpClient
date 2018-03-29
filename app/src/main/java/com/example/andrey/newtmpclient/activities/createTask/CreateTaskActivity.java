@@ -22,7 +22,7 @@ import com.example.andrey.newtmpclient.activities.maindrawer.MainTmpActivity;
 import com.example.andrey.newtmpclient.base.BaseActivity;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskComponent;
 import com.example.andrey.newtmpclient.activities.createTask.di.CreateTaskModule;
-import com.example.andrey.newtmpclient.dialogs.chooseperiod.ChoosePeriodFragment;
+import com.example.andrey.newtmpclient.dialogs.chooseperiod.ChoosePeriodDialog;
 import com.example.andrey.newtmpclient.utils.Utils;
 
 import javax.inject.Inject;
@@ -120,7 +120,7 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     public void setPeriodVisibility() {
         chooseDate.setText(getResources().getText(R.string.choose_period));
         chooseDate.setOnClickListener(v ->
-                new ChoosePeriodFragment().show(getSupportFragmentManager(), "period"));
+                new ChoosePeriodDialog().show(getSupportFragmentManager(), "period"));
     }
 
     @Override
